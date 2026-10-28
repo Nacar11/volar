@@ -6,10 +6,11 @@ icons where each animal lives, and tap one to fly into an animated scene full
 of facts and playful trivia toys. No quizzes, no scores, no failure states —
 every tap rewards curiosity.
 
-**Status:** Phase 1 done: a spinning cartoon globe with all 34 animals pinned
-on it. Two are playable, the Philippine tarsier and the scarlet macaw; the
-rest are "coming soon" pins. Phase 2 (offline mode and the Animal Book) is
-next. See [`docs/plan.md`](docs/plan.md).
+**Status:** Phases 1 and 2 done: a spinning cartoon globe with all 34 animals
+pinned on it, an Animal Book of stickers, a grown-ups corner, and the whole
+app installable and usable offline. Two animals are playable, the Philippine
+tarsier and the scarlet macaw; the rest are "coming soon" pins, filled in by
+Phase 3. See [`docs/plan.md`](docs/plan.md).
 
 ## Run it
 
