@@ -14,7 +14,8 @@
 		"close": "Put the toy away",
 		"hearIt": "Hear it",
 		"sizeCompare": "Size compare",
-		"thenVsNow": "Then and now"
+		"thenVsNow": "Then and now",
+		"whatsForDinner": "What's for dinner"
 	},
 	"dayNight": {
 		"day": "Day",
@@ -33,7 +34,10 @@
 		"spout": "Spout!",
 		"dive": "Dive",
 		"wave": "Wave",
-		"slide": "Slide"
+		"slide": "Slide",
+		"munch": "Munch",
+		"shake": "Shake head",
+		"tumble": "Tumble"
 	},
 	"globe": {
 		"home": "Spin back home",
@@ -85,5 +89,8 @@
 		"baby": "Baby",
 		"grown": "Grown-up",
 		"slider": "Slide from baby to grown-up"
+	},
+	"dinner": {
+		"hint": "Drag a food to me, or tap it!"
 	}
 }

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect y="690" width="1600" height="210" fill="#7FB069"/>
+  <!-- A stand of bamboo. -->
+  <g fill="#6BA33A">
+    <rect x="1240" y="120" width="22" height="580" rx="8"/><rect x="1300" y="60" width="24" height="640" rx="8"/>
+    <rect x="1370" y="180" width="20" height="520" rx="8"/><rect x="160" y="200" width="22" height="500" rx="8"/>
+    <rect x="220" y="140" width="24" height="560" rx="8"/>
+  </g>
+  <g fill="#4E8A2A">
+    <rect x="1240" y="300" width="22" height="6"/><rect x="1240" y="480" width="22" height="6"/>
+    <rect x="1300" y="260" width="24" height="6"/><rect x="1300" y="460" width="24" height="6"/>
+    <rect x="1370" y="380" width="20" height="6"/><rect x="160" y="360" width="22" height="6"/>
+    <rect x="220" y="320" width="24" height="6"/><rect x="220" y="520" width="24" height="6"/>
+  </g>
+  <g fill="#8BC34A">
+    <ellipse cx="1220" cy="300" rx="44" ry="10" transform="rotate(-25 1220 300)"/>
+    <ellipse cx="1350" cy="260" rx="48" ry="10" transform="rotate(25 1350 260)"/>
+    <ellipse cx="1400" cy="380" rx="40" ry="9" transform="rotate(20 1400 380)"/>
+    <ellipse cx="140" cy="360" rx="40" ry="9" transform="rotate(-20 140 360)"/>
+    <ellipse cx="270" cy="320" rx="46" ry="10" transform="rotate(25 270 320)"/>
+  </g>
+</svg>

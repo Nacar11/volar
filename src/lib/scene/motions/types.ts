@@ -20,6 +20,8 @@ export interface RigOptions {
 	reducedMotion: () => boolean;
 	/** From the animal's rigOptions: a flightless bird walks in instead of flying. */
 	flightless?: boolean;
+	/** From the animal's rigOptions: how a four-legged animal arrives. */
+	entrance?: 'walk' | 'tumble';
 }
 
 export type Parts = Record<string, SVGGraphicsElement>;

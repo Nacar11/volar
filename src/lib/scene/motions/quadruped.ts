@@ -19,6 +19,9 @@ const PIVOTS = {
 	eye: '327 179'
 } as const;
 
+/** The middle of the body, for rolls. */
+const ROLL_PIVOT = '205 255';
+
 export function quadruped(svg: SVGSVGElement, opts: RigOptions): Rig {
 	const p = findParts(svg, rigs.quadruped.parts);
 	const legs = [p['leg-fl'], p['leg-fr'], p['leg-bl'], p['leg-br']];
@@ -90,10 +93,46 @@ export function quadruped(svg: SVGSVGElement, opts: RigOptions): Rig {
 			.to([p.head, p.body], { rotation: 0, scaleY: 1, duration: 0.3 }, '<');
 	}
 
+	// Chewing: the jaw works up and down, the head nodding along.
+	function munch() {
+		return gsap
+			.timeline()
+			.to(p.jaw, { rotation: 16, duration: 0.14, ease: 'sine.inOut', yoyo: true, repeat: 9 })
+			.to(p.head, { rotation: 4, duration: 0.28, ease: 'sine.inOut', yoyo: true, repeat: 4 }, 0)
+			.to(p.head, { rotation: 0, duration: 0.2 });
+	}
+
+	// A polite "no thank you": the head turns away and shakes.
+	function shake() {
+		return gsap
+			.timeline()
+			.to(p.head, { rotation: -6, duration: 0.12 })
+			.to(p.head, { rotation: 6, duration: 0.16, ease: 'sine.inOut', yoyo: true, repeat: 4 })
+			.to(p.head, { rotation: 0, duration: 0.2 });
+	}
+
+	/**
+	 * A forward roll. It turns about the middle of the body, not the paws, so
+	 * the pivot moves there first, while the animal is at rest: changing an SVG
+	 * pivot mid-turn makes GSAP shift the animal to compensate.
+	 */
+	const roll = (from: number, turns: number, duration: number) => {
+		gsap.set(p.animal, { svgOrigin: ROLL_PIVOT });
+		gsap.set(p.animal, { x: from, rotation: -360 * turns });
+		return gsap
+			.timeline()
+			.to(p.animal, { x: 0, rotation: 0, duration, ease: 'power2.out' })
+			.to(p.animal, { y: -24, duration: duration / (turns * 2), ease: 'sine.out', yoyo: true, repeat: turns * 2 - 1 }, 0)
+			.set(p.animal, { svgOrigin: PIVOTS.animal });
+	};
+
 	const actions: Record<string, () => gsap.core.Timeline> = {
 		walk: () => steps(6),
 		stretch,
-		roar
+		roar,
+		munch,
+		shake,
+		tumble: () => roll(-60, 1, 0.9)
 	};
 
 	return {
@@ -102,6 +141,7 @@ export function quadruped(svg: SVGSVGElement, opts: RigOptions): Rig {
 				gsap.set(p.animal, { opacity: 0 });
 				return run(gsap.timeline().to(p.animal, { opacity: 1, duration: 0.6 }));
 			}
+			if (opts.entrance === 'tumble') return run(roll(-380, 2, 1.5));
 			// Walks in from the left.
 			gsap.set(p.animal, { x: -380 });
 			return run(

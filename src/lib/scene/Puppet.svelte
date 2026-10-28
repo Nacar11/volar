@@ -9,7 +9,7 @@
 		svg: string;
 		rig: RigName;
 		/** The animal's tweaks to its rig (rigOptions in animal.json). */
-		options?: { flightless?: boolean };
+		options?: { flightless?: boolean; entrance?: 'walk' | 'tumble' };
 		label: string;
 		onready: (rig: Rig) => void;
 		ontap: () => void;

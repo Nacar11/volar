@@ -11,6 +11,8 @@
 	import DayNight from '#lib/toys/DayNight.svelte';
 	import HearIt from '#lib/toys/HearIt.svelte';
 	import SizeCompare from '#lib/toys/SizeCompare.svelte';
+	import WhatsForDinner from '#lib/toys/WhatsForDinner.svelte';
+	import { FOODS, type Food } from '#lib/toys/foods.ts';
 	import { THINGS, type Thing } from '#lib/toys/sizes.ts';
 	import MakeItDo from '#lib/toys/MakeItDo.svelte';
 	import type { Rig } from './motions';
@@ -33,7 +35,8 @@
 		makeItDo: '🎬',
 		hearIt: '🔊',
 		sizeCompare: '📏',
-		thenVsNow: '🐣'
+		thenVsNow: '🐣',
+		whatsForDinner: '🍽️'
 	};
 	// Far, middle and near layers drift by different amounts as the pointer moves.
 	const DEPTHS = [8, 18, 32];
@@ -119,6 +122,23 @@
 		return rig?.play(action) ?? Promise.resolve();
 	}
 
+	// "What's for dinner": the food pops up at the animal's mouth; it munches
+	// what it eats, and shakes its head while the rest drops away. No wrong answers.
+	let snack = $state<{ food: Food; eaten: boolean } | null>(null);
+	const mouth = $derived.by((): readonly [number, number] => {
+		const rig = rigs[animal.rig];
+		return 'mouth' in rig ? rig.mouth : [300, 200];
+	});
+
+	async function feed(food: Food) {
+		if (toy?.type !== 'whatsForDinner') return;
+		const choice = toy.foods.find((f) => f.food === food)!;
+		line = choice.caption;
+		snack = { food, eaten: choice.eats };
+		await play(choice.eats ? 'munch' : 'shake');
+		snack = null;
+	}
+
 	// Plays a clip; if the rig has an action of the same name (a squawk, a roar),
 	// the animal does it along with the sound.
 	function hear(clip: string, caption: string) {
@@ -192,6 +212,15 @@
 				ontap={() => rig?.react()}
 			/>
 			</div>
+			{#if snack}
+				<span
+					class="snack"
+					class:refused={!snack.eaten}
+					style:left="{(mouth[0] / 400) * 100}%"
+					style:top="{(mouth[1] / 400) * 100}%"
+					aria-hidden="true">{FOODS[snack.food].icon}</span
+				>
+			{/if}
 			{#if toy?.type === 'thenVsNow'}
 				<img
 					class="baby"
@@ -234,6 +263,8 @@
 							</button>
 						{/each}
 					</div>
+				{:else if toy.type === 'whatsForDinner'}
+					<WhatsForDinner foods={toy.foods.map((f) => f.food)} onfeed={feed} />
 				{:else if toy.type === 'thenVsNow'}
 					<label class="then-now">
 						<span aria-hidden="true">🐣 {t.thenVsNow.baby}</span>
@@ -453,6 +484,58 @@
 	.puppet-layer {
 		width: 100%;
 		height: 100%;
+	}
+
+	.snack {
+		position: absolute;
+		translate: -50% -50%;
+		font-size: 2.4rem;
+		pointer-events: none;
+		animation: eaten 1.4s ease-in forwards;
+	}
+
+	/* Eaten: pops in at the mouth and is nibbled away. */
+	@keyframes eaten {
+		0% {
+			scale: 0;
+		}
+		15% {
+			scale: 1.2;
+		}
+		25% {
+			scale: 1;
+		}
+		100% {
+			scale: 0;
+			opacity: 0;
+		}
+	}
+
+	/* Refused: drops gently to the ground and fades. */
+	.snack.refused {
+		animation-name: refused;
+	}
+
+	@keyframes refused {
+		0% {
+			scale: 0;
+		}
+		15% {
+			scale: 1.1;
+			translate: -50% -50%;
+		}
+		100% {
+			translate: -150% 120%;
+			rotate: -40deg;
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.snack,
+		.snack.refused {
+			animation: none;
+		}
 	}
 
 	/* "Then and now" fades only the animal, so the baby stands on the same perch.

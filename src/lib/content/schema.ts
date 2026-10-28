@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { rigNames } from '../scene/rigs';
+import { foodNames } from '../toys/foods';
 
 const file = z.string().regex(/^[\w-]+\.(svg|webm|m4a|json|geojson)$/, 'a file name in the pack folder');
 
@@ -26,7 +27,16 @@ const toy = z.discriminatedUnion('type', [
 		caption: z.string()
 	}),
 	/** A slider from the animal as a baby (a picture in the pack) to grown up (the puppet). */
-	z.object({ type: z.literal('thenVsNow'), image: file, then: z.string(), now: z.string() })
+	z.object({ type: z.literal('thenVsNow'), image: file, then: z.string(), now: z.string() }),
+	/** Offer foods: the animal munches what it eats and politely shakes its head at the rest. */
+	z.object({
+		type: z.literal('whatsForDinner'),
+		foods: z
+			.array(z.object({ food: z.enum(foodNames), eats: z.boolean(), caption: z.string() }))
+			.min(2)
+			.max(4)
+			.refine((foods) => foods.some((f) => f.eats), 'offer at least one food the animal eats')
+	})
 ]);
 
 export const animalSchema = z.object({
@@ -47,7 +57,13 @@ export const animalSchema = z.object({
 	nocturnal: z.boolean(),
 	rig: z.enum(rigNames),
 	/** Tweaks to the rig for this animal: a flightless bird waddles and slides instead of flying. */
-	rigOptions: z.object({ flightless: z.boolean().optional() }).optional(),
+	rigOptions: z
+		.object({
+			flightless: z.boolean().optional(),
+			/** How a four-legged animal arrives: walking (the default) or tumbling in. */
+			entrance: z.enum(['walk', 'tumble']).optional()
+		})
+		.optional(),
 	themeColor: z.string().regex(/^#[0-9a-fA-F]{6}$/),
 	globe: z.object({
 		lat: z.number().min(-90).max(90),

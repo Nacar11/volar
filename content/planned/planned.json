@@ -21,13 +21,6 @@
 		"icon": "whale-shark.svg"
 	},
 	{
-		"id": "giant-panda",
-		"name": "Giant Panda",
-		"lat": 31.0,
-		"lng": 103.5,
-		"icon": "giant-panda.svg"
-	},
-	{
 		"id": "bengal-tiger",
 		"name": "Bengal Tiger",
 		"lat": 22.0,

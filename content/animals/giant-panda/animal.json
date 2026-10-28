@@ -1,0 +1,46 @@
+{
+	"id": "giant-panda",
+	"name": "Giant Panda",
+	"continent": "asia",
+	"livesIn": "the mountains of China",
+	"habitats": ["forest"],
+	"nocturnal": false,
+	"rig": "quadruped",
+	"rigOptions": { "entrance": "tumble" },
+	"themeColor": "#43A047",
+	"globe": { "lat": 31.0, "lng": 103.5, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hi! I'm a giant panda!",
+	"facts": [
+		{ "id": "home", "text": "I live in misty mountain forests in China." },
+		{ "id": "bamboo", "text": "Bamboo is almost all I eat, 99 out of 100 bites!" },
+		{ "id": "amount", "text": "I munch up to 14 kilograms of bamboo every day!" },
+		{ "id": "twins", "text": "Half the time, a panda mom has twins!" },
+		{ "id": "baby", "text": "When I was born, I was pink and smaller than an apple!" },
+		{ "id": "play", "text": "Panda moms play with their cubs by rolling and wrestling!" },
+		{ "id": "alone", "text": "I like to spend most of my time alone." },
+		{ "id": "safe", "text": "People protect our forests to help keep us safe." }
+	],
+	"toys": [
+		{
+			"type": "whatsForDinner",
+			"foods": [
+				{ "food": "bamboo", "eats": true, "caption": "Yum! Bamboo is almost all I eat!" },
+				{ "food": "burger", "eats": false, "caption": "No thanks! Pandas don't eat burgers." },
+				{ "food": "candy", "eats": false, "caption": "No, thank you! Candy isn't panda food." },
+				{ "food": "pizza", "eats": false, "caption": "Pizza? No thanks, I'll stick to bamboo!" }
+			]
+		},
+		{
+			"type": "bodyXray",
+			"feature": "thumb",
+			"reveal": "This wrist bone works like a thumb to hold bamboo!"
+		},
+		{ "type": "makeItDo", "actions": ["tumble", "walk", "munch"] }
+	],
+	"sources": ["https://en.wikipedia.org/wiki/Giant_panda"]
+}

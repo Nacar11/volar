@@ -239,3 +239,29 @@ describe('validatePack: then and now', () => {
 		expect(validatePack('emperor-penguin', files).join()).toMatch(/baby.svg is referenced but missing/);
 	});
 });
+
+describe("validatePack: what's for dinner", () => {
+	const pandaDir = join(import.meta.dirname, '../../../content/animals/giant-panda');
+	const withPanda = (change: (a: any) => void) => {
+		const files: PackFiles = {};
+		for (const name of readdirSync(pandaDir)) files[name] = readFileSync(join(pandaDir, name));
+		const animal = JSON.parse(new TextDecoder().decode(files['animal.json']));
+		change(animal);
+		files['animal.json'] = encode(JSON.stringify(animal));
+		return validatePack('giant-panda', files).join('\n');
+	};
+
+	it('accepts the panda pack', () => {
+		expect(withPanda(() => {})).toBe('');
+	});
+
+	it('rejects a dinner with nothing the animal eats', () => {
+		expect(withPanda((a) => a.toys[0].foods.forEach((f: any) => (f.eats = false)))).toMatch(
+			/at least one food the animal eats/
+		);
+	});
+
+	it("rejects dinner for a rig that can't munch or shake its head", () => {
+		expect(withPanda((a) => (a.rig = 'sea-mammal'))).toMatch(/needs a rig that can munch/);
+	});
+});

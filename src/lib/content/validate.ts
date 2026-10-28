@@ -128,6 +128,10 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 			}
 		}
 	}
+	const rigActions = rig.actions as readonly string[];
+	if (animal.toys.some((t) => t.type === 'whatsForDinner') && !['munch', 'shake'].every((a) => rigActions.includes(a))) {
+		problems.push(`"What's for dinner" needs a rig that can munch and shake its head; ${animal.rig} can't`);
+	}
 	for (const toy of animal.toys) {
 		if (toy.type !== 'makeItDo') continue;
 		for (const action of toy.actions) {
@@ -143,6 +147,7 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		hearIt: (t) => (t.type === 'hearIt' ? [t.caption] : []),
 		sizeCompare: (t) => (t.type === 'sizeCompare' ? [t.caption] : []),
 		thenVsNow: (t) => (t.type === 'thenVsNow' ? [t.then, t.now] : []),
+		whatsForDinner: (t) => (t.type === 'whatsForDinner' ? t.foods.map((f) => f.caption) : []),
 		makeItDo: () => []
 	};
 	const lines = [
