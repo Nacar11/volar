@@ -3,6 +3,7 @@
 // them by name. Serves straight from content/animals in dev; copies into the
 // build for production. Each pack gets a manifest.json (files and bytes), and
 // /packs/index.json lists every pack.
+import { createHash } from 'node:crypto';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import type { Plugin } from 'vite';
@@ -19,6 +20,8 @@ const TYPES: Record<string, string> = {
 
 export interface PackManifest {
 	id: string;
+	/** Changes whenever any file in the pack does: the service worker keys its cache on it. */
+	hash: string;
 	files: { name: string; bytes: number }[];
 	bytes: number;
 }
@@ -31,7 +34,14 @@ function readPacks(dir: string): PackManifest[] {
 				.filter((name) => !IN_APP.has(name))
 				.sort()
 				.map((name) => ({ name, bytes: statSync(join(dir, id, name)).size }));
-			return { id, files, bytes: files.reduce((sum, f) => sum + f.bytes, 0) };
+			const hash = createHash('sha256');
+			for (const { name } of files) hash.update(name).update(readFileSync(join(dir, id, name)));
+			return {
+				id,
+				hash: hash.digest('hex').slice(0, 12),
+				files,
+				bytes: files.reduce((sum, f) => sum + f.bytes, 0)
+			};
 		});
 }
 

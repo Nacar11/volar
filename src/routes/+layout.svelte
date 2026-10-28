@@ -2,6 +2,7 @@
 	import '@fontsource/andika/latin-400.css';
 	import '@fontsource/andika/latin-700.css';
 	import '../app.css';
+	import { dev } from '$app/env';
 	import { page } from '$app/state';
 	import FlatMap from '#lib/globe/FlatMap.svelte';
 	import Globe from '#lib/globe/Globe.svelte';
@@ -13,6 +14,13 @@
 	let { children }: LayoutProps = $props();
 
 	book.load();
+
+	// Offline support: the service worker (production only, so dev never serves
+	// stale caches), and a request that the browser keep downloaded animals.
+	if (!dev && 'serviceWorker' in navigator) {
+		navigator.serviceWorker.register('/service-worker.js');
+		navigator.storage?.persist?.();
+	}
 
 	// The globe lives here, not in the home page, so it survives a visit to a
 	// scene: it pauses underneath and is still there, mid-dive, to zoom back out.

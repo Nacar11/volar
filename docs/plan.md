@@ -38,7 +38,7 @@ The stack is Vite + Svelte + Three.js for the globe, and GSAP to animate SVG ani
 | Physics toys (optional) | Matter.js | A few trivia toys (e.g. drop a feather vs a rock, size stacking) |
 | Audio | Howler.js | Animal sounds and UI pops (no narration); audio sprites keep files small |
 | Local data | Dexie.js (IndexedDB) | Animal Book stickers, settings, downloaded packs; no account needed |
-| Offline/PWA | vite-plugin-pwa (Workbox) | Service worker, precache, install manifest, update prompts |
+| Offline/PWA | SvelteKit's native service worker | Precache, per-animal pack caches, install manifest, update prompts; `$app/manifest` already lists every built file, so no plugin is needed |
 | i18n | One English JSON strings file | English only; all text in one place makes reading-level edits easy |
 | Hosting | Cloudflare Pages (or Netlify/GitHub Pages) | Free, global CDN, easy deploys from Git |
 | Wrappers (later) | Capacitor (Android/iOS), Tauri (desktop installer) | Same code, store or USB-stick distribution |
@@ -239,9 +239,9 @@ Example `content/animals/philippine-tarsier/animal.json` (the shipped file, chec
 
 The app shell and globe are cached on first visit; animal packs cache as they are opened, and a "Download all animals" button grabs everything for fully offline use (e.g. before a school day with no Wi-Fi).
 
-**Caching plan (Workbox via vite-plugin-pwa)**
+**Caching plan (SvelteKit service worker, `src/service-worker/`)**
 
-- **Precache:** app code, fonts, UI sounds, globe textures, the animal index (names, icons, coordinates), and the Animal Book.
+- **Precache:** app code, fonts, UI sounds, globe textures, the animal index (names, icons, coordinates, habitats) and `/packs/index.json`, in a `shell-<version>` cache. Pages are network-first and fall back to the cached shell offline; asset paths are absolute so that shell works at any URL.
 - **Animal packs:** one folder per animal (puppet SVG, backgrounds, audio), published at the fixed URL `/packs/<id>/` with a `manifest.json` listing its files and bytes; `/packs/index.json` lists every pack. Each animal's manifest, icon and habitat ship with the app instead, since the globe needs them at once. Cache-first once fetched; stored in a named cache so a pack can be updated individually.
 - **Download all:** a settings button that fetches every pack with a progress bar and shows total size first.
 - **Updates:** new versions download in the background; a friendly "New animals arrived!" toast asks to refresh (never mid-scene).

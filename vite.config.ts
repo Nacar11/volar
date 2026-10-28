@@ -14,7 +14,12 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 			// SPA: every route falls back to one shell; content loads client-side.
-			adapter: adapter({ fallback: 'index.html' })
+			adapter: adapter({ fallback: 'index.html' }),
+			// Registered by hand, in production only, so dev never serves stale caches.
+			serviceWorker: { register: false },
+			// Absolute asset paths: offline, the service worker answers every page with
+			// the one cached shell, and relative paths would resolve against /animal/.
+			paths: { relative: false }
 		})
 	],
 	// Animal packs live outside src/ so writers and artists never touch app code.
