@@ -11,12 +11,13 @@
 		RedFormat,
 		SRGBColorSpace,
 		TextureLoader,
+		Vector3,
 		type Group,
 		type PerspectiveCamera
 	} from 'three';
 	import type { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { motion } from '#lib/settings.svelte.ts';
-	import { latLngToVector, seeded, type Vec3 } from './geo';
+	import { latLngToVector, markerOpacity, seeded, type Vec3 } from './geo';
 
 	interface Props {
 		/** Where the camera starts and where Home returns it. */
@@ -25,9 +26,13 @@
 		oncontrols: (controls: ThreeOrbitControls, camera: PerspectiveCamera) => void;
 		/** Reports whether the globe is auto-spinning. */
 		onspin: (spinning: boolean) => void;
+		/** Points on the globe whose screen position is reported every frame. */
+		markers: { id: string; at: Vec3 }[];
+		/** Where a marker lands on screen (CSS px), how visible it is, and how squarely it faces the camera. */
+		onplace: (id: string, x: number, y: number, opacity: number, facing: number) => void;
 	}
 
-	let { home, texture, oncontrols, onspin }: Props = $props();
+	let { home, texture, oncontrols, onspin, markers, onplace }: Props = $props();
 
 	const IDLE_MS = 6000;
 	const FOV = 40;
@@ -114,6 +119,25 @@
 
 	useTask((delta) => {
 		if (cloudLayer && !motion.reduced) cloudLayer.rotation.y += delta * 0.01;
+	});
+
+	const point = new Vector3();
+	useTask(() => {
+		if (!camera) return;
+		const distance = camera.position.length();
+		const { width, height } = size.current;
+		for (const marker of markers) {
+			point.set(...marker.at);
+			const facing = point.dot(camera.position) / distance;
+			point.project(camera);
+			onplace(
+				marker.id,
+				((point.x + 1) / 2) * width,
+				((1 - point.y) / 2) * height,
+				markerOpacity(facing, distance),
+				facing
+			);
+		}
 	});
 
 	function grabbed() {

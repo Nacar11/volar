@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { latLngToVector, seeded } from './geo';
+import { facing, latLngToVector, markerOpacity, seeded } from './geo';
 
 const close = (actual: number[], expected: number[]) =>
 	actual.forEach((v, i) => expect(v).toBeCloseTo(expected[i], 6));
@@ -32,5 +32,26 @@ describe('seeded', () => {
 			expect(x).toBeGreaterThanOrEqual(0);
 			expect(x).toBeLessThan(1);
 		}
+	});
+});
+
+describe('markers', () => {
+	const camera: [number, number, number] = [0, 0, 4];
+
+	it('a point dead centre faces the camera fully', () => {
+		expect(facing([0, 0, 1], camera)).toBeCloseTo(1);
+		expect(markerOpacity(1, 4)).toBe(1);
+	});
+
+	it('a point on the far side is hidden', () => {
+		expect(facing([0, 0, -1], camera)).toBeCloseTo(-1);
+		expect(markerOpacity(-1, 4)).toBe(0);
+	});
+
+	it('a point just past the horizon is hidden, even though it faces a little forward', () => {
+		// From 4 units away the edge of the globe is at facing = 0.25.
+		expect(markerOpacity(0.2, 4)).toBe(0);
+		expect(markerOpacity(0.3, 4)).toBeGreaterThan(0);
+		expect(markerOpacity(0.3, 4)).toBeLessThan(1);
 	});
 });

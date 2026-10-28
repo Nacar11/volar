@@ -1,8 +1,5 @@
 {
 	"appName": "Volar",
-	"home": {
-		"tagline": "Spin the world! Tap an animal to visit."
-	},
 	"scene": {
 		"back": "Back to the globe",
 		"next": "Next",

@@ -23,3 +23,21 @@ export function seeded(seed: number) {
 		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 	};
 }
+
+/**
+ * How much a point on the unit globe faces a camera that looks at the centre:
+ * 1 dead centre, 0 side-on, negative on the far side.
+ */
+export function facing(point: Vec3, camera: Vec3): number {
+	const distance = Math.hypot(...camera);
+	return (point[0] * camera[0] + point[1] * camera[1] + point[2] * camera[2]) / distance;
+}
+
+/**
+ * A marker's opacity: 0 behind the horizon (seen from distance d, the unit
+ * sphere's edge is where facing = 1/d), fading in just in front of it.
+ */
+export function markerOpacity(facingValue: number, cameraDistance: number): number {
+	const horizon = 1 / cameraDistance;
+	return Math.min(Math.max((facingValue - horizon - 0.02) / 0.15, 0), 1);
+}

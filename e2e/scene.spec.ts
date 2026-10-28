@@ -2,9 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 
 const bubble = (page: Page) => page.locator('.bubble p');
 
+// Scene tests open the scene directly; e2e/globe.spec.ts covers getting there from the globe.
 async function openTarsier(page: Page) {
-	await page.goto('/');
-	await page.getByRole('link', { name: /Philippine Tarsier/ }).click();
+	await page.goto('/animal/philippine-tarsier');
 	await expect(bubble(page)).toHaveText("Hi! I'm a tarsier!");
 }
 
