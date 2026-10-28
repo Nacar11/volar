@@ -1,66 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- A giant panda in side profile, facing right. Flat shapes, no outlines:
+       white and two blacks, with a slightly lighter black for the near legs. -->
   <g id="puppet">
     <g id="animal">
       <ellipse id="shadow" cx="200" cy="336" rx="140" ry="11" fill="#000000" opacity="0.13"/>
-      <!-- Far legs first, a shade darker, so the near legs read in front. -->
+
+      <!-- Far legs, darkest, mostly hidden behind the body and near legs. -->
       <g id="leg-bl">
-        <path d="M110 236C130 230 152 240 154 262C156 282 148 300 144 318C144 328 138 334 128 334L114 334C106 334 104 326 108 318C111 300 100 284 96 266C93 249 98 240 110 236Z" fill="#141414"/>
-        <ellipse cx="124" cy="331" rx="15" ry="5" fill="#0A0A0A"/>
+        <path d="M108 238C128 232 150 242 152 262C154 282 146 300 142 318C142 328 136 334 126 334L112 334C104 334 102 326 106 318C109 300 98 284 94 266C91 250 96 241 108 238Z" fill="#111111"/>
       </g>
       <g id="leg-fl">
-        <path d="M252 238C270 235 282 245 282 262L280 312C282 324 278 334 266 334L252 334C243 334 241 326 245 318L247 270C245 252 244 240 252 238Z" fill="#141414"/>
-        <ellipse cx="262" cy="331" rx="14" ry="5" fill="#0A0A0A"/>
+        <path d="M250 238C268 235 280 245 280 262L278 314C280 326 276 334 264 334L250 334C241 334 239 326 243 318L245 270C243 252 242 240 250 238Z" fill="#111111"/>
       </g>
-      <circle id="tail" cx="84" cy="230" r="11" fill="#F7F7F5"/>
+
+      <circle id="tail" cx="84" cy="232" r="11" fill="#F7F7F5"/>
+
       <g id="body">
-        <!-- A chunky bear: round rump, a little hump at the shoulders, a soft belly. -->
-        <path d="M82 246C78 206 108 186 150 186C196 186 236 188 262 196C292 206 304 236 298 262C292 288 262 298 222 300C180 302 130 300 104 286C88 278 84 262 82 246Z" fill="#F7F7F5"/>
-        <path d="M110 284C150 298 214 300 262 290C240 302 160 304 110 284Z" fill="#E4E4E0"/>
-        <!-- The black saddle over the shoulders, flowing into the front legs. -->
-        <path d="M228 194C248 186 272 188 286 198C302 210 306 232 302 256L300 286C284 296 258 296 240 288C232 262 226 226 228 194Z" fill="#1C1C1C"/>
-        <!-- The neck, so the head joins the body. -->
-        <path d="M262 214C280 200 304 204 312 222C316 236 304 246 288 244C272 242 258 230 262 214Z" fill="#F7F7F5"/>
+        <!-- White body: round rump, a gentle rise to the shoulders, a soft belly. -->
+        <path d="M84 248C80 208 112 188 154 186C200 184 240 186 270 194C290 200 300 214 300 236C300 270 286 296 238 300C190 304 130 302 104 288C90 280 86 266 84 248Z" fill="#F7F7F5"/>
+        <!-- The black saddle over the shoulders, running down into the front legs. -->
+        <path d="M226 192C250 184 278 188 292 204C302 218 304 240 302 262L300 292C282 300 256 298 240 290C234 262 226 226 226 192Z" fill="#1C1C1C"/>
       </g>
+
+      <!-- Near legs: black haunch at the back, a sturdy pillar at the front. -->
       <g id="leg-br">
-        <!-- Black haunch and a thick back leg. -->
         <path d="M128 230C152 224 180 238 182 262C184 284 174 302 170 320C170 330 164 336 152 336L136 336C127 336 125 328 129 320C133 302 120 286 116 268C111 248 115 234 128 230Z" fill="#262626"/>
-        <ellipse cx="149" cy="333" rx="16" ry="5" fill="#141414"/>
-        <ellipse cx="140" cy="250" rx="10" ry="6" fill="#3A3A3A" opacity="0.6"/>
+        <ellipse cx="149" cy="333" rx="16" ry="4.5" fill="#161616"/>
       </g>
       <g id="leg-fr">
         <path d="M272 236C292 232 306 243 306 262L304 314C306 326 302 336 290 336L274 336C264 336 262 328 266 320L268 272C266 254 264 239 272 236Z" fill="#262626"/>
-        <ellipse cx="286" cy="333" rx="15" ry="5" fill="#141414"/>
-        <g fill="#3A3A3A">
-          <circle cx="278" cy="330" r="2.6"/><circle cx="286" cy="331" r="2.6"/><circle cx="294" cy="330" r="2.6"/>
-        </g>
+        <ellipse cx="286" cy="333" rx="15" ry="4.5" fill="#161616"/>
         <!-- The pseudo-thumb: a wrist bone for gripping bamboo, only seen through the x-ray lens. -->
         <g id="thumb" style="opacity: var(--xray-show, 0)" fill="#F5E6B8">
           <ellipse cx="300" cy="314" rx="9" ry="4.5" transform="rotate(-20 300 314)"/>
           <circle cx="308" cy="310" r="4"/>
         </g>
       </g>
+
       <g id="head">
-        <circle cx="288" cy="146" r="18" fill="#1C1C1C"/>
-        <circle cx="346" cy="142" r="17" fill="#1C1C1C"/>
-        <circle cx="289" cy="148" r="8" fill="#303030"/>
-        <circle cx="345" cy="144" r="8" fill="#303030"/>
-        <ellipse cx="320" cy="190" rx="50" ry="46" fill="#F7F7F5"/>
-        <!-- Cheek fluff. -->
-        <path d="M282 206C278 222 290 236 306 234C296 228 290 218 292 206Z" fill="#E4E4E0"/>
-        <!-- The far eye patch peeks round the side of the face. -->
-        <ellipse cx="300" cy="182" rx="7" ry="12" transform="rotate(15 300 182)" fill="#1C1C1C"/>
-        <ellipse id="mouth" cx="352" cy="222" rx="11" ry="5.5" fill="#5D1F1F"/>
-        <path id="jaw" d="M324 214C338 219 356 220 366 216C364 226 352 233 340 232C332 231 326 224 324 214Z" fill="#E4E4E0"/>
-        <ellipse cx="352" cy="206" rx="21" ry="15" fill="#FFFFFF"/>
-        <path d="M358 197C362 192 372 192 374 198C375 204 368 208 364 208C358 207 356 202 358 197Z" fill="#141414"/>
-        <path d="M352 213Q358 219 366 214" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- A teardrop eye patch, slanting down toward the nose. -->
-        <path d="M322 170C330 158 350 162 351 178C352 194 342 203 333 201C322 199 316 184 322 170Z" fill="#1C1C1C"/>
+        <!-- Ears first, so the head covers their lower half. The far ear sits a
+             little forward and lower, peeking out behind the near one. -->
+        <circle cx="330" cy="150" r="13" fill="#111111"/>
+        <circle cx="300" cy="150" r="17" fill="#1C1C1C"/>
+        <!-- Inside of the mouth, hidden until the jaw opens. -->
+        <ellipse id="mouth" cx="354" cy="219" rx="13" ry="4.5" fill="#6D2C2C"/>
+        <!-- The lower jaw: the same white as the muzzle, so it disappears when closed. -->
+        <path id="jaw" d="M326 213C340 216 360 216 372 213C370 222 360 228 348 228C338 228 330 222 326 213Z" fill="#F7F7F5"/>
+        <!-- Head and muzzle, one white silhouette. -->
+        <ellipse cx="318" cy="188" rx="46" ry="42" fill="#F7F7F5"/>
+        <ellipse cx="354" cy="205" rx="24" ry="16" fill="#F7F7F5"/>
+        <!-- One teardrop eye patch, slanting down toward the nose. -->
+        <ellipse cx="335" cy="185" rx="11" ry="16" transform="rotate(-38 335 185)" fill="#1C1C1C"/>
+        <ellipse cx="376" cy="200" rx="6.5" ry="5" fill="#141414"/>
+        <path d="M374 210Q368 216 360 214" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round"/>
         <g id="eye">
-          <circle cx="336" cy="181" r="5.5" fill="#FFFFFF"/>
-          <circle cx="337" cy="181" r="3.3" fill="#111111"/>
-          <circle cx="338.6" cy="179.4" r="1.3" fill="#FFFFFF"/>
-          <ellipse id="lid" cx="336" cy="181" rx="6.5" ry="6.5" fill="#1C1C1C"/>
+          <circle cx="339" cy="180" r="4.5" fill="#FFFFFF"/>
+          <circle cx="340" cy="180" r="2.8" fill="#111111"/>
+          <circle cx="341.2" cy="178.8" r="1" fill="#FFFFFF"/>
+          <ellipse id="lid" cx="339" cy="180" rx="5.5" ry="5.5" fill="#1C1C1C"/>
         </g>
       </g>
     </g>
