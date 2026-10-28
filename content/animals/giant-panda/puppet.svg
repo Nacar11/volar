@@ -42,18 +42,19 @@
              little forward and lower, peeking out behind the near one. -->
         <circle cx="330" cy="150" r="13" fill="#111111"/>
         <circle cx="300" cy="150" r="17" fill="#1C1C1C"/>
-        <!-- Head and muzzle, one white silhouette. -->
+        <!-- A round head with no long snout: a panda's face is flat-fronted. -->
         <ellipse cx="318" cy="188" rx="46" ry="42" fill="#F7F7F5"/>
-        <ellipse cx="354" cy="205" rx="24" ry="16" fill="#F7F7F5"/>
-        <!-- Inside of the mouth: exactly the jaw's shape, drawn over the muzzle and
-             under the jaw, so it shows only where the jaw swings away. -->
-        <path id="mouth" d="M328 212C342 215 360 216 374 212C372 218 364 222 354 222C342 222 332 218 328 212Z" fill="#6D2C2C"/>
-        <!-- The lower jaw: the same white as the muzzle, so it disappears when closed. -->
-        <path id="jaw" d="M328 212C342 215 360 216 374 212C372 218 364 222 354 222C342 222 332 218 328 212Z" fill="#F7F7F5"/>
+        <!-- Inside of the mouth: exactly the jaw's shape, drawn over the head and
+             under the jaw, so it shows only where the jaw swings away. Both stay
+             inside the round head, just under the mouth line. -->
+        <path id="mouth" d="M330 214C340 214 350 212 357 208C355 214 348 219 340 219C334 219 331 217 330 214Z" fill="#6D2C2C"/>
+        <!-- The lower jaw: the same white as the face, so it disappears when closed. -->
+        <path id="jaw" d="M330 214C340 214 350 212 357 208C355 214 348 219 340 219C334 219 331 217 330 214Z" fill="#F7F7F5"/>
         <!-- One teardrop eye patch, slanting down toward the nose. -->
         <ellipse cx="335" cy="185" rx="11" ry="16" transform="rotate(-38 335 185)" fill="#1C1C1C"/>
-        <ellipse cx="376" cy="200" rx="6.5" ry="5" fill="#141414"/>
-        <path d="M375 205Q371 212 362 211" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- The nose sits on the front edge of the face, the mouth just under it. -->
+        <ellipse cx="361" cy="196" rx="6" ry="4.5" fill="#141414"/>
+        <path d="M360 200.5L360 203.5Q357 208.5 351 207" fill="none" stroke="#141414" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
         <g id="eye">
           <circle cx="339" cy="180" r="4.5" fill="#FFFFFF"/>
           <circle cx="340" cy="180" r="2.8" fill="#111111"/>
