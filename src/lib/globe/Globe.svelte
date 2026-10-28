@@ -14,6 +14,7 @@
 	import { latLngToVector, type Placement } from './geo';
 	import GlobeScene from './GlobeScene.svelte';
 	import { habitatOutline, habitatTriangles } from './habitat';
+	import HoldGate from '#lib/grownups/HoldGate.svelte';
 	import Pin from './Pin.svelte';
 	import { habitats as habitatList, PIN, pins } from './pins';
 	import { FpsGuard, LOW, startingQuality } from './quality';
@@ -197,6 +198,7 @@
 	{/each}
 
 	<a class="round-button book" href="/book" aria-label={t.book.open}>📖</a>
+	<HoldGate />
 	<button class="round-button home" aria-label={t.globe.home} onclick={goHome}>🏠</button>
 </div>
 

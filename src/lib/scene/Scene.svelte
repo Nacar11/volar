@@ -5,7 +5,7 @@
 	import { book } from '#lib/db/book.svelte.ts';
 	import type { Animal, Toy } from '#lib/content/schema.ts';
 	import type { Pack } from '#lib/content/animals.ts';
-	import { motion } from '#lib/settings.svelte.ts';
+	import { motion, settings } from '#lib/settings.svelte.ts';
 	import { fill, t } from '#lib/strings/index.ts';
 	import BodyXray from '#lib/toys/BodyXray.svelte';
 	import DayNight from '#lib/toys/DayNight.svelte';
@@ -98,7 +98,7 @@
 	// the animal does it along with the sound.
 	function hear(clip: string, caption: string) {
 		line = caption;
-		sound?.play(clip);
+		if (settings.sound) sound?.play(clip);
 		const along = (rigs[animal.rig].actions as readonly string[]).includes(clip);
 		return along ? play(clip) : Promise.resolve();
 	}

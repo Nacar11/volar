@@ -35,6 +35,17 @@ button {
 	outline-offset: 3px;
 }
 
+:root[data-text='big'] {
+	font-size: 30px;
+}
+
+/* High contrast: pure black on white, and a solid outline where there was a soft shadow. */
+:root[data-contrast='high'] {
+	--ink: #000000;
+	--paper: #ffffff;
+	--shadow: 0 0 0 3px #000000;
+}
+
 .round-button {
 	min-width: var(--tap);
 	min-height: var(--tap);

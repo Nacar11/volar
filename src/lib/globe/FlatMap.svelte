@@ -8,6 +8,7 @@
 	import { motion } from '#lib/settings.svelte.ts';
 	import { book } from '#lib/db/book.svelte.ts';
 	import { t } from '#lib/strings/index.ts';
+	import HoldGate from '#lib/grownups/HoldGate.svelte';
 	import Pin from './Pin.svelte';
 	import { habitats, PIN, pins } from './pins';
 	import { spreadApart } from './spread';
@@ -116,6 +117,7 @@
 		</div>
 	</div>
 	<a class="round-button book" href="/book" aria-label={t.book.open}>📖</a>
+	<HoldGate />
 	<button class="round-button home" aria-label={t.globe.home} onclick={() => goHome()}>🏠</button>
 </div>
 

@@ -41,5 +41,26 @@
 		"unseen": "Find me on the globe!",
 		"soon": "Coming soon",
 		"visited": "visited"
+	},
+	"grownups": {
+		"gate": "Grown-ups: press and hold for 3 seconds",
+		"title": "Grown-ups corner",
+		"back": "Back to the globe",
+		"settings": "Settings",
+		"sound": "Sound",
+		"on": "On",
+		"off": "Off",
+		"motion": "Motion",
+		"motionDevice": "Like this device",
+		"motionLess": "Less",
+		"motionFull": "Full",
+		"text": "Text size",
+		"normal": "Normal",
+		"big": "Big",
+		"contrast": "Contrast",
+		"high": "High",
+		"credits": "Credits",
+		"creditsIntro": "Every picture, sound and piece of code in Volar, where it came from, and its licence.",
+		"privacy": "Volar keeps everything on this device: no accounts, ads or tracking."
 	}
 }

@@ -9,11 +9,20 @@
 	import { hasWebGL } from '#lib/globe/support.ts';
 	import CloudTransition from '#lib/scene/CloudTransition.svelte';
 	import { book } from '#lib/db/book.svelte.ts';
+	import { settings } from '#lib/settings.svelte.ts';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 
 	book.load();
+	settings.load();
+
+	// Big text and high contrast apply to the whole app.
+	$effect(() => {
+		const root = document.documentElement;
+		root.dataset.text = settings.bigText ? 'big' : 'normal';
+		root.dataset.contrast = settings.highContrast ? 'high' : 'normal';
+	});
 
 	// Offline support: the service worker (production only, so dev never serves
 	// stale caches), and a request that the browser keep downloaded animals.
@@ -24,7 +33,7 @@
 
 	// The globe lives here, not in the home page, so it survives a visit to a
 	// scene: it pauses underneath and is still there, mid-dive, to zoom back out.
-	const GLOBE_ROUTES = ['/', '/animal/[id]', '/book'];
+	const GLOBE_ROUTES = ['/', '/animal/[id]', '/book', '/grown-ups', '/grown-ups/credits'];
 	const showGlobe = $derived(GLOBE_ROUTES.includes(page.route.id ?? ''));
 	const webgl = hasWebGL();
 </script>

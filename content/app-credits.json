@@ -1,0 +1,12 @@
+[
+	{ "file": "Andika font", "source": "SIL International, via Fontsource", "author": "SIL International", "license": "SIL Open Font License 1.1" },
+	{ "file": "Globe map", "source": "Natural Earth, 1:110m land", "author": "Natural Earth", "license": "Public domain" },
+	{ "file": "Coming-soon animal icons", "source": "Fluent Emoji Flat, github.com/microsoft/fluentui-emoji", "author": "Microsoft Corporation", "license": "MIT" },
+	{ "file": "GSAP", "source": "gsap.com", "author": "GreenSock (Webflow)", "license": "GSAP Standard \"no charge\" license" },
+	{ "file": "three.js", "source": "threejs.org", "author": "three.js authors", "license": "MIT" },
+	{ "file": "Threlte", "source": "threlte.xyz", "author": "Threlte contributors", "license": "MIT" },
+	{ "file": "Svelte and SvelteKit", "source": "svelte.dev", "author": "Svelte contributors", "license": "MIT" },
+	{ "file": "howler.js", "source": "howlerjs.com", "author": "James Simpson", "license": "MIT" },
+	{ "file": "Dexie.js", "source": "dexie.org", "author": "Dexie contributors", "license": "Apache 2.0" },
+	{ "file": "Zod", "source": "zod.dev", "author": "Colin McDonnell and contributors", "license": "MIT" }
+]
