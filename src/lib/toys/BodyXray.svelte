@@ -70,8 +70,9 @@
 		<g
 			transform="translate({centre.x} {centre.y}) scale({ZOOM}) translate({-centre.x} {-centre.y})"
 		>
-			<!-- Parts styled with var(--xray-hide), like eyelids, vanish under the lens. -->
-			<use href="#animal" style="--xray-hide: 0" />
+			<!-- Under the lens, parts styled var(--xray-hide) (eyelids) vanish and
+			     parts styled var(--xray-show) (a whale's baleen) appear. -->
+			<use href="#animal" style="--xray-hide: 0; --xray-show: 1" />
 		</g>
 	</svg>
 	<button

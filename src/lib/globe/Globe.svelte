@@ -16,7 +16,7 @@
 	import { habitatOutline, habitatTriangles } from './habitat';
 	import HoldGate from '#lib/grownups/HoldGate.svelte';
 	import Pin from './Pin.svelte';
-	import { habitats as habitatList, PIN, pins } from './pins';
+	import { habitats as habitatList, migrations, PIN, pins } from './pins';
 	import { FpsGuard, LOW, startingQuality } from './quality';
 	import { spreadApart } from './spread';
 
@@ -184,6 +184,7 @@
 			onframe={frame}
 			{habitats}
 			{pulse}
+			{migrations}
 		/>
 	</Canvas>
 

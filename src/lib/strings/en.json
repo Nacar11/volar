@@ -28,7 +28,10 @@
 		"flap": "Flap!",
 		"dance": "Dance",
 		"walk": "Walk",
-		"stretch": "Stretch"
+		"stretch": "Stretch",
+		"spout": "Spout!",
+		"dive": "Dive",
+		"wave": "Wave"
 	},
 	"globe": {
 		"home": "Spin back home",

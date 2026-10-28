@@ -50,7 +50,8 @@
 	// Opening "Size compare" stands the first thing (usually you) beside the animal.
 	$effect(() => {
 		if (toy?.type !== 'sizeCompare') return;
-		sizeThing = toy.compare.includes('kid') ? 'kid' : toy.compare[0];
+		// Measuring height, start with you; measuring length, with the first thing listed.
+		sizeThing = toy.measure === 'height' && toy.compare.includes('kid') ? 'kid' : toy.compare[0];
 		line = toy.caption;
 	});
 

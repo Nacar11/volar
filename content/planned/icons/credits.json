@@ -168,12 +168,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "blue-whale.svg",
-		"source": "Fluent Emoji Flat, \"Spouting whale\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "green-sea-turtle.svg",
 		"source": "Fluent Emoji Flat, \"Turtle\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",

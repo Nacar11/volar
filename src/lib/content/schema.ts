@@ -11,15 +11,17 @@ const toy = z.discriminatedUnion('type', [
 	z.object({ type: z.literal('hearIt'), sound: z.string(), caption: z.string() }),
 	/**
 	 * Stands familiar things beside the animal at true scale. `meters` is a real
-	 * measurement of the animal (its shoulder height), spanning `from` (the ground)
-	 * to `to` in the puppet's viewBox.
+	 * measurement of the animal, spanning `from` to `to` in the puppet's viewBox:
+	 * for "height", y from the ground up (say, to the shoulder); for "length",
+	 * x from tail to nose, with the things standing on `ground` below it.
 	 */
 	z.object({
 		type: z.literal('sizeCompare'),
-		measure: z.literal('height'),
+		measure: z.enum(['height', 'length']),
 		meters: z.number().positive(),
 		from: z.number(),
 		to: z.number(),
+		ground: z.number().optional(),
 		compare: z.array(z.enum(['cat', 'kid', 'grownup', 'car', 'bus'])).min(1).max(3),
 		caption: z.string()
 	})
@@ -46,7 +48,16 @@ export const animalSchema = z.object({
 	globe: z.object({
 		lat: z.number().min(-90).max(90),
 		lng: z.number().min(-180).max(180),
-		regions: file.optional()
+		regions: file.optional(),
+		/** A migration route, [lng, lat] points in travel order, drawn as moving dots. */
+		migration: z
+			.array(z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]))
+			.min(2)
+			.refine(
+				(route) => route.every((p, i) => i === 0 || Math.abs(p[0] - route[i - 1][0]) < 180),
+				'a migration route must not jump across the date line'
+			)
+			.optional()
 	}),
 	assets: z.object({
 		// Fixed names: the icon ships with the app, the puppet in the pack at /packs/<id>/.

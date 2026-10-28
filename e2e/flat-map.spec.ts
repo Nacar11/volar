@@ -37,3 +37,8 @@ test('hovering a pin on the flat map pulses its habitat', async ({ page }) => {
 	await expect(map).toHaveAttribute('data-pulse', 'philippine-tarsier');
 	await expect(map.locator('.habitat.pulse')).toHaveCount(1);
 });
+
+test("a migrating animal's route is drawn on the flat map", async ({ page }) => {
+	await page.goto('/');
+	await expect(page.getByTestId('flat-map').locator('polyline.migration')).toHaveCount(1);
+});

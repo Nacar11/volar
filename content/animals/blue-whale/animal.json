@@ -1,0 +1,54 @@
+{
+	"id": "blue-whale",
+	"name": "Blue Whale",
+	"continent": "ocean",
+	"livesIn": "oceans all over the world",
+	"habitats": ["ocean"],
+	"nocturnal": false,
+	"rig": "sea-mammal",
+	"themeColor": "#1E88E5",
+	"globe": {
+		"lat": 33,
+		"lng": -125,
+		"regions": "regions.geojson",
+		"migration": [[-123, 36], [-120, 31], [-116, 26], [-110, 21], [-102, 16], [-95, 12], [-90, 9]]
+	},
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hello! I'm a blue whale!",
+	"facts": [
+		{ "id": "biggest", "text": "I am the biggest animal that has ever lived!" },
+		{ "id": "home", "text": "I swim in oceans all over the world, but not the Arctic." },
+		{ "id": "food", "text": "I eat tiny shrimp-like animals called krill." },
+		{ "id": "gulp", "text": "I take giant gulps of water full of krill!" },
+		{ "id": "baby", "text": "When I was born, I was already longer than a car!" },
+		{ "id": "loud", "text": "My calls are some of the loudest sounds any animal makes." },
+		{ "id": "migrate", "text": "In summer I eat off California, then swim south for winter." },
+		{ "id": "safe", "text": "People stopped hunting us, and now there are more of us again." }
+	],
+	"toys": [
+		{
+			"type": "sizeCompare",
+			"measure": "length",
+			"meters": 22,
+			"from": 8,
+			"to": 384,
+			"ground": 345,
+			"compare": ["bus", "car", "kid"],
+			"caption": "I'm almost as long as two school buses!"
+		},
+		{
+			"type": "bodyXray",
+			"feature": "baleen",
+			"reveal": "I have no teeth! I strain krill through my baleen."
+		},
+		{ "type": "makeItDo", "actions": ["spout", "dive", "wave"] }
+	],
+	"sources": [
+		"https://en.wikipedia.org/wiki/Blue_whale",
+		"https://www.fisheries.noaa.gov/species/blue-whale"
+	]
+}

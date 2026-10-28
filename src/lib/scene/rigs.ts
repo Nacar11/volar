@@ -56,6 +56,10 @@ export const rigs = {
 			'leg-br'
 		],
 		actions: ['walk', 'stretch', 'roar']
+	},
+	'sea-mammal': {
+		parts: ['puppet', 'animal', 'body', 'fluke', 'flipper', 'eye', 'lid', 'spout'],
+		actions: ['spout', 'dive', 'wave']
 	}
 } as const;
 

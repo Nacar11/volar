@@ -196,13 +196,6 @@
 		"icon": "narwhal.svg"
 	},
 	{
-		"id": "blue-whale",
-		"name": "Blue Whale",
-		"lat": 33.0,
-		"lng": -125.0,
-		"icon": "blue-whale.svg"
-	},
-	{
 		"id": "green-sea-turtle",
 		"name": "Green Sea Turtle",
 		"lat": -8.0,

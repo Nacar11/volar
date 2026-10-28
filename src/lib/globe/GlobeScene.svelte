@@ -8,6 +8,7 @@
 		AdditiveBlending,
 		BackSide,
 		BufferAttribute,
+		CanvasTexture,
 		DoubleSide,
 		DataTexture,
 		NearestFilter,
@@ -24,6 +25,7 @@
 	import type { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { motion } from '#lib/settings.svelte.ts';
 	import { DISTANCE } from './flyTo';
+	import { densify, pointAlong } from './migration';
 	import { latLngToVector, markerOpacity, seeded, type Placement, type Vec3 } from './geo';
 
 	interface Props {
@@ -50,6 +52,8 @@
 		habitats: { id: string; color: string; fill: Float32Array; outline: Float32Array }[];
 		/** The habitat to pulse, if any. */
 		pulse: string | null;
+		/** Migration routes, drawn as dots flowing the way the animals travel. */
+		migrations: { id: string; route: [number, number][] }[];
 	}
 
 	let {
@@ -65,8 +69,46 @@
 		habitats,
 		pulse,
 		cloudShare,
-		stars
+		stars,
+		migrations
 	}: Props = $props();
+
+	// Migration dots: each route is cut into short steps, and DOTS dots spaced
+	// evenly along it drift forward a little every frame.
+	const DOTS = 26;
+	const routes = $derived(
+		migrations.map((m) => ({
+			id: m.id,
+			route: densify(m.route),
+			positions: new Float32Array(DOTS * 3)
+		}))
+	);
+	const dotGeometries: Record<string, BufferGeometry<NormalOrGLBufferAttributes>> = {};
+
+	// Points draw as squares unless given a round sprite.
+	const roundDot = (() => {
+		const canvas = document.createElement('canvas');
+		canvas.width = canvas.height = 32;
+		const ctx = canvas.getContext('2d')!;
+		ctx.fillStyle = '#ffffff';
+		ctx.beginPath();
+		ctx.arc(16, 16, 14, 0, Math.PI * 2);
+		ctx.fill();
+		return new CanvasTexture(canvas);
+	})();
+	let flow = 0;
+
+	useTask((delta) => {
+		if (!motion.reduced) flow = (flow + delta * 0.05) % 1;
+		for (const { id, route, positions } of routes) {
+			for (let i = 0; i < DOTS; i++) {
+				const [lng, lat] = pointAlong(route, (i / DOTS + flow) % 1);
+				positions.set(latLngToVector(lat, lng, 1.008), i * 3);
+			}
+			const geometry = dotGeometries[id];
+			if (geometry) geometry.getAttribute('position').needsUpdate = true;
+		}
+	});
 
 	// Habitats glow softly at rest and pulse brighter when their animal is hovered or tapped.
 	const GLOW = { fill: { rest: 0.45, peak: 0.9 }, outline: { rest: 0.6, peak: 1 } };
@@ -273,6 +315,27 @@
 		<T.MeshToonMaterial map={earth} gradientMap={toonSteps} />
 	</T.Mesh>
 {/await}
+
+{#each routes as { id, positions } (id)}
+	<T.Points renderOrder={3}>
+		<T.BufferGeometry
+			oncreate={(g) => {
+				g.setAttribute('position', new BufferAttribute(positions, 3));
+				dotGeometries[id] = g;
+			}}
+		/>
+		<T.PointsMaterial
+			map={roundDot}
+			alphaTest={0.5}
+			color="#ffffff"
+			size={pulse === id ? 8 : 5.5}
+			sizeAttenuation={false}
+			transparent
+			opacity={0.95}
+			depthWrite={false}
+		/>
+	</T.Points>
+{/each}
 
 {#each habitats as habitat (habitat.id)}
 	<!-- The theme colour, edged in white so it reads on green land and blue sea alike. -->

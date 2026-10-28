@@ -30,6 +30,11 @@ export const habitats: { id: string; color: string; polygons: RegionPolygon[] }[
 	.map((a) => ({ id: a.id, color: a.themeColor, polygons: habitatOf(a) }))
 	.filter((h) => h.polygons.length > 0);
 
+/** Every migratory animal's route, [lng, lat] points in travel order. */
+export const migrations: { id: string; route: [number, number][] }[] = animals.flatMap((a) =>
+	a.globe.migration ? [{ id: a.id, route: a.globe.migration }] : []
+);
+
 /**
  * Pin sizes (px). Tappable pins keep a thumb-sized 72 px; coming-soon pins
  * can't be tapped, so they may shrink to fit a small map. The icon sits

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <!-- Light rippling down through the water. -->
+  <g fill="#FFFFFF" opacity="0.12">
+    <path d="M120 360L200 360L60 900L-40 900Z"/>
+    <path d="M700 360L760 360L700 900L600 900Z"/>
+    <path d="M1300 360L1380 360L1520 900L1400 900Z"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.5">
+    <circle cx="90" cy="820" r="8"/><circle cx="110" cy="780" r="5"/><circle cx="96" cy="745" r="3"/>
+    <circle cx="1500" cy="840" r="7"/><circle cx="1484" cy="800" r="4"/>
+  </g>
+</svg>

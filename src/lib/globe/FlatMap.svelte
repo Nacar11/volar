@@ -10,7 +10,7 @@
 	import { t } from '#lib/strings/index.ts';
 	import HoldGate from '#lib/grownups/HoldGate.svelte';
 	import Pin from './Pin.svelte';
-	import { habitats, PIN, pins } from './pins';
+	import { habitats, migrations, PIN, pins } from './pins';
 	import { spreadApart } from './spread';
 
 	interface Props {
@@ -104,6 +104,13 @@
 						{/each}
 					</g>
 				{/each}
+				{#each migrations as { id, route } (id)}
+					<polyline
+						class="migration"
+						class:pulse={pulse === id}
+						points={route.map(([lng, lat]) => `${lng},${-lat}`).join(' ')}
+					/>
+				{/each}
 			</svg>
 			{#each pins as pin (pin.id)}
 				<Pin
@@ -156,6 +163,27 @@
 		vector-effect: non-scaling-stroke;
 	}
 
+	/* A dashed route whose dashes flow the way the animals travel. */
+	.migration {
+		fill: none;
+		stroke: #ffffff;
+		stroke-width: 3px;
+		stroke-dasharray: 2 9;
+		stroke-linecap: round;
+		vector-effect: non-scaling-stroke;
+		animation: flow 1.2s linear infinite;
+	}
+
+	.migration.pulse {
+		stroke-width: 5px;
+	}
+
+	@keyframes flow {
+		to {
+			stroke-dashoffset: -11;
+		}
+	}
+
 	.habitat {
 		opacity: 0.6;
 		transition: opacity 0.4s;
@@ -175,6 +203,10 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.migration {
+			animation: none;
+		}
+
 		.habitat.pulse {
 			animation: none;
 			opacity: 1;

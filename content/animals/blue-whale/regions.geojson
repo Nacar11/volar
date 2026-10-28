@@ -1,0 +1,45 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "name": "Eastern North Pacific, California to the Costa Rica Dome" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-128, 42], [-120, 38], [-114, 28], [-104, 18], [-88, 9], [-90, 5], [-100, 8], [-114, 16], [-124, 28], [-133, 38], [-128, 42]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Southern Ocean (west)" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-150, -55], [-30, -55], [-30, -68], [-150, -68], [-150, -55]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Southern Ocean (east)" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[20, -55], [150, -55], [150, -66], [20, -66], [20, -55]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Off Sri Lanka" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[77, 3], [85, 3], [85, 9], [77, 9], [77, 3]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "North Atlantic, off Iceland" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-30, 60], [-12, 60], [-12, 66], [-30, 66], [-30, 60]]]
+			}
+		}
+	]
+}

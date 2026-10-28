@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g id="puppet">
+    <g id="animal">
+      <g id="spout" opacity="0">
+        <ellipse cx="300" cy="118" rx="7" ry="24" fill="#E3F4FD"/>
+        <ellipse cx="288" cy="98" rx="10" ry="10" fill="#E3F4FD"/>
+        <ellipse cx="312" cy="96" rx="11" ry="11" fill="#E3F4FD"/>
+        <ellipse cx="300" cy="84" rx="12" ry="12" fill="#FFFFFF"/>
+      </g>
+      <g id="fluke">
+        <path d="M70 198C44 170 24 160 8 166C24 182 34 194 42 200C34 206 24 218 8 234C24 240 44 230 70 202Z" fill="#5B7FA6"/>
+      </g>
+      <g id="body">
+        <path d="M384 198C382 168 344 150 284 148C204 146 124 166 70 192L62 200C122 224 204 248 294 248C350 248 384 228 384 198Z" fill="#6A8CAF"/>
+        <path d="M384 204C380 228 350 246 294 248C228 248 160 236 112 220C176 230 244 236 300 232C344 228 372 218 384 204Z" fill="#8FAACB"/>
+        <g fill="#8FAACB" opacity="0.7">
+          <ellipse cx="200" cy="168" rx="9" ry="5"/><ellipse cx="236" cy="160" rx="7" ry="4"/>
+          <ellipse cx="160" cy="180" rx="6" ry="4"/><ellipse cx="270" cy="162" rx="6" ry="3.5"/>
+        </g>
+        <path d="M112 180L132 166L138 182Z" fill="#5B7FA6"/>
+        <g stroke="#B5C9DE" stroke-width="2.5" stroke-linecap="round" fill="none">
+          <path d="M366 226C330 238 290 242 250 240"/><path d="M360 232C326 242 292 246 258 245"/>
+        </g>
+        <path d="M384 206C370 214 346 220 318 222" fill="none" stroke="#3F5F82" stroke-width="3" stroke-linecap="round"/>
+        <!-- Baleen: plates inside the mouth, only seen through the x-ray lens. -->
+        <g id="baleen" style="opacity: var(--xray-show, 0)" stroke="#F5E6B8" stroke-width="3" stroke-linecap="round">
+          <path d="M330 210L330 222"/><path d="M338 209L338 221"/><path d="M346 208L346 220"/>
+          <path d="M354 207L354 218"/><path d="M362 206L362 216"/><path d="M370 205L370 213"/>
+        </g>
+      </g>
+      <ellipse id="flipper" cx="296" cy="236" rx="26" ry="8" transform="rotate(25 296 236)" fill="#5B7FA6"/>
+      <g id="eye">
+        <circle cx="334" cy="212" r="4" fill="#1F2D3D"/>
+        <circle cx="335.2" cy="210.8" r="1.2" fill="#FFFFFF"/>
+        <ellipse id="lid" cx="334" cy="212" rx="5" ry="5" fill="#6A8CAF"/>
+      </g>
+    </g>
+  </g>
+</svg>

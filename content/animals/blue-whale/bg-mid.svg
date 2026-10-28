@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <!-- Waves along the surface. -->
+  <path d="M0 330Q50 312 100 330T200 330T300 330T400 330T500 330T600 330T700 330T800 330T900 330T1000 330T1100 330T1200 330T1300 330T1400 330T1500 330T1600 330L1600 350L0 350Z" fill="#7CC8EE"/>
+  <!-- A swarm of krill, far off. -->
+  <g fill="#FF8A65" opacity="0.7">
+    <circle cx="1280" cy="600" r="5"/><circle cx="1300" cy="590" r="4"/><circle cx="1320" cy="610" r="5"/>
+    <circle cx="1295" cy="625" r="4"/><circle cx="1340" cy="595" r="4"/><circle cx="1315" cy="580" r="3"/>
+    <circle cx="260" cy="700" r="4"/><circle cx="280" cy="690" r="5"/><circle cx="300" cy="712" r="4"/>
+  </g>
+</svg>

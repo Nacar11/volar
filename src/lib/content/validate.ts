@@ -58,6 +58,12 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 	];
 	for (const name of referenced) if (!files[name]) problems.push(`${name} is referenced but missing`);
 
+	for (const toy of animal.toys) {
+		if (toy.type === 'sizeCompare' && toy.measure === 'length' && toy.ground === undefined) {
+			problems.push('a "length" size compare needs a ground line for the things to stand on');
+		}
+	}
+
 	const audioFile = animal.assets.audio;
 	if (audioFile && files[audioFile]) {
 		const audio = audioSchema.safeParse(readJson(audioFile));

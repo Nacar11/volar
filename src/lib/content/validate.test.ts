@@ -192,3 +192,31 @@ describe('validatePack: sound', () => {
 		expect(validatePack('scarlet-macaw', uncredited).join()).toMatch(/audio.m4a has no entry in credits/);
 	});
 });
+
+describe('validatePack: migration and size by length', () => {
+	const whaleDir = join(import.meta.dirname, '../../../content/animals/blue-whale');
+	const whale = (): PackFiles => {
+		const files: PackFiles = {};
+		for (const name of readdirSync(whaleDir)) files[name] = readFileSync(join(whaleDir, name));
+		return files;
+	};
+	const withWhale = (change: (a: any) => void) => {
+		const files = whale();
+		const animal = JSON.parse(new TextDecoder().decode(files['animal.json']));
+		change(animal);
+		files['animal.json'] = encode(JSON.stringify(animal));
+		return validatePack('blue-whale', files).join('\n');
+	};
+
+	it('accepts the whale pack', () => {
+		expect(validatePack('blue-whale', whale())).toEqual([]);
+	});
+
+	it('rejects a migration route that jumps across the date line', () => {
+		expect(withWhale((a) => (a.globe.migration = [[170, 10], [-170, 12]]))).toMatch(/date line/);
+	});
+
+	it('rejects a length size compare with nothing to stand the things on', () => {
+		expect(withWhale((a) => delete a.toys[0].ground)).toMatch(/needs a ground line/);
+	});
+});
