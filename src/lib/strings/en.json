@@ -1,8 +1,7 @@
 {
 	"appName": "Volar",
 	"home": {
-		"tagline": "Tap an animal to visit!",
-		"globeSoon": "The spinning globe comes next. For now, pick an animal here."
+		"tagline": "Spin the world! Tap an animal to visit."
 	},
 	"scene": {
 		"back": "Back to the globe",
@@ -17,7 +16,18 @@
 		"makeItDo": "Make it do it",
 		"close": "Put the toy away"
 	},
-	"dayNight": { "day": "Day", "night": "Night" },
-	"bodyXray": { "hint": "Drag the magnifier over me!" },
-	"actions": { "leap": "Leap!", "turnHead": "Turn head" }
+	"dayNight": {
+		"day": "Day",
+		"night": "Night"
+	},
+	"bodyXray": {
+		"hint": "Drag the magnifier over me!"
+	},
+	"actions": {
+		"leap": "Leap!",
+		"turnHead": "Turn head"
+	},
+	"globe": {
+		"home": "Spin back home"
+	}
 }
