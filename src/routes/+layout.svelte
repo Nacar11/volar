@@ -3,7 +3,9 @@
 	import '@fontsource/andika/latin-700.css';
 	import '../app.css';
 	import { page } from '$app/state';
+	import FlatMap from '#lib/globe/FlatMap.svelte';
 	import Globe from '#lib/globe/Globe.svelte';
+	import { hasWebGL } from '#lib/globe/support.ts';
 	import CloudTransition from '#lib/scene/CloudTransition.svelte';
 	import type { LayoutProps } from './$types';
 
@@ -13,10 +15,15 @@
 	// scene: it pauses underneath and is still there, mid-dive, to zoom back out.
 	const GLOBE_ROUTES = ['/', '/animal/[id]'];
 	const showGlobe = $derived(GLOBE_ROUTES.includes(page.route.id ?? ''));
+	const webgl = hasWebGL();
 </script>
 
 {#if showGlobe}
-	<Globe paused={page.route.id !== '/'} />
+	{#if webgl}
+		<Globe paused={page.route.id !== '/'} />
+	{:else}
+		<FlatMap paused={page.route.id !== '/'} />
+	{/if}
 {/if}
 
 {@render children()}

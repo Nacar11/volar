@@ -81,7 +81,7 @@ The globe is a stylized cartoon planet, not a satellite map: chunky continents, 
 3. The globe stops rendering (saves battery) and the animal scene loads behind the clouds.
 4. Clouds part to reveal the scene. Going back plays the reverse.
 
-**Fallback:** if WebGL is unavailable, show a flat, scrollable 2D world map (d3-geo, SVG) with the same icons and habitats.
+**Fallback:** if WebGL is unavailable, show a flat, sideways-scrolling 2D world map with the same pins and habitats. It is the globe's own baked texture laid flat (it is already equirectangular), so it needs no extra map library and looks the same.
 
 ## Animal scenes and interactive trivia
 
@@ -259,7 +259,7 @@ The app shell and globe are cached on first visit; animal packs cache as they ar
 
 **Techniques**
 
-- Cap device pixel ratio at 2 (1.5 on low-end); lower globe texture and cloud detail automatically when frame rate drops.
+- Cap device pixel ratio at 2 (1.5 on low-end: 4 or fewer CPU cores, or 4 GB or less memory). If the globe averages under 30 fps for 3 s (after a 1 s warm-up), it steps down once to low quality: 1024 texture, half the clouds, fewer stars, pixel ratio 1.
 - Pause the globe's render loop while a scene is open; pause everything when the tab is hidden.
 - Load lottie-web and Matter.js lazily (only when a scene needs them).
 - Audio as compressed sprites (WebM/Opus with an AAC fallback for older iPads).

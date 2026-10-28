@@ -41,8 +41,11 @@
 		paused: boolean;
 		/** Holds the auto-spin off, e.g. while the camera flies to an animal. */
 		still: boolean;
-		/** Called once per rendered frame. */
-		onframe: () => void;
+		/** Called once per rendered frame with its duration in seconds. */
+		onframe: (dt: number) => void;
+		/** Share of the cloud puffs to draw, 0–1. */
+		cloudShare: number;
+		stars: number;
 		/** Habitat overlays: fill and outline triangles on the globe (see habitat.ts). */
 		habitats: { id: string; color: string; fill: Float32Array; outline: Float32Array }[];
 		/** The habitat to pulse, if any. */
@@ -60,7 +63,9 @@
 		still,
 		onframe,
 		habitats,
-		pulse
+		pulse,
+		cloudShare,
+		stars
 	}: Props = $props();
 
 	// Habitats glow softly at rest and pulse brighter when their animal is hovered or tapped.
@@ -163,6 +168,9 @@
 		}))
 	}));
 
+	// At low quality every other cloud is drawn.
+	const shownClouds = $derived(clouds.filter((_, i) => i % Math.round(1 / cloudShare) === 0));
+
 	let camera = $state.raw<PerspectiveCamera>();
 	let controls = $state.raw<ThreeOrbitControls>();
 	let cloudLayer = $state.raw<Group>();
@@ -186,7 +194,7 @@
 
 	useTask((delta) => {
 		if (cloudLayer && !motion.reduced) cloudLayer.rotation.y += delta * 0.01;
-		onframe();
+		onframe(delta);
 	});
 
 	const point = new Vector3();
@@ -250,7 +258,9 @@
      brightness × π". Lit land comes out ~1.15× the texture, shaded land ~1×. -->
 <T.AmbientLight intensity={0.85 * Math.PI} />
 
-<Stars radius={60} depth={20} count={1500} factor={3} fade />
+{#key stars}
+	<Stars radius={60} depth={20} count={stars} factor={3} fade />
+{/key}
 
 {#await map then earth}
 	<T.Mesh>
@@ -298,7 +308,7 @@
 </T.Mesh>
 
 <T.Group bind:ref={cloudLayer}>
-	{#each clouds as cloud, i (i)}
+	{#each shownClouds as cloud (cloud)}
 		<T.Group position={cloud.at} oncreate={(g) => g.lookAt(0, 0, 0)}>
 			{#each cloud.puffs as puff, j (j)}
 				<T.Mesh position={[puff.x, puff.y, 0]} scale={[1, 1, 0.7]}>

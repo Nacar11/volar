@@ -190,3 +190,29 @@ test("hovering or focusing an animal's pin pulses its habitat", async ({ page })
 	await page.getByRole('link', { name: 'Philippine Tarsier' }).focus();
 	await expect(globe).toHaveAttribute('data-pulse', 'philippine-tarsier');
 });
+
+test('a globe that cannot hold 30 fps steps down to low quality', async ({ page }, info) => {
+	test.skip(info.project.name !== 'tablet', 'one project is enough');
+	test.setTimeout(30_000);
+	const errors: string[] = [];
+	page.on('pageerror', (e) => errors.push(String(e)));
+	await page.goto('/');
+	const globe = page.getByTestId('globe');
+	await expect(globe).toHaveAttribute('data-quality', 'high');
+	// Load the main thread like a struggling device: ~45 ms of work every frame
+	// caps the page near 20 fps. (CPU throttling alone can't do it on a laptop
+	// GPU: the globe's per-frame JavaScript is too small.)
+	await page.evaluate(() => {
+		requestAnimationFrame(function busy() {
+			const until = performance.now() + 45;
+			while (performance.now() < until);
+			requestAnimationFrame(busy);
+		});
+	});
+	// 1 s warm-up + 3 s under 30 fps, with slack.
+	await expect(globe).toHaveAttribute('data-quality', 'low', { timeout: 10_000 });
+	// The low tier (smaller texture, fewer clouds and stars) swaps in cleanly.
+	const frames = Number(await globe.getAttribute('data-frames'));
+	await expect.poll(async () => Number(await globe.getAttribute('data-frames'))).toBeGreaterThan(frames);
+	expect(errors).toEqual([]);
+});
