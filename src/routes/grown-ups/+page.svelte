@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Choice from '#lib/grownups/Choice.svelte';
+	import DownloadAll from '#lib/offline/DownloadAll.svelte';
 	import { motion, settings } from '#lib/settings.svelte.ts';
 	import { t } from '#lib/strings/index.ts';
 
@@ -55,6 +56,8 @@
 		/>
 	</section>
 
+	<DownloadAll />
+
 	<section>
 		<a class="link" href="/grown-ups/credits">{g.credits} →</a>
 		<p class="privacy">{g.privacy}</p>
@@ -87,7 +90,8 @@
 		font-size: 1.4rem;
 	}
 
-	section {
+	section,
+	main :global(section) {
 		max-width: 720px;
 		margin: 24px auto 0;
 	}

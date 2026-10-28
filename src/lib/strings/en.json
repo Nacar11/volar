@@ -62,5 +62,15 @@
 		"credits": "Credits",
 		"creditsIntro": "Every picture, sound and piece of code in Volar, where it came from, and its licence.",
 		"privacy": "Volar keeps everything on this device: no accounts, ads or tracking."
+	},
+	"offline": {
+		"title": "Use without Wi-Fi",
+		"intro": "Download every animal now, so Volar works with no internet, for example before a school day.",
+		"download": "Download all animals",
+		"downloading": "Downloading animals",
+		"allReady": "Every animal is ready to use without Wi-Fi.",
+		"failed": "Some animals didn't download. Check the connection and try again.",
+		"update": "New animals arrived!",
+		"refresh": "Refresh"
 	}
 }

@@ -9,6 +9,8 @@
 	import { hasWebGL } from '#lib/globe/support.ts';
 	import CloudTransition from '#lib/scene/CloudTransition.svelte';
 	import { book } from '#lib/db/book.svelte.ts';
+	import UpdateToast from '#lib/offline/UpdateToast.svelte';
+	import { updates } from '#lib/offline/updates.svelte.ts';
 	import { settings } from '#lib/settings.svelte.ts';
 	import type { LayoutProps } from './$types';
 
@@ -27,7 +29,7 @@
 	// Offline support: the service worker (production only, so dev never serves
 	// stale caches), and a request that the browser keep downloaded animals.
 	if (!dev && 'serviceWorker' in navigator) {
-		navigator.serviceWorker.register('/service-worker.js');
+		navigator.serviceWorker.register('/service-worker.js').then((r) => updates.watch(r));
 		navigator.storage?.persist?.();
 	}
 
@@ -48,4 +50,5 @@
 
 {@render children()}
 
+<UpdateToast />
 <CloudTransition />
