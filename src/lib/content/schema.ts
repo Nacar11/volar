@@ -50,3 +50,16 @@ export type Toy = Animal['toys'][number];
 export const creditsSchema = z.array(
 	z.object({ file, source: z.string(), author: z.string(), license: z.string() })
 );
+
+/** An animal on the globe that has no pack yet: a greyed "coming soon" pin. */
+export const plannedSchema = z.array(
+	z.object({
+		id: z.string().regex(/^[a-z0-9-]+$/),
+		name: z.string(),
+		lat: z.number().min(-90).max(90),
+		lng: z.number().min(-180).max(180),
+		icon: file
+	})
+);
+
+export type Planned = z.infer<typeof plannedSchema>[number];

@@ -1,4 +1,4 @@
-import { animalSchema, creditsSchema } from './schema';
+import { animalSchema, creditsSchema, plannedSchema } from './schema';
 import { rigs } from '../scene/rigs';
 
 export const PACK_BUDGET_BYTES = 800 * 1024;
@@ -100,4 +100,33 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 	}
 
 	return problems.map((p) => `${folder}: ${p}`);
+}
+
+/**
+ * Checks content/planned: the list parses, ids are unique, every icon exists
+ * and is credited, and no planned animal also has a pack.
+ */
+export function validatePlanned(
+	planned: unknown,
+	icons: PackFiles,
+	credits: unknown,
+	packIds: string[]
+): string[] {
+	const problems: string[] = [];
+	const list = plannedSchema.safeParse(planned);
+	if (!list.success) {
+		return list.error.issues.map((i) => `planned.json ${i.path.join('.')}: ${i.message}`);
+	}
+	const ids = list.data.map((p) => p.id);
+	if (new Set(ids).size !== ids.length) problems.push('planned.json has a duplicate id');
+	for (const p of list.data) {
+		if (packIds.includes(p.id)) problems.push(`${p.id} has a pack, so remove it from planned.json`);
+		if (!icons[p.icon]) problems.push(`planned icon ${p.icon} is missing`);
+	}
+	const parsedCredits = creditsSchema.safeParse(credits);
+	const credited = new Set(parsedCredits.success ? parsedCredits.data.map((c) => c.file) : []);
+	for (const name of Object.keys(icons)) {
+		if (name.endsWith('.svg') && !credited.has(name)) problems.push(`planned icon ${name} has no credit`);
+	}
+	return problems;
 }

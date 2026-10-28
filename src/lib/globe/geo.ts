@@ -41,3 +41,12 @@ export function markerOpacity(facingValue: number, cameraDistance: number): numb
 	const horizon = 1 / cameraDistance;
 	return Math.min(Math.max((facingValue - horizon - 0.02) / 0.15, 0), 1);
 }
+
+/** Where a marker lands on screen this frame (CSS px), how visible it is, and how squarely it faces the camera. */
+export interface Placement {
+	id: string;
+	x: number;
+	y: number;
+	opacity: number;
+	facing: number;
+}

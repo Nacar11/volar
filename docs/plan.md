@@ -311,8 +311,9 @@ volar/
 │  └─ app.css
 ├─ content/
 │  ├─ index.json           # Generated list of animals (name, icon, lat/lng)
-│  └─ animals/
-│     └─ <animal-id>/      # animal.json, regions.geojson, icon.svg, puppet.svg, bg-*.svg, credits, audio
+│  ├─ animals/
+│  │  └─ <animal-id>/      # animal.json, regions.geojson, icon.svg, puppet.svg, bg-*.svg, credits, audio
+│  └─ planned/             # Animals with no pack yet: greyed "coming soon" globe pins (Fluent emoji stand-ins)
 ├─ art-source/             # Inkscape and Glaxnimate source files (not shipped)
 ├─ scripts/                # Build index.json, validate content, optimize SVG/audio
 ├─ static/                 # Globe textures, fonts, app icons, manifest assets

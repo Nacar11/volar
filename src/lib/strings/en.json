@@ -25,6 +25,7 @@
 		"turnHead": "Turn head"
 	},
 	"globe": {
-		"home": "Spin back home"
+		"home": "Spin back home",
+		"comingSoon": "{name}, coming soon"
 	}
 }

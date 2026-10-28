@@ -4,14 +4,15 @@
 	import { untrack } from 'svelte';
 	import { NoToneMapping, type PerspectiveCamera } from 'three';
 	import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-	import { animals, iconUrl } from '#lib/content/animals.ts';
+	import { animals, iconUrl, planned, plannedIconUrl } from '#lib/content/animals.ts';
 	import type { Animal } from '#lib/content/schema.ts';
 	import { clouds } from '#lib/scene/clouds.ts';
 	import { motion } from '#lib/settings.svelte.ts';
-	import { t } from '#lib/strings/index.ts';
+	import { fill, t } from '#lib/strings/index.ts';
 	import { DISTANCE, flyTo } from './flyTo';
-	import { latLngToVector } from './geo';
+	import { latLngToVector, type Placement } from './geo';
 	import GlobeScene from './GlobeScene.svelte';
+	import { spreadApart } from './spread';
 
 	interface Props {
 		/** True while a scene is open on top: the globe stops rendering and can't be reached. */
@@ -26,8 +27,36 @@
 	// The burst takes ~0.45 s, so starting it here closes the clouds as the dive ends.
 	const CLOUDS_AT_S = 0.5;
 
-	const markers = animals.map((a) => ({ id: a.id, at: latLngToVector(a.globe.lat, a.globe.lng) }));
-	const icons: Record<string, HTMLAnchorElement> = {};
+	// Pin icon radii (px) and the gap between the icon and the point it marks.
+	// Tappable pins keep a thumb-sized 72 px; coming-soon pins can't be tapped,
+	// so they shrink with the globe (on a phone the globe is ~400 px across).
+	const RADIUS = { ready: 36, soon: 26 };
+	const SOON_PER_GLOBE_PX = 0.085;
+	const SOON_MIN = 12;
+	const TAIL = 10;
+	// How far a crowded pin may be nudged from its spot, in icon radii.
+	const LEASH = 1.2;
+
+	// Animals with a scene are tappable pins; planned ones are greyed "coming soon" pins.
+	const pins = [
+		...animals.map((animal) => ({
+			id: animal.id,
+			name: animal.name,
+			at: latLngToVector(animal.globe.lat, animal.globe.lng),
+			icon: iconUrl(animal),
+			animal
+		})),
+		...planned.map((p) => ({
+			id: p.id,
+			name: p.name,
+			at: latLngToVector(p.lat, p.lng),
+			icon: plannedIconUrl(p),
+			animal: null
+		}))
+	];
+	const markers = pins.map(({ id, at }) => ({ id, at }));
+	const ready = new Set(pins.filter((p) => p.animal).map((p) => p.id));
+	const icons: Record<string, HTMLElement> = {};
 
 	let rig = $state.raw<{ controls: OrbitControls; camera: PerspectiveCamera } | null>(null);
 	let spinning = $state(false);
@@ -36,15 +65,33 @@
 	let frames = 0;
 
 	// Called every frame, so it writes styles directly instead of going through state.
-	function place(id: string, x: number, y: number, opacity: number, facing: number) {
-		const icon = icons[id];
-		if (!icon) return;
-		icon.style.translate = `${x}px ${y}px`;
-		icon.style.opacity = String(opacity);
-		// Icons grow as they turn to face the kid.
-		icon.style.scale = String(0.8 + 0.3 * Math.max(facing, 0));
+	function place(placements: Placement[], globeRadius: number) {
+		const shown = placements.filter((p) => p.opacity > 0);
+		const soonSize = Math.min(Math.max(globeRadius * SOON_PER_GLOBE_PX, SOON_MIN), RADIUS.soon);
+		// Icons grow as they turn to face the kid; coming-soon icons also shrink with the globe.
+		const scales = shown.map(
+			(p) => (0.8 + 0.3 * Math.max(p.facing, 0)) * (ready.has(p.id) ? 1 : soonSize / RADIUS.soon)
+		);
+		const radii = shown.map((p, i) => (ready.has(p.id) ? RADIUS.ready : RADIUS.soon) * scales[i]);
+		// Spread the icon discs (which sit above their points), then hang each pin under its disc.
+		const lift = shown.map((_, i) => TAIL * scales[i] + radii[i]);
+		const spread = spreadApart(
+			shown.map((p, i) => ({ x: p.x, y: p.y - lift[i], r: radii[i] })),
+			6,
+			4,
+			LEASH
+		);
+		shown.forEach((p, i) => {
+			const icon = icons[p.id];
+			icon.style.translate = `${spread[i].x}px ${spread[i].y + lift[i]}px`;
+			icon.style.opacity = String(p.opacity);
+			icon.style.scale = String(scales[i]);
+			// Nearer pins on top, and tappable animals above the coming-soon ones.
+			icon.style.zIndex = String(Math.round(p.facing * 100) + (ready.has(p.id) ? 200 : 0));
+			icon.style.visibility = 'visible';
+		});
 		// Hidden icons can't be tapped, tabbed to or read out.
-		icon.style.visibility = opacity > 0 ? 'visible' : 'hidden';
+		for (const p of placements) if (p.opacity === 0) icons[p.id].style.visibility = 'hidden';
 	}
 
 	const wait = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
@@ -117,17 +164,29 @@
 		/>
 	</Canvas>
 
-	{#each animals as animal (animal.id)}
-		<a
-			bind:this={icons[animal.id]}
-			class="icon"
-			href="/animal/{animal.id}"
-			aria-label={animal.name}
-			style:--theme={animal.themeColor}
-			onclick={(event) => visit(animal, event)}
-		>
-			<span class="bob"><img src={iconUrl(animal)} alt="" /></span>
-		</a>
+	{#each pins as pin (pin.id)}
+		{#if pin.animal}
+			{@const animal = pin.animal}
+			<a
+				bind:this={icons[pin.id]}
+				class="pin"
+				href="/animal/{animal.id}"
+				aria-label={animal.name}
+				style:--theme={animal.themeColor}
+				onclick={(event) => visit(animal, event)}
+			>
+				<span class="bob"><img src={pin.icon} alt="" /></span>
+			</a>
+		{:else}
+			<span
+				bind:this={icons[pin.id]}
+				class="pin soon"
+				role="img"
+				aria-label={fill(t.globe.comingSoon, { name: pin.name })}
+			>
+				<span class="bob"><img src={pin.icon} alt="" /></span>
+			</span>
+		{/if}
 	{/each}
 
 	<button class="round-button home" aria-label={t.globe.home} onclick={goHome}>🏠</button>
@@ -142,8 +201,8 @@
 		touch-action: none;
 	}
 
-	/* The link's own box is the 0×0 anchor on the globe; the icon sits above it like a pin. */
-	.icon {
+	/* The pin's own box is the 0×0 anchor on the globe; the icon sits above it. */
+	.pin {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -180,7 +239,7 @@
 		border-top-color: var(--paper);
 	}
 
-	.icon:focus-visible .bob {
+	.pin:focus-visible .bob {
 		outline: 4px solid #ffd54f;
 		outline-offset: 3px;
 	}
@@ -188,6 +247,26 @@
 	img {
 		width: 58px;
 		height: 58px;
+	}
+
+	/* Coming soon: smaller, grey, still, and not tappable, so drags pass to the globe. */
+	.soon {
+		pointer-events: none;
+	}
+
+	.soon .bob {
+		left: -26px;
+		width: 52px;
+		height: 52px;
+		box-shadow: 0 3px 8px rgb(0 0 0 / 0.3);
+		filter: grayscale(1) brightness(1.05);
+		opacity: 0.8;
+		animation: none;
+	}
+
+	.soon img {
+		width: 34px;
+		height: 34px;
 	}
 
 	@keyframes bob {

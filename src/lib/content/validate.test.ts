@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { PACK_BUDGET_BYTES, validatePack, type PackFiles } from './validate';
+import { PACK_BUDGET_BYTES, validatePack, validatePlanned, type PackFiles } from './validate';
 
 const dir = join(import.meta.dirname, '../../../content/animals/philippine-tarsier');
 const encode = (text: string) => new TextEncoder().encode(text);
@@ -75,5 +75,29 @@ describe('validatePack', () => {
 			a.sources = [];
 		});
 		expect(validatePack('philippine-tarsier', files).join()).toMatch(/sources/);
+	});
+});
+
+describe('validatePlanned', () => {
+	const icon = { 'lion.svg': encode('<svg/>') };
+	const credits = [{ file: 'lion.svg', source: 'Fluent', author: 'Microsoft', license: 'MIT' }];
+	const lion = { id: 'lion', name: 'Lion', lat: -2.3, lng: 34.8, icon: 'lion.svg' };
+
+	it('accepts a planned animal with a credited icon', () => {
+		expect(validatePlanned([lion], icon, credits, ['philippine-tarsier'])).toEqual([]);
+	});
+
+	it('rejects an animal that is planned and also has a pack', () => {
+		expect(validatePlanned([lion], icon, credits, ['lion']).join()).toMatch(/lion has a pack/);
+	});
+
+	it('rejects a missing or uncredited icon', () => {
+		expect(validatePlanned([lion], {}, credits, []).join()).toMatch(/lion.svg is missing/);
+		expect(validatePlanned([lion], icon, [], []).join()).toMatch(/lion.svg has no credit/);
+	});
+
+	it('rejects duplicate ids and bad coordinates', () => {
+		expect(validatePlanned([lion, lion], icon, credits, []).join()).toMatch(/duplicate id/);
+		expect(validatePlanned([{ ...lion, lat: 120 }], icon, credits, []).join()).toMatch(/lat/);
 	});
 });

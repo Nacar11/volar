@@ -18,7 +18,7 @@
 	import type { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { motion } from '#lib/settings.svelte.ts';
 	import { DISTANCE } from './flyTo';
-	import { latLngToVector, markerOpacity, seeded, type Vec3 } from './geo';
+	import { latLngToVector, markerOpacity, seeded, type Placement, type Vec3 } from './geo';
 
 	interface Props {
 		/** Where the camera starts and where Home returns it. */
@@ -29,8 +29,8 @@
 		onspin: (spinning: boolean) => void;
 		/** Points on the globe whose screen position is reported every frame. */
 		markers: { id: string; at: Vec3 }[];
-		/** Where a marker lands on screen (CSS px), how visible it is, and how squarely it faces the camera. */
-		onplace: (id: string, x: number, y: number, opacity: number, facing: number) => void;
+		/** Every marker's place this frame (same order as `markers`), and the globe's radius on screen in px. */
+		onplace: (placements: Placement[], globeRadius: number) => void;
 		/** Stops the frame loop entirely: nothing renders or runs while a scene is open. */
 		paused: boolean;
 		/** Holds the auto-spin off, e.g. while the camera flies to an animal. */
@@ -138,22 +138,28 @@
 	});
 
 	const point = new Vector3();
+	const placements: Placement[] = [];
 	useTask(() => {
 		if (!camera) return;
 		const distance = camera.position.length();
 		const { width, height } = size.current;
-		for (const marker of markers) {
+		markers.forEach((marker, i) => {
 			point.set(...marker.at);
-			const facing = point.dot(camera.position) / distance;
-			point.project(camera);
-			onplace(
-				marker.id,
-				((point.x + 1) / 2) * width,
-				((1 - point.y) / 2) * height,
-				markerOpacity(facing, distance),
+			const facing = point.dot(camera!.position) / distance;
+			point.project(camera!);
+			placements[i] = {
+				id: marker.id,
+				x: ((point.x + 1) / 2) * width,
+				y: ((1 - point.y) / 2) * height,
+				opacity: markerOpacity(facing, distance),
 				facing
-			);
-		}
+			};
+		});
+		placements.length = markers.length;
+		// The unit sphere's silhouette radius on screen, seen from `distance`.
+		const halfFov = (camera.fov * Math.PI) / 360;
+		const globeRadius = height / 2 / Math.tan(halfFov) / Math.sqrt(distance * distance - 1);
+		onplace(placements, globeRadius);
 	});
 
 	function grabbed() {

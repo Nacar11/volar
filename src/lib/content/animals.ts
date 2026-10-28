@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
-import { animalSchema, type Animal } from './schema';
+import { animalSchema, plannedSchema, type Animal, type Planned } from './schema';
+import plannedList from '../../../content/planned/planned.json';
 
 // Manifests and icons are small and load with the app; each pack's puppet and
 // backgrounds load only when its scene opens.
@@ -25,6 +26,17 @@ export const animals: Animal[] = Object.values(manifests)
 	.sort((a, b) => a.name.localeCompare(b.name));
 
 export const getAnimal = (id: string) => animals.find((a) => a.id === id);
+
+/** Animals without a pack yet: greyed "coming soon" pins on the globe. */
+export const planned: Planned[] = plannedSchema.parse(plannedList);
+
+const plannedIcons = import.meta.glob<string>('/content/planned/icons/*.svg', {
+	eager: true,
+	query: '?url',
+	import: 'default'
+});
+
+export const plannedIconUrl = (p: Planned) => plannedIcons[`/content/planned/icons/${p.icon}`];
 
 export const iconUrl = (animal: Animal) => svgUrls[path(animal, animal.assets.icon)];
 

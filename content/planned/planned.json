@@ -1,0 +1,233 @@
+[
+	{
+		"id": "philippine-eagle",
+		"name": "Philippine Eagle",
+		"lat": 7.0,
+		"lng": 125.3,
+		"icon": "philippine-eagle.svg"
+	},
+	{
+		"id": "tamaraw",
+		"name": "Tamaraw",
+		"lat": 12.9,
+		"lng": 121.1,
+		"icon": "tamaraw.svg"
+	},
+	{
+		"id": "whale-shark",
+		"name": "Whale Shark",
+		"lat": 12.9,
+		"lng": 123.6,
+		"icon": "whale-shark.svg"
+	},
+	{
+		"id": "giant-panda",
+		"name": "Giant Panda",
+		"lat": 31.0,
+		"lng": 103.5,
+		"icon": "giant-panda.svg"
+	},
+	{
+		"id": "bengal-tiger",
+		"name": "Bengal Tiger",
+		"lat": 22.0,
+		"lng": 89.0,
+		"icon": "bengal-tiger.svg"
+	},
+	{
+		"id": "bornean-orangutan",
+		"name": "Bornean Orangutan",
+		"lat": 0.5,
+		"lng": 114.0,
+		"icon": "bornean-orangutan.svg"
+	},
+	{
+		"id": "asian-elephant",
+		"name": "Asian Elephant",
+		"lat": 11.5,
+		"lng": 76.5,
+		"icon": "asian-elephant.svg"
+	},
+	{
+		"id": "lion",
+		"name": "Lion",
+		"lat": -2.3,
+		"lng": 34.8,
+		"icon": "lion.svg"
+	},
+	{
+		"id": "african-elephant",
+		"name": "African Elephant",
+		"lat": -19.0,
+		"lng": 23.5,
+		"icon": "african-elephant.svg"
+	},
+	{
+		"id": "giraffe",
+		"name": "Giraffe",
+		"lat": 0.5,
+		"lng": 37.5,
+		"icon": "giraffe.svg"
+	},
+	{
+		"id": "hippopotamus",
+		"name": "Hippopotamus",
+		"lat": -13.0,
+		"lng": 31.5,
+		"icon": "hippopotamus.svg"
+	},
+	{
+		"id": "chameleon",
+		"name": "Chameleon",
+		"lat": -19.0,
+		"lng": 46.8,
+		"icon": "chameleon.svg"
+	},
+	{
+		"id": "jaguar",
+		"name": "Jaguar",
+		"lat": -17.0,
+		"lng": -56.5,
+		"icon": "jaguar.svg"
+	},
+	{
+		"id": "three-toed-sloth",
+		"name": "Three-toed Sloth",
+		"lat": -3.5,
+		"lng": -62.0,
+		"icon": "three-toed-sloth.svg"
+	},
+	{
+		"id": "toco-toucan",
+		"name": "Toco Toucan",
+		"lat": -15.0,
+		"lng": -48.0,
+		"icon": "toco-toucan.svg"
+	},
+	{
+		"id": "scarlet-macaw",
+		"name": "Scarlet Macaw",
+		"lat": -12.5,
+		"lng": -69.5,
+		"icon": "scarlet-macaw.svg"
+	},
+	{
+		"id": "poison-dart-frog",
+		"name": "Poison Dart Frog",
+		"lat": 4.0,
+		"lng": -56.0,
+		"icon": "poison-dart-frog.svg"
+	},
+	{
+		"id": "grizzly-bear",
+		"name": "Grizzly Bear",
+		"lat": 61.0,
+		"lng": -150.0,
+		"icon": "grizzly-bear.svg"
+	},
+	{
+		"id": "bald-eagle",
+		"name": "Bald Eagle",
+		"lat": 46.5,
+		"lng": -92.0,
+		"icon": "bald-eagle.svg"
+	},
+	{
+		"id": "monarch-butterfly",
+		"name": "Monarch Butterfly",
+		"lat": 19.6,
+		"lng": -100.3,
+		"icon": "monarch-butterfly.svg"
+	},
+	{
+		"id": "american-bison",
+		"name": "American Bison",
+		"lat": 44.6,
+		"lng": -110.5,
+		"icon": "american-bison.svg"
+	},
+	{
+		"id": "red-fox",
+		"name": "Red Fox",
+		"lat": 51.0,
+		"lng": 10.0,
+		"icon": "red-fox.svg"
+	},
+	{
+		"id": "european-hedgehog",
+		"name": "European Hedgehog",
+		"lat": 52.5,
+		"lng": -1.5,
+		"icon": "european-hedgehog.svg"
+	},
+	{
+		"id": "atlantic-puffin",
+		"name": "Atlantic Puffin",
+		"lat": 63.4,
+		"lng": -20.3,
+		"icon": "atlantic-puffin.svg"
+	},
+	{
+		"id": "red-kangaroo",
+		"name": "Red Kangaroo",
+		"lat": -25.0,
+		"lng": 134.0,
+		"icon": "red-kangaroo.svg"
+	},
+	{
+		"id": "koala",
+		"name": "Koala",
+		"lat": -27.5,
+		"lng": 152.5,
+		"icon": "koala.svg"
+	},
+	{
+		"id": "platypus",
+		"name": "Platypus",
+		"lat": -42.0,
+		"lng": 146.5,
+		"icon": "platypus.svg"
+	},
+	{
+		"id": "polar-bear",
+		"name": "Polar Bear",
+		"lat": 78.0,
+		"lng": 20.0,
+		"icon": "polar-bear.svg"
+	},
+	{
+		"id": "emperor-penguin",
+		"name": "Emperor Penguin",
+		"lat": -77.0,
+		"lng": 166.0,
+		"icon": "emperor-penguin.svg"
+	},
+	{
+		"id": "narwhal",
+		"name": "Narwhal",
+		"lat": 72.0,
+		"lng": -70.0,
+		"icon": "narwhal.svg"
+	},
+	{
+		"id": "blue-whale",
+		"name": "Blue Whale",
+		"lat": 33.0,
+		"lng": -125.0,
+		"icon": "blue-whale.svg"
+	},
+	{
+		"id": "green-sea-turtle",
+		"name": "Green Sea Turtle",
+		"lat": -8.0,
+		"lng": -14.0,
+		"icon": "green-sea-turtle.svg"
+	},
+	{
+		"id": "clownfish",
+		"name": "Clownfish",
+		"lat": -18.0,
+		"lng": 147.5,
+		"icon": "clownfish.svg"
+	}
+]
