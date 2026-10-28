@@ -168,9 +168,9 @@ test('animals without a scene yet show as coming-soon pins that cannot be tapped
 }) => {
 	await page.goto('/');
 	const globe = page.getByTestId('globe');
-	// 1 animal with a scene + 33 planned = 34 pins on the globe.
+	// 2 animals with a scene + 32 planned = 34 pins on the globe.
 	await expect(globe.locator('.pin')).toHaveCount(34);
-	await expect(globe.getByRole('link')).toHaveCount(1);
+	await expect(globe.locator('a.pin')).toHaveCount(2);
 	// The Philippine eagle is on the side facing the kid at start.
 	const eagle = page.getByRole('img', { name: 'Philippine Eagle, coming soon' });
 	await expect(eagle).toHaveCount(1);

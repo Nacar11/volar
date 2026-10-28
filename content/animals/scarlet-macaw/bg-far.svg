@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#BDE8F5"/>
+  <g fill="#FFFFFF" opacity="0.9">
+    <ellipse cx="300" cy="150" rx="120" ry="36"/><ellipse cx="360" cy="128" rx="70" ry="38"/>
+    <ellipse cx="1250" cy="110" rx="110" ry="34"/>
+  </g>
+  <!-- A clay riverbank, where macaws gather to lick the clay. -->
+  <path d="M980 640L1040 470Q1120 440 1200 470L1290 452Q1360 470 1400 520L1450 640Z" fill="#C98B5A"/>
+  <path d="M1040 470Q1120 440 1200 470L1290 452Q1360 470 1400 520L1380 540Q1300 500 1200 505Q1110 485 1030 500Z" fill="#B0754A"/>
+  <g fill="#E53935">
+    <circle cx="1120" cy="530" r="7"/><circle cx="1180" cy="560" r="7"/><circle cx="1260" cy="520" r="7"/><circle cx="1320" cy="570" r="7"/>
+  </g>
+  <!-- Distant canopy. -->
+  <g fill="#6FAF5E">
+    <circle cx="60" cy="560" r="110"/><circle cx="220" cy="520" r="120"/><circle cx="400" cy="560" r="110"/>
+    <circle cx="580" cy="530" r="120"/><circle cx="760" cy="560" r="110"/><circle cx="900" cy="590" r="90"/>
+    <circle cx="1520" cy="560" r="120"/>
+  </g>
+  <rect y="600" width="1600" height="300" fill="#6FAF5E"/>
+  <!-- The river. -->
+  <path d="M0 720Q400 660 800 700T1600 690L1600 760Q1200 780 800 760T0 790Z" fill="#6EC6E8"/>
+</svg>

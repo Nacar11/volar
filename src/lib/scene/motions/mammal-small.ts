@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { rigs } from '../rigs';
+import { rigCore } from './core';
 import { findParts, type Rig, type RigOptions } from './types';
 
 // Pivot points in the puppet's 400×400 viewBox. Puppets on this rig sit with
@@ -26,39 +27,12 @@ export function mammalSmall(svg: SVGSVGElement, opts: RigOptions): Rig {
 	const arms = [p['arm-l'], p['arm-r']];
 	const pupils = [p['pupil-l'], p['pupil-r']];
 
-	let loops: gsap.core.Animation[] = [];
-	let blinkTimer: gsap.core.Tween | null = null;
-	let action: gsap.core.Timeline | null = null;
-	let asleep = false;
-
 	for (const [part, origin] of Object.entries(PIVOTS)) gsap.set(p[part], { svgOrigin: origin });
 	gsap.set(lids, { scaleY: 0, transformOrigin: '50% 0%' });
 
-	const pace = () => (opts.reducedMotion() ? 0.5 : 1) * (asleep ? 0.6 : 1);
-
-	function scheduleBlink() {
-		blinkTimer = gsap.delayedCall(gsap.utils.random(2, 5), () => {
-			if (!asleep && !action) {
-				gsap.timeline()
-					.to(lids, { scaleY: 1, duration: 0.08, ease: 'power1.in' })
-					.to(lids, { scaleY: 0, duration: 0.12, ease: 'power1.out' });
-				if (Math.random() < 0.4) {
-					gsap.to(gsap.utils.random(ears), {
-						rotation: gsap.utils.random([-8, 8]),
-						duration: 0.1,
-						yoyo: true,
-						repeat: 1
-					});
-				}
-			}
-			scheduleBlink();
-		});
-	}
-
-	// Breathing and a swaying tail never stop while the puppet rests.
-	function startIdle() {
-		stopIdle();
-		loops = [
+	const core = rigCore(opts, {
+		// Breathing and a swaying tail.
+		loops: () => [
 			gsap.to(p.body, {
 				scaleY: 1.03,
 				scaleX: 0.99,
@@ -68,31 +42,23 @@ export function mammalSmall(svg: SVGSVGElement, opts: RigOptions): Rig {
 				repeat: -1
 			}),
 			gsap.to(p.tail, { rotation: 6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 })
-		];
-		for (const loop of loops) loop.timeScale(pace());
-		scheduleBlink();
-	}
-
-	function stopIdle() {
-		for (const loop of loops) loop.kill();
-		loops = [];
-		blinkTimer?.kill();
-		blinkTimer = null;
-		gsap.to([p.body, p.tail], { scaleY: 1, scaleX: 1, rotation: 0, duration: 0.2 });
-	}
-
-	function run(tl: gsap.core.Timeline): Promise<void> {
-		action?.progress(1).kill();
-		stopIdle();
-		action = tl;
-		return new Promise((resolve) => {
-			tl.eventCallback('onComplete', () => {
-				if (action === tl) action = null;
-				startIdle();
-				resolve();
-			});
-		});
-	}
+		],
+		settle: () => gsap.to([p.body, p.tail], { scaleY: 1, scaleX: 1, rotation: 0, duration: 0.2 }),
+		blink: () => {
+			gsap.timeline()
+				.to(lids, { scaleY: 1, duration: 0.08, ease: 'power1.in' })
+				.to(lids, { scaleY: 0, duration: 0.12, ease: 'power1.out' });
+			if (Math.random() < 0.4) {
+				gsap.to(gsap.utils.random(ears), {
+					rotation: gsap.utils.random([-8, 8]),
+					duration: 0.1,
+					yoyo: true,
+					repeat: 1
+				});
+			}
+		}
+	});
+	const run = core.run;
 
 	function leap() {
 		const height = opts.reducedMotion() ? 40 : 110;
@@ -160,12 +126,12 @@ export function mammalSmall(svg: SVGSVGElement, opts: RigOptions): Rig {
 		play(name) {
 			const build = actions[name];
 			if (!build) return Promise.reject(new Error(`unknown action "${name}"`));
-			if (asleep) this.sleep(false);
+			if (core.asleep) this.sleep(false);
 			return run(build());
 		},
 		react() {
-			if (action) return;
-			if (asleep) {
+			if (core.busy) return;
+			if (core.asleep) {
 				gsap.to(p.head, { rotation: 14, duration: 0.15, yoyo: true, repeat: 1 });
 				return;
 			}
@@ -177,24 +143,18 @@ export function mammalSmall(svg: SVGSVGElement, opts: RigOptions): Rig {
 				.to(p.eyes, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' }, '<')
 				.to(ears, { rotation: 0, duration: 0.4 }, '<');
 		},
-		calm() {
-			action?.timeScale(3);
-		},
+		calm: core.calm,
 		sleep(on) {
-			asleep = on;
+			core.asleep = on;
 			gsap.to(lids, { scaleY: on ? 1 : 0, duration: 0.5 });
 			gsap.to(p.head, { rotation: on ? 10 : 0, y: on ? 10 : 0, duration: 0.8, ease: 'sine.inOut' });
-			for (const loop of loops) loop.timeScale(pace());
 		},
 		dilate(on) {
 			gsap.to(pupils, { scale: on ? 1.35 : 1, duration: 0.6, ease: 'sine.inOut' });
 		},
-		refreshMotion() {
-			for (const loop of loops) loop.timeScale(pace());
-		},
+		refreshMotion: core.retime,
 		destroy() {
-			stopIdle();
-			action?.kill();
+			core.destroy();
 			gsap.killTweensOf(Object.values(p));
 		}
 	};

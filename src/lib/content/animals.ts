@@ -1,6 +1,8 @@
 import { error } from '@sveltejs/kit';
+import type { SoundSprite } from '../audio/sound';
 import {
 	animalSchema,
+	audioSchema,
 	plannedSchema,
 	regionPolygons,
 	regionsSchema,
@@ -62,15 +64,30 @@ export function habitatOf(animal: Animal): RegionPolygon[] {
 	return regionPolygons(regionsSchema.parse(JSON.parse(regionFiles[path(animal, file)])));
 }
 
+// Sound: the encoded files are fetched by URL; the sprite map loads with the pack.
+const soundUrls = import.meta.glob<string>('/content/animals/*/*.{webm,m4a}', {
+	eager: true,
+	query: '?url',
+	import: 'default'
+});
+const soundMaps = import.meta.glob('/content/animals/*/audio.json', { import: 'default' });
+
 export interface Pack {
 	puppet: string;
 	background: string[];
+	sound: SoundSprite | null;
 }
 
 export async function loadPack(animal: Animal): Promise<Pack> {
+	const audioFile = animal.assets.audio;
+	const audio = audioFile ? audioSchema.parse(await soundMaps[path(animal, audioFile)]()) : null;
 	return {
 		puppet: await puppets[path(animal, animal.assets.puppet)](),
-		background: animal.assets.background.map((file) => svgUrls[path(animal, file)])
+		background: animal.assets.background.map((file) => svgUrls[path(animal, file)]),
+		sound: audio && {
+			src: audio.files.map((file) => soundUrls[path(animal, file)]),
+			sprite: audio.sprite
+		}
 	};
 }
 

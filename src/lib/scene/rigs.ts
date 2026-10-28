@@ -23,6 +23,22 @@ export const rigs = {
 			'lid-r'
 		],
 		actions: ['leap', 'turnHead']
+	},
+	bird: {
+		parts: [
+			'puppet',
+			'animal',
+			'body',
+			'head',
+			'eye',
+			'lid',
+			'beak-top',
+			'beak-bottom',
+			'wing',
+			'tail',
+			'feet'
+		],
+		actions: ['flap', 'dance', 'squawk']
 	}
 } as const;
 

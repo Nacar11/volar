@@ -90,12 +90,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "scarlet-macaw.svg",
-		"source": "Fluent Emoji Flat, \"Parrot\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "poison-dart-frog.svg",
 		"source": "Fluent Emoji Flat, \"Frog\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",

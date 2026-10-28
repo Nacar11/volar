@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g id="puppet">
+    <g id="perch">
+      <rect x="10" y="300" width="380" height="24" rx="12" fill="#8D5A3B"/>
+      <rect x="10" y="314" width="380" height="10" rx="5" fill="#74482E"/>
+      <ellipse cx="60" cy="294" rx="24" ry="9" transform="rotate(-15 60 294)" fill="#4E9A50"/>
+    </g>
+    <g id="animal">
+      <g id="tail">
+        <path d="M178 238L210 252L132 392L104 386Z" fill="#C62828"/>
+        <path d="M190 246L212 256L150 392L134 390Z" fill="#E53935"/>
+        <path d="M128 346L148 352L132 392L104 386Z" fill="#1E88E5"/>
+      </g>
+      <g id="feet">
+        <rect x="200" y="278" width="12" height="26" rx="6" fill="#8D8D8D"/>
+        <rect x="222" y="278" width="12" height="26" rx="6" fill="#8D8D8D"/>
+        <circle cx="198" cy="304" r="6" fill="#757575"/>
+        <circle cx="214" cy="304" r="6" fill="#757575"/>
+        <circle cx="220" cy="304" r="6" fill="#757575"/>
+        <circle cx="236" cy="304" r="6" fill="#757575"/>
+      </g>
+      <g id="body">
+        <ellipse cx="216" cy="204" rx="54" ry="82" transform="rotate(14 216 204)" fill="#E53935"/>
+        <ellipse cx="232" cy="214" rx="30" ry="58" transform="rotate(14 232 214)" fill="#EF5350"/>
+      </g>
+      <g id="wing">
+        <path d="M228 150C252 176 248 244 206 304L178 306C186 250 194 190 228 150Z" fill="#1E88E5"/>
+        <path d="M228 150C246 170 246 200 236 222L200 232C204 196 210 172 228 150Z" fill="#FDD835"/>
+        <path d="M236 222C232 236 226 246 220 254L196 256C197 248 198 240 200 232Z" fill="#7CB342"/>
+        <path d="M206 304L178 306L182 284Z" fill="#1565C0"/>
+      </g>
+      <g id="head">
+        <circle cx="245" cy="110" r="42" fill="#E53935"/>
+        <ellipse cx="263" cy="108" rx="18" ry="21" fill="#FAFAFA"/>
+        <path id="beak-bottom" d="M274 118C287 120 298 126 300 134C292 141 279 137 272 128Z" fill="#263238"/>
+        <path id="beak-top" d="M273 90C299 87 313 109 305 141C300 128 290 121 273 119Z" fill="#EFEBE9"/>
+        <g id="eye">
+          <circle cx="263" cy="103" r="7.5" fill="#FFF59D"/>
+          <circle cx="264" cy="103" r="3.8" fill="#212121"/>
+          <circle cx="265.5" cy="101" r="1.4" fill="#FFFFFF"/>
+          <ellipse id="lid" cx="263" cy="103" rx="8.5" ry="8.5" fill="#F5F5F5"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

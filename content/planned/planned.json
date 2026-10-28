@@ -105,13 +105,6 @@
 		"icon": "toco-toucan.svg"
 	},
 	{
-		"id": "scarlet-macaw",
-		"name": "Scarlet Macaw",
-		"lat": -12.5,
-		"lng": -69.5,
-		"icon": "scarlet-macaw.svg"
-	},
-	{
 		"id": "poison-dart-frog",
 		"name": "Poison Dart Frog",
 		"lat": 4.0,

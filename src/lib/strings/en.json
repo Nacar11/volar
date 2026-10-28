@@ -11,7 +11,8 @@
 		"dayNight": "Day or night",
 		"bodyXray": "Body x-ray",
 		"makeItDo": "Make it do it",
-		"close": "Put the toy away"
+		"close": "Put the toy away",
+		"hearIt": "Hear it"
 	},
 	"dayNight": {
 		"day": "Day",
@@ -22,10 +23,15 @@
 	},
 	"actions": {
 		"leap": "Leap!",
-		"turnHead": "Turn head"
+		"turnHead": "Turn head",
+		"flap": "Flap!",
+		"dance": "Dance"
 	},
 	"globe": {
 		"home": "Spin back home",
 		"comingSoon": "{name}, coming soon"
+	},
+	"hearIt": {
+		"button": "Hear me!"
 	}
 }

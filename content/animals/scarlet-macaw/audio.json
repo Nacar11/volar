@@ -1,0 +1,12 @@
+{
+	"files": [
+		"audio.webm",
+		"audio.m4a"
+	],
+	"sprite": {
+		"squawk": [
+			0,
+			1350
+		]
+	}
+}

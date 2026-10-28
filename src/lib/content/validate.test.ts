@@ -155,3 +155,40 @@ describe('validatePack: habitat regions', () => {
 		).toMatch(/far from its habitat/);
 	});
 });
+
+describe('validatePack: sound', () => {
+	const macawDir = join(import.meta.dirname, '../../../content/animals/scarlet-macaw');
+	const macaw = (): PackFiles => {
+		const files: PackFiles = {};
+		for (const name of readdirSync(macawDir)) files[name] = readFileSync(join(macawDir, name));
+		return files;
+	};
+	const edit = (files: PackFiles, name: string, change: (json: any) => void) => {
+		const json = JSON.parse(new TextDecoder().decode(files[name]));
+		change(json);
+		files[name] = encode(JSON.stringify(json));
+		return files;
+	};
+
+	it('accepts the macaw pack, sound and all', () => {
+		expect(validatePack('scarlet-macaw', macaw())).toEqual([]);
+	});
+
+	it('rejects a "Hear it" clip that is not in the sprite', () => {
+		const files = edit(macaw(), 'animal.json', (a) => (a.toys[0].sound = 'roar'));
+		expect(validatePack('scarlet-macaw', files).join()).toMatch(/plays "roar", which is not a clip/);
+	});
+
+	it('rejects a "Hear it" toy with no sound sprite', () => {
+		const files = edit(macaw(), 'animal.json', (a) => delete a.assets.audio);
+		expect(validatePack('scarlet-macaw', files).join()).toMatch(/needs a sound sprite/);
+	});
+
+	it('rejects a missing encoded file and an uncredited one', () => {
+		const files = macaw();
+		delete files['audio.m4a'];
+		expect(validatePack('scarlet-macaw', files).join()).toMatch(/audio.m4a is referenced but missing/);
+		const uncredited = edit(macaw(), 'credits.json', (c) => c.pop());
+		expect(validatePack('scarlet-macaw', uncredited).join()).toMatch(/audio.m4a has no entry in credits/);
+	});
+});

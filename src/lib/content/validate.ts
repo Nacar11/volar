@@ -1,10 +1,20 @@
-import { animalSchema, creditsSchema, plannedSchema, regionPolygons, regionsSchema } from './schema';
+import {
+	animalSchema,
+	audioSchema,
+	creditsSchema,
+	plannedSchema,
+	regionPolygons,
+	regionsSchema
+} from './schema';
 import { rigs } from '../scene/rigs';
 
 export const PACK_BUDGET_BYTES = 800 * 1024;
 /** How far (degrees) an animal's pin may sit outside its habitat's bounding box. */
 export const PIN_SLACK_DEG = 3;
 export const MAX_WORDS = 12;
+
+/** Files that describe a pack rather than ship art or sound in it. */
+const METADATA = ['animal.json', 'credits.json', 'audio.json'];
 
 /** Files in one animal folder, by name. */
 export type PackFiles = Record<string, Uint8Array>;
@@ -48,6 +58,24 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 	];
 	for (const name of referenced) if (!files[name]) problems.push(`${name} is referenced but missing`);
 
+	const audioFile = animal.assets.audio;
+	if (audioFile && files[audioFile]) {
+		const audio = audioSchema.safeParse(readJson(audioFile));
+		if (!audio.success) {
+			problems.push(`${audioFile} does not match the audio schema`);
+		} else {
+			for (const name of audio.data.files) if (!files[name]) problems.push(`${name} is referenced but missing`);
+			for (const toy of animal.toys) {
+				if (toy.type === 'hearIt' && !audio.data.sprite[toy.sound]) {
+					problems.push(`"Hear it" plays "${toy.sound}", which is not a clip in ${audioFile}`);
+				}
+			}
+		}
+	}
+	if (animal.toys.some((t) => t.type === 'hearIt') && !audioFile) {
+		problems.push('the "Hear it" toy needs a sound sprite (assets.audio)');
+	}
+
 	const regionsFile = animal.globe.regions;
 	if (regionsFile && files[regionsFile]) {
 		const regions = regionsSchema.safeParse(readJson(regionsFile));
@@ -74,7 +102,8 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 	if (credits.success) {
 		const credited = new Set(credits.data.map((c) => c.file));
 		for (const name of Object.keys(files)) {
-			if (name !== 'animal.json' && name !== 'credits.json' && !credited.has(name)) {
+			// Metadata files describe the pack and need no credit of their own.
+			if (!METADATA.includes(name) && !credited.has(name)) {
 				problems.push(`${name} has no entry in credits.json`);
 			}
 		}
@@ -101,12 +130,16 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		}
 	}
 
+	const toyLines: Record<string, (t: (typeof animal.toys)[number]) => string[]> = {
+		dayNight: (t) => (t.type === 'dayNight' ? [t.day, t.night] : []),
+		bodyXray: (t) => (t.type === 'bodyXray' ? [t.reveal] : []),
+		hearIt: (t) => (t.type === 'hearIt' ? [t.caption] : []),
+		makeItDo: () => []
+	};
 	const lines = [
 		animal.greeting,
 		...animal.facts.map((f) => f.text),
-		...animal.toys.flatMap((t) =>
-			t.type === 'dayNight' ? [t.day, t.night] : t.type === 'bodyXray' ? [t.reveal] : []
-		)
+		...animal.toys.flatMap((t) => toyLines[t.type](t))
 	];
 	for (const line of lines) {
 		if (words(line) > MAX_WORDS) problems.push(`"${line}" is over ${MAX_WORDS} words`);

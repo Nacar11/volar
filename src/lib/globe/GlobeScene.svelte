@@ -70,13 +70,18 @@
 
 	// Habitats glow softly at rest and pulse brighter when their animal is hovered or tapped.
 	const GLOW = { fill: { rest: 0.45, peak: 0.9 }, outline: { rest: 0.6, peak: 1 } };
-	const glows: Record<string, { fill: MeshBasicMaterial; outline: MeshBasicMaterial }> = {};
+	type Glow = 'fill' | 'outline';
+	const glows: Record<string, Partial<Record<Glow, MeshBasicMaterial>>> = {};
+	const glowing = (id: string, part: Glow) => (material: MeshBasicMaterial) => {
+		(glows[id] ??= {})[part] = material;
+	};
 
 	$effect(() => {
 		const active = pulse;
 		for (const [id, materials] of Object.entries(glows)) {
 			for (const part of ['fill', 'outline'] as const) {
 				const material = materials[part];
+				if (!material) continue;
 				const { rest, peak } = GLOW[part];
 				gsap.killTweensOf(material);
 				if (id !== active) {
@@ -270,12 +275,11 @@
 {/await}
 
 {#each habitats as habitat (habitat.id)}
-	{@const materials = (glows[habitat.id] ??= {} as (typeof glows)[string])}
 	<!-- The theme colour, edged in white so it reads on green land and blue sea alike. -->
 	<T.Mesh renderOrder={1}>
 		<T.BufferGeometry oncreate={(g) => fillHabitat(g, habitat.fill)} />
 		<T.MeshBasicMaterial
-			bind:ref={materials.fill}
+			oncreate={glowing(habitat.id, 'fill')}
 			color={habitat.color}
 			transparent
 			opacity={GLOW.fill.rest}
@@ -286,7 +290,7 @@
 	<T.Mesh renderOrder={2}>
 		<T.BufferGeometry oncreate={(g) => fillHabitat(g, habitat.outline)} />
 		<T.MeshBasicMaterial
-			bind:ref={materials.outline}
+			oncreate={glowing(habitat.id, 'outline')}
 			color="#ffffff"
 			transparent
 			opacity={GLOW.outline.rest}

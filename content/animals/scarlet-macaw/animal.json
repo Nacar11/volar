@@ -1,0 +1,41 @@
+{
+	"id": "scarlet-macaw",
+	"name": "Scarlet Macaw",
+	"continent": "south-america",
+	"livesIn": "the rainforests of the Americas",
+	"habitats": ["jungle"],
+	"nocturnal": false,
+	"rig": "bird",
+	"themeColor": "#E53935",
+	"globe": { "lat": -12.5, "lng": -69.5, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"],
+		"audio": "audio.json"
+	},
+	"greeting": "Hello! I'm a scarlet macaw!",
+	"facts": [
+		{ "id": "home", "text": "I live in rainforests from Mexico all the way to Brazil." },
+		{ "id": "food", "text": "I eat fruits, nuts, seeds and even flowers." },
+		{ "id": "beak", "text": "My strong beak can crack open very hard nuts." },
+		{ "id": "clay", "text": "Many of us lick clay from riverbanks together." },
+		{ "id": "tail", "text": "More than half of me is my long tail!" },
+		{ "id": "loud", "text": "My squawk is so loud it carries across the forest!" },
+		{ "id": "partner", "text": "I keep the same best partner my whole life." },
+		{ "id": "safe", "text": "People in Costa Rica planted trees to help us." }
+	],
+	"toys": [
+		{ "type": "hearIt", "sound": "squawk", "caption": "SQUAWK! I can be very loud!" },
+		{ "type": "makeItDo", "actions": ["flap", "dance"] },
+		{
+			"type": "dayNight",
+			"day": "Good morning! Time to fly and find food.",
+			"night": "Shh... I sleep high up in the trees."
+		}
+	],
+	"sources": [
+		"https://en.wikipedia.org/wiki/Scarlet_macaw",
+		"https://en.wikipedia.org/wiki/Macaw"
+	]
+}

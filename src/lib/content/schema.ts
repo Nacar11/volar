@@ -1,12 +1,14 @@
 import { z } from 'zod';
 import { rigNames } from '../scene/rigs';
 
-const file = z.string().regex(/^[\w-]+\.(svg|webm|json|geojson)$/, 'a file name in the pack folder');
+const file = z.string().regex(/^[\w-]+\.(svg|webm|m4a|json|geojson)$/, 'a file name in the pack folder');
 
 const toy = z.discriminatedUnion('type', [
 	z.object({ type: z.literal('dayNight'), day: z.string(), night: z.string() }),
 	z.object({ type: z.literal('bodyXray'), feature: z.string(), reveal: z.string() }),
-	z.object({ type: z.literal('makeItDo'), actions: z.array(z.string()).min(1) })
+	z.object({ type: z.literal('makeItDo'), actions: z.array(z.string()).min(1) }),
+	/** Plays a clip from the pack's sound sprite; the animal squawks or calls along. */
+	z.object({ type: z.literal('hearIt'), sound: z.string(), caption: z.string() })
 ]);
 
 export const animalSchema = z.object({
@@ -36,7 +38,8 @@ export const animalSchema = z.object({
 		icon: file,
 		puppet: z.literal('puppet.svg'),
 		background: z.array(file).min(1),
-		audio: file.optional()
+		/** The sound sprite's map (written by npm run build:audio). */
+		audio: z.literal('audio.json').optional()
 	}),
 	greeting: z.string(),
 	facts: z.array(z.object({ id: z.string(), text: z.string() })).min(5).max(8),
@@ -93,3 +96,11 @@ export type RegionPolygon = z.infer<typeof polygon>;
 /** Every polygon in a regions file, flattened. */
 export const regionPolygons = (regions: Regions): RegionPolygon[] =>
 	regions.features.flatMap(({ geometry: g }) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates));
+
+/** A pack's sound sprite: the encoded files and each clip's [start, length] in ms. */
+export const audioSchema = z.object({
+	files: z.tuple([z.literal('audio.webm'), z.literal('audio.m4a')]),
+	sprite: z.record(z.string(), z.tuple([z.number().int().min(0), z.number().int().positive()]))
+});
+
+export type AudioSprite = z.infer<typeof audioSchema>;

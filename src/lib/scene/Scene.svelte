@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import type { Howl } from 'howler';
+	import { loadSound } from '#lib/audio/sound.ts';
 	import type { Animal, Toy } from '#lib/content/schema.ts';
 	import type { Pack } from '#lib/content/animals.ts';
 	import { motion } from '#lib/settings.svelte.ts';
 	import { fill, t } from '#lib/strings/index.ts';
 	import BodyXray from '#lib/toys/BodyXray.svelte';
 	import DayNight from '#lib/toys/DayNight.svelte';
+	import HearIt from '#lib/toys/HearIt.svelte';
 	import MakeItDo from '#lib/toys/MakeItDo.svelte';
 	import type { Rig } from './motions';
 	import { clouds } from './clouds';
+	import { rigs } from './rigs';
 	import Puppet from './Puppet.svelte';
 
 	interface Props {
@@ -20,7 +24,12 @@
 
 	let { animal, pack, onrig }: Props = $props();
 
-	const TOY_ICONS: Record<Toy['type'], string> = { dayNight: '🌗', bodyXray: '🔍', makeItDo: '🎬' };
+	const TOY_ICONS: Record<Toy['type'], string> = {
+		dayNight: '🌗',
+		bodyXray: '🔍',
+		makeItDo: '🎬',
+		hearIt: '🔊'
+	};
 	// Far, middle and near layers drift by different amounts as the pointer moves.
 	const DEPTHS = [8, 18, 32];
 
@@ -31,6 +40,17 @@
 	let time = $state<'day' | 'night' | null>(null);
 	let asleep = $state(false);
 	let pointer = $state({ x: 0, y: 0 });
+	let sound = $state.raw<Howl | null>(null);
+
+	// The pack's sounds load in the background; "Hear it" waits for them.
+	$effect(() => {
+		if (!pack.sound) return;
+		let howl: Howl | null = null;
+		loadSound(pack.sound)
+			.then((loaded) => (sound = howl = loaded))
+			.catch((error) => console.warn(error));
+		return () => howl?.unload();
+	});
 
 	const lastFact = $derived(factIndex >= animal.facts.length - 1);
 	const toy = $derived(animal.toys.find((x) => x.type === activeToy));
@@ -65,6 +85,15 @@
 	function play(action: string) {
 		asleep = false;
 		return rig?.play(action) ?? Promise.resolve();
+	}
+
+	// Plays a clip; if the rig has an action of the same name (a squawk, a roar),
+	// the animal does it along with the sound.
+	function hear(clip: string, caption: string) {
+		line = caption;
+		sound?.play(clip);
+		const along = (rigs[animal.rig].actions as readonly string[]).includes(clip);
+		return along ? play(clip) : Promise.resolve();
 	}
 
 	async function leave() {
@@ -145,6 +174,9 @@
 					<DayNight {time} onpick={setTime} />
 				{:else if toy.type === 'makeItDo'}
 					<MakeItDo actions={toy.actions} onplay={play} />
+				{:else if toy.type === 'hearIt'}
+					{@const { sound: clip, caption } = toy}
+					<HearIt ready={sound !== null} onhear={() => hear(clip, caption)} />
 				{:else}
 					<p class="hint">{t.bodyXray.hint}</p>
 				{/if}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <g fill="#2F7A3A">
+    <ellipse cx="40" cy="720" rx="90" ry="220" transform="rotate(-25 40 720)"/>
+    <ellipse cx="190" cy="840" rx="60" ry="150" transform="rotate(20 190 840)"/>
+    <ellipse cx="1560" cy="720" rx="90" ry="220" transform="rotate(25 1560 720)"/>
+    <ellipse cx="1410" cy="850" rx="60" ry="150" transform="rotate(-20 1410 850)"/>
+  </g>
+  <g fill="#3E9147">
+    <ellipse cx="120" cy="880" rx="160" ry="60"/><ellipse cx="800" cy="910" rx="520" ry="70"/>
+    <ellipse cx="1480" cy="880" rx="160" ry="60"/>
+  </g>
+</svg>
