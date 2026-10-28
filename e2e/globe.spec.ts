@@ -98,3 +98,67 @@ test('an animal on the far side of the globe is hidden and cannot be tapped', as
 	await expect(link).toHaveCSS('visibility', 'hidden');
 	await expect(page.getByRole('link', { name: 'Philippine Tarsier' })).toHaveCount(0);
 });
+
+const tarsierIcon = (page: import('@playwright/test').Page) =>
+	page.getByRole('link', { name: 'Philippine Tarsier' }).locator('img');
+
+test('the scene is showing within 1.5 s of the tap', async ({ page }) => {
+	await page.goto('/');
+	await expect(tarsierIcon(page)).toBeVisible();
+	const clouds = page.getByTestId('clouds');
+	// Timestamp in the page: Playwright's polling is too coarse to time this from outside.
+	await page.evaluate(() => {
+		const w = window as unknown as { tapped?: number; showing?: number };
+		document.addEventListener('click', () => (w.tapped ??= performance.now()), true);
+		const curtain = document.querySelector('[data-testid="clouds"]')!;
+		new MutationObserver(() => {
+			// "Showing" = the clouds start to part over the loaded scene.
+			if (curtain.getAttribute('data-state') === 'parting') w.showing ??= performance.now();
+		}).observe(curtain, { attributes: true });
+	});
+	await tarsierIcon(page).click({ force: true });
+	await expect(page).toHaveURL('/animal/philippine-tarsier');
+	await expect(clouds).toHaveAttribute('data-state', 'clear');
+	const elapsed = await page.evaluate(() => {
+		const w = window as unknown as { tapped: number; showing: number };
+		return w.showing - w.tapped;
+	});
+	console.log(`tap → scene showing: ${Math.round(elapsed)} ms`);
+	expect(elapsed).toBeLessThan(1500);
+	expect(await clouds.getAttribute('data-mode')).toBe('burst');
+});
+
+test('the globe stops rendering while a scene is open, and starts again after', async ({
+	page
+}) => {
+	await page.goto('/');
+	const globe = page.getByTestId('globe');
+	const frames = async () => Number(await globe.getAttribute('data-frames'));
+	await expect.poll(frames).toBeGreaterThan(10);
+
+	await tarsierIcon(page).click({ force: true });
+	await expect(page.getByTestId('clouds')).toHaveAttribute('data-state', 'clear', { timeout: 5000 });
+	await expect(page).toHaveURL('/animal/philippine-tarsier');
+	const before = await frames();
+	await page.waitForTimeout(500);
+	expect(await frames()).toBe(before);
+	// Paused, the globe can't be reached: its icons are out of the accessibility tree.
+	await expect(page.getByRole('link', { name: 'Philippine Tarsier' })).toHaveCount(0);
+
+	await page.getByRole('button', { name: 'Back to the globe' }).click();
+	await expect(page).toHaveURL('/');
+	await expect.poll(frames).toBeGreaterThan(before + 10);
+	await expect(tarsierIcon(page)).toBeVisible();
+});
+
+test('with reduced motion the clouds fade instead of bursting', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await page.goto('/');
+	await expect(tarsierIcon(page)).toBeVisible();
+	await tarsierIcon(page).click();
+	await expect(page).toHaveURL('/animal/philippine-tarsier');
+	const clouds = page.getByTestId('clouds');
+	await expect(clouds).toHaveAttribute('data-mode', 'fade');
+	await expect(clouds).toHaveAttribute('data-state', 'clear');
+	await expect(page.locator('.bubble p')).toHaveText("Hi! I'm a tarsier!");
+});

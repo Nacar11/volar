@@ -17,6 +17,7 @@
 	} from 'three';
 	import type { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { motion } from '#lib/settings.svelte.ts';
+	import { DISTANCE } from './flyTo';
 	import { latLngToVector, markerOpacity, seeded, type Vec3 } from './geo';
 
 	interface Props {
@@ -30,16 +31,30 @@
 		markers: { id: string; at: Vec3 }[];
 		/** Where a marker lands on screen (CSS px), how visible it is, and how squarely it faces the camera. */
 		onplace: (id: string, x: number, y: number, opacity: number, facing: number) => void;
+		/** Stops the frame loop entirely: nothing renders or runs while a scene is open. */
+		paused: boolean;
+		/** Holds the auto-spin off, e.g. while the camera flies to an animal. */
+		still: boolean;
+		/** Called once per rendered frame. */
+		onframe: () => void;
 	}
 
-	let { home, texture, oncontrols, onspin, markers, onplace }: Props = $props();
+	let { home, texture, oncontrols, onspin, markers, onplace, paused, still, onframe }: Props =
+		$props();
 
 	const IDLE_MS = 6000;
 	const FOV = 40;
 
 	// The field of view is vertical, so on a portrait phone it is widened
 	// until the globe fits across the screen as it does on a tablet.
-	const { size } = useThrelte();
+	const { size, renderer, scheduler } = useThrelte();
+
+	// Threlte runs everything from the renderer's animation loop. Clearing the
+	// loop stops rendering and every task; restoring it puts back Threlte's own
+	// loop body (with renderMode "always" there's no frame invalidation to reset).
+	$effect(() => {
+		renderer.setAnimationLoop(paused ? null : (time) => scheduler.run(time));
+	});
 	const fov = $derived.by(() => {
 		const aspect = $size.width / $size.height;
 		if (!aspect || aspect >= 1) return FOV;
@@ -111,7 +126,7 @@
 		camera?.updateProjectionMatrix();
 	});
 
-	const autoRotate = $derived(spinning && !motion.reduced);
+	const autoRotate = $derived(spinning && !still && !motion.reduced);
 
 	$effect(() => onspin(autoRotate));
 
@@ -119,6 +134,7 @@
 
 	useTask((delta) => {
 		if (cloudLayer && !motion.reduced) cloudLayer.rotation.y += delta * 0.01;
+		onframe();
 	});
 
 	const point = new Vector3();
@@ -158,8 +174,8 @@
 		enableDamping
 		dampingFactor={0.08}
 		rotateSpeed={0.5}
-		minDistance={2}
-		maxDistance={5}
+		minDistance={DISTANCE.min}
+		maxDistance={DISTANCE.max}
 		minPolarAngle={Math.PI * 0.2}
 		maxPolarAngle={Math.PI * 0.8}
 		{autoRotate}

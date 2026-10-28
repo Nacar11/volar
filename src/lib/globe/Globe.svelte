@@ -1,22 +1,39 @@
 <script lang="ts">
+	import { goto, preloadData } from '$app/navigation';
 	import { Canvas } from '@threlte/core';
-	import { gsap } from 'gsap';
+	import { untrack } from 'svelte';
 	import { NoToneMapping, type PerspectiveCamera } from 'three';
 	import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 	import { animals, iconUrl } from '#lib/content/animals.ts';
+	import type { Animal } from '#lib/content/schema.ts';
+	import { clouds } from '#lib/scene/clouds.ts';
 	import { motion } from '#lib/settings.svelte.ts';
 	import { t } from '#lib/strings/index.ts';
+	import { DISTANCE, flyTo } from './flyTo';
 	import { latLngToVector } from './geo';
 	import GlobeScene from './GlobeScene.svelte';
 
+	interface Props {
+		/** True while a scene is open on top: the globe stops rendering and can't be reached. */
+		paused: boolean;
+	}
+
+	let { paused }: Props = $props();
+
 	// Start facing the Philippines, so local kids see home first.
-	const HOME = latLngToVector(12, 122, 3.6);
+	const HOME = latLngToVector(12, 122, DISTANCE.home);
+	const FLIGHT_S = 0.95;
+	// The burst takes ~0.45 s, so starting it here closes the clouds as the dive ends.
+	const CLOUDS_AT_S = 0.5;
 
 	const markers = animals.map((a) => ({ id: a.id, at: latLngToVector(a.globe.lat, a.globe.lng) }));
 	const icons: Record<string, HTMLAnchorElement> = {};
 
-	let rig: { controls: OrbitControls; camera: PerspectiveCamera } | null = null;
+	let rig = $state.raw<{ controls: OrbitControls; camera: PerspectiveCamera } | null>(null);
 	let spinning = $state(false);
+	let flying = $state(false);
+	let root: HTMLDivElement;
+	let frames = 0;
 
 	// Called every frame, so it writes styles directly instead of going through state.
 	function place(id: string, x: number, y: number, opacity: number, facing: number) {
@@ -30,23 +47,63 @@
 		icon.style.visibility = opacity > 0 ? 'visible' : 'hidden';
 	}
 
+	const wait = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
+
 	function goHome() {
 		if (!rig) return;
-		const { controls, camera } = rig;
-		gsap.to(camera.position, {
-			x: HOME[0],
-			y: HOME[1],
-			z: HOME[2],
-			duration: motion.reduced ? 0 : 1,
-			ease: 'power2.inOut',
-			onUpdate: () => controls.update()
-		});
+		flyTo(rig.camera, rig.controls, HOME, DISTANCE.home, motion.reduced ? 0 : 1);
 	}
+
+	// Tap → the camera swings to the animal and dives in, the clouds burst
+	// shut on the way down, the scene loads behind them, and they part.
+	async function visit(animal: Animal, event: MouseEvent) {
+		event.preventDefault();
+		if (flying || !rig) return;
+		flying = true;
+		const href = `/animal/${animal.id}`;
+		const loading = preloadData(href);
+		const { camera, controls } = rig;
+		if (motion.reduced) {
+			await clouds.cover();
+		} else {
+			controls.minDistance = DISTANCE.visit;
+			const target = latLngToVector(animal.globe.lat, animal.globe.lng);
+			await Promise.all([
+				flyTo(camera, controls, target, DISTANCE.visit, FLIGHT_S),
+				wait(CLOUDS_AT_S).then(() => clouds.cover())
+			]);
+		}
+		await loading;
+		await goto(href);
+		await clouds.part();
+		flying = false;
+	}
+
+	// Back from a scene: once the clouds start to part, zoom out to where the
+	// kid was before the dive.
+	$effect(() => {
+		if (paused || !rig) return;
+		untrack(async () => {
+			const { camera, controls } = rig!;
+			if (camera.position.length() >= DISTANCE.min) return;
+			await clouds.whenOpen();
+			const away = camera.position.toArray() as [number, number, number];
+			await flyTo(camera, controls, away, DISTANCE.home, motion.reduced ? 0 : 0.9);
+			controls.minDistance = DISTANCE.min;
+		});
+	});
 </script>
 
-<div class="globe" data-testid="globe" data-spinning={spinning}>
+<div
+	bind:this={root}
+	class="globe"
+	data-testid="globe"
+	data-spinning={spinning}
+	inert={paused}
+	aria-hidden={paused}
+>
 	<!-- No tone mapping: flat cartoon colours should come out exactly as drawn. -->
-	<Canvas dpr={[1, 2]} toneMapping={NoToneMapping}>
+	<Canvas dpr={[1, 2]} toneMapping={NoToneMapping} renderMode="always">
 		<GlobeScene
 			home={HOME}
 			texture="/globe/earth-2048.png"
@@ -54,6 +111,9 @@
 			oncontrols={(controls, camera) => (rig = { controls, camera })}
 			onspin={(value) => (spinning = value)}
 			onplace={place}
+			{paused}
+			still={flying}
+			onframe={() => (root.dataset.frames = String(++frames))}
 		/>
 	</Canvas>
 
@@ -64,6 +124,7 @@
 			href="/animal/{animal.id}"
 			aria-label={animal.name}
 			style:--theme={animal.themeColor}
+			onclick={(event) => visit(animal, event)}
 		>
 			<span class="bob"><img src={iconUrl(animal)} alt="" /></span>
 		</a>

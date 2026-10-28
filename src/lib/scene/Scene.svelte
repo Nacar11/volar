@@ -8,6 +8,7 @@
 	import DayNight from '#lib/toys/DayNight.svelte';
 	import MakeItDo from '#lib/toys/MakeItDo.svelte';
 	import type { Rig } from './motions';
+	import { clouds } from './clouds';
 	import Puppet from './Puppet.svelte';
 
 	interface Props {
@@ -41,6 +42,8 @@
 	async function ready(r: Rig) {
 		rig = r;
 		onrig?.(r);
+		// Arriving from the globe, wait for the clouds so the kid sees the whole entrance.
+		await clouds.whenOpen();
 		await r.entrance();
 	}
 
@@ -66,7 +69,9 @@
 
 	async function leave() {
 		await rig?.exit();
-		goto('/');
+		await clouds.cover();
+		await goto('/');
+		await clouds.part();
 	}
 
 	function track(e: PointerEvent) {
