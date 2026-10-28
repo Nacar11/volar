@@ -1,9 +1,12 @@
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
+import { packs } from './scripts/vite-plugin-packs.ts';
 
 export default defineConfig({
 	plugins: [
+		packs(fileURLToPath(new URL('content/animals', import.meta.url))),
 		sveltekit({
 			compilerOptions: {
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.

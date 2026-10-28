@@ -12,20 +12,16 @@ import {
 } from './schema';
 import plannedList from '../../../content/planned/planned.json';
 
-// Manifests and icons are small and load with the app; each pack's puppet and
-// backgrounds load only when its scene opens.
+// The globe needs every animal's manifest, icon and habitat at once, so those
+// ship with the app. The rest of a pack (puppet, backgrounds, sound) is fetched
+// from /packs/<id>/ when its scene opens, so it can be cached per animal.
 const manifests = import.meta.glob('/content/animals/*/animal.json', {
 	eager: true,
 	import: 'default'
 });
-// Puppets are inlined as markup (below), so they never need a URL.
-const svgUrls = import.meta.glob<string>(['/content/animals/*/*.svg', '!**/puppet.svg'], {
+const iconUrls = import.meta.glob<string>('/content/animals/*/icon.svg', {
 	eager: true,
 	query: '?url',
-	import: 'default'
-});
-const puppets = import.meta.glob<string>('/content/animals/*/puppet.svg', {
-	query: '?raw',
 	import: 'default'
 });
 
@@ -48,7 +44,7 @@ const plannedIcons = import.meta.glob<string>('/content/planned/icons/*.svg', {
 
 export const plannedIconUrl = (p: Planned) => plannedIcons[`/content/planned/icons/${p.icon}`];
 
-export const iconUrl = (animal: Animal) => svgUrls[path(animal, animal.assets.icon)];
+export const iconUrl = (animal: Animal) => iconUrls[path(animal, animal.assets.icon)];
 
 // Habitat regions are small and the globe draws them all, so they load with the app.
 const regionFiles = import.meta.glob<string>('/content/animals/*/*.geojson', {
@@ -64,30 +60,31 @@ export function habitatOf(animal: Animal): RegionPolygon[] {
 	return regionPolygons(regionsSchema.parse(JSON.parse(regionFiles[path(animal, file)])));
 }
 
-// Sound: the encoded files are fetched by URL; the sprite map loads with the pack.
-const soundUrls = import.meta.glob<string>('/content/animals/*/*.{webm,m4a}', {
-	eager: true,
-	query: '?url',
-	import: 'default'
-});
-const soundMaps = import.meta.glob('/content/animals/*/audio.json', { import: 'default' });
-
 export interface Pack {
 	puppet: string;
 	background: string[];
 	sound: SoundSprite | null;
 }
 
+/** Where a pack file is published (see scripts/vite-plugin-packs.ts). */
+export const packUrl = (animal: Animal, file: string) => `/packs/${animal.id}/${file}`;
+
+async function fetchPack(animal: Animal, file: string): Promise<Response> {
+	const response = await fetch(packUrl(animal, file));
+	if (!response.ok) throw new Error(`${animal.id}: ${file} failed to load (${response.status})`);
+	return response;
+}
+
 export async function loadPack(animal: Animal): Promise<Pack> {
 	const audioFile = animal.assets.audio;
-	const audio = audioFile ? audioSchema.parse(await soundMaps[path(animal, audioFile)]()) : null;
+	const [puppet, audio] = await Promise.all([
+		fetchPack(animal, animal.assets.puppet).then((r) => r.text()),
+		audioFile ? fetchPack(animal, audioFile).then(async (r) => audioSchema.parse(await r.json())) : null
+	]);
 	return {
-		puppet: await puppets[path(animal, animal.assets.puppet)](),
-		background: animal.assets.background.map((file) => svgUrls[path(animal, file)]),
-		sound: audio && {
-			src: audio.files.map((file) => soundUrls[path(animal, file)]),
-			sprite: audio.sprite
-		}
+		puppet,
+		background: animal.assets.background.map((file) => packUrl(animal, file)),
+		sound: audio && { src: audio.files.map((file) => packUrl(animal, file)), sprite: audio.sprite }
 	};
 }
 

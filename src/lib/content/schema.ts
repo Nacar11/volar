@@ -35,7 +35,8 @@ export const animalSchema = z.object({
 		regions: file.optional()
 	}),
 	assets: z.object({
-		icon: file,
+		// Fixed names: the icon ships with the app, the puppet in the pack at /packs/<id>/.
+		icon: z.literal('icon.svg'),
 		puppet: z.literal('puppet.svg'),
 		background: z.array(file).min(1),
 		/** The sound sprite's map (written by npm run build:audio). */

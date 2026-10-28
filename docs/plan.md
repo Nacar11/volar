@@ -242,7 +242,7 @@ The app shell and globe are cached on first visit; animal packs cache as they ar
 **Caching plan (Workbox via vite-plugin-pwa)**
 
 - **Precache:** app code, fonts, UI sounds, globe textures, the animal index (names, icons, coordinates), and the Animal Book.
-- **Animal packs:** one folder per animal (puppet SVG, backgrounds, audio). Cache-first once fetched; stored in a named cache so a pack can be updated individually.
+- **Animal packs:** one folder per animal (puppet SVG, backgrounds, audio), published at the fixed URL `/packs/<id>/` with a `manifest.json` listing its files and bytes; `/packs/index.json` lists every pack. Each animal's manifest, icon and habitat ship with the app instead, since the globe needs them at once. Cache-first once fetched; stored in a named cache so a pack can be updated individually.
 - **Download all:** a settings button that fetches every pack with a progress bar and shows total size first.
 - **Updates:** new versions download in the background; a friendly "New animals arrived!" toast asks to refresh (never mid-scene).
 - **Storage:** request persistent storage (`navigator.storage.persist()`) so the browser is less likely to evict packs.
