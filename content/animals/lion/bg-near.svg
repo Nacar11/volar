@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <g fill="#C9A548">
+    <path d="M0 900L20 720L40 900Z"/><path d="M30 900L60 690L90 900Z"/><path d="M80 900L100 740L120 900Z"/>
+    <path d="M110 900L140 710L170 900Z"/><path d="M160 900L176 760L192 900Z"/>
+    <path d="M1420 900L1440 730L1460 900Z"/><path d="M1450 900L1480 690L1510 900Z"/>
+    <path d="M1500 900L1520 740L1540 900Z"/><path d="M1530 900L1560 700L1590 900Z"/>
+  </g>
+  <ellipse cx="800" cy="910" rx="560" ry="60" fill="#D9BC62"/>
+</svg>

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { planned, playable } from './content';
 
 test('the globe renders and spins on its own', async ({ page }) => {
 	const errors: string[] = [];
@@ -168,9 +169,10 @@ test('animals without a scene yet show as coming-soon pins that cannot be tapped
 }) => {
 	await page.goto('/');
 	const globe = page.getByTestId('globe');
-	// 2 animals with a scene + 32 planned = 34 pins on the globe.
+	// Every animal is on the globe: the ones with a scene as links, the rest greyed.
+	await expect(globe.locator('.pin')).toHaveCount(playable.length + planned.length);
 	await expect(globe.locator('.pin')).toHaveCount(34);
-	await expect(globe.locator('a.pin')).toHaveCount(2);
+	await expect(globe.locator('a.pin')).toHaveCount(playable.length);
 	// The Philippine eagle is on the side facing the kid at start.
 	const eagle = page.getByRole('img', { name: 'Philippine Eagle, coming soon' });
 	await expect(eagle).toHaveCount(1);

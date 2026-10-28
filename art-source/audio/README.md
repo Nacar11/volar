@@ -17,3 +17,4 @@ iPads) and `audio.json` (each clip's start and length in ms) into
 | Animal | File | Source | Licence |
 | --- | --- | --- | --- |
 | scarlet-macaw | macaw-squawks.mp3 | "Macaw Squawks" by loganzsound, freesound.org/s/875522 (HQ preview) | CC0 |
+| lion | lion-loud.mp3 | "Lion loud.mp3" by Bidone (a field recording of a lion's bellow), freesound.org/s/69570 (HQ preview) | CC0 |

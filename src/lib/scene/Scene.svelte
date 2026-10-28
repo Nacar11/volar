@@ -10,6 +10,8 @@
 	import BodyXray from '#lib/toys/BodyXray.svelte';
 	import DayNight from '#lib/toys/DayNight.svelte';
 	import HearIt from '#lib/toys/HearIt.svelte';
+	import SizeCompare from '#lib/toys/SizeCompare.svelte';
+	import { THINGS, type Thing } from '#lib/toys/sizes.ts';
 	import MakeItDo from '#lib/toys/MakeItDo.svelte';
 	import type { Rig } from './motions';
 	import { clouds } from './clouds';
@@ -29,7 +31,8 @@
 		dayNight: '🌗',
 		bodyXray: '🔍',
 		makeItDo: '🎬',
-		hearIt: '🔊'
+		hearIt: '🔊',
+		sizeCompare: '📏'
 	};
 	// Far, middle and near layers drift by different amounts as the pointer moves.
 	const DEPTHS = [8, 18, 32];
@@ -42,6 +45,14 @@
 	let asleep = $state(false);
 	let pointer = $state({ x: 0, y: 0 });
 	let sound = $state.raw<Howl | null>(null);
+	let sizeThing = $state<Thing | null>(null);
+
+	// Opening "Size compare" stands the first thing (usually you) beside the animal.
+	$effect(() => {
+		if (toy?.type !== 'sizeCompare') return;
+		sizeThing = toy.compare.includes('kid') ? 'kid' : toy.compare[0];
+		line = toy.caption;
+	});
 
 	// The pack's sounds load in the background; "Hear it" waits for them.
 	$effect(() => {
@@ -167,6 +178,9 @@
 			{#if asleep}
 				<span class="zzz" aria-hidden="true">z z z</span>
 			{/if}
+			{#if toy?.type === 'sizeCompare' && sizeThing}
+				<SizeCompare {toy} thing={sizeThing} />
+			{/if}
 			{#if toy?.type === 'bodyXray'}
 				{@const reveal = toy.reveal}
 				<BodyXray feature={toy.feature} onreveal={() => (line = reveal)} />
@@ -181,6 +195,19 @@
 					<DayNight {time} onpick={setTime} />
 				{:else if toy.type === 'makeItDo'}
 					<MakeItDo actions={toy.actions} onplay={play} />
+				{:else if toy.type === 'sizeCompare'}
+					<div class="things" role="group" aria-label={t.toys.sizeCompare}>
+						{#each toy.compare as thing (thing)}
+							<button
+								class="round-button"
+								aria-pressed={sizeThing === thing}
+								onclick={() => (sizeThing = thing)}
+							>
+								<span aria-hidden="true">{THINGS[thing].icon}</span>
+								{THINGS[thing].label}
+							</button>
+						{/each}
+					</div>
 				{:else if toy.type === 'hearIt'}
 					{@const { sound: clip, caption } = toy}
 					<HearIt ready={sound !== null} onhear={() => hear(clip, caption)} />
@@ -382,6 +409,24 @@
 		padding: 12px;
 		border-radius: var(--radius);
 		background: rgb(255 250 240 / 0.85);
+	}
+
+	.things {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 12px;
+	}
+
+	.things button {
+		display: flex;
+		gap: 8px;
+		padding: 0 20px;
+		font-size: 1rem;
+	}
+
+	.things button[aria-pressed='true'] {
+		background: #ffe082;
 	}
 
 	.hint {

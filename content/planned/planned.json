@@ -49,13 +49,6 @@
 		"icon": "asian-elephant.svg"
 	},
 	{
-		"id": "lion",
-		"name": "Lion",
-		"lat": -2.3,
-		"lng": 34.8,
-		"icon": "lion.svg"
-	},
-	{
 		"id": "african-elephant",
 		"name": "African Elephant",
 		"lat": -19.0,

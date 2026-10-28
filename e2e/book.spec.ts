@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { planned, playable } from './content';
 
 // Opens a scene and waits until its sticker is saved, so leaving can't cut the write short.
 async function visit(page: Page, id: string) {
@@ -9,9 +10,9 @@ async function visit(page: Page, id: string) {
 test('a new book has no stickers: built animals are silhouettes to find', async ({ page }) => {
 	await page.goto('/book');
 	await expect(page.getByRole('heading', { name: 'My Animal Book' })).toBeVisible();
-	await expect(page.getByRole('img', { name: 'Find me on the globe!' })).toHaveCount(2);
+	await expect(page.getByRole('img', { name: 'Find me on the globe!' })).toHaveCount(playable.length);
 	await expect(page.locator('main a.sticker')).toHaveCount(0);
-	await expect(page.getByRole('img', { name: 'Lion, Coming soon' })).toHaveCount(1);
+	await expect(page.getByRole('img', { name: `${planned[0].name}, Coming soon` })).toHaveCount(1);
 });
 
 test('visiting an animal gives its sticker, which survives a reload', async ({ page }) => {
@@ -20,7 +21,7 @@ test('visiting an animal gives its sticker, which survives a reload', async ({ p
 	await page.goto('/book');
 	const sticker = page.getByRole('link', { name: 'Philippine Tarsier' });
 	await expect(sticker).toBeVisible();
-	await expect(page.getByRole('img', { name: 'Find me on the globe!' })).toHaveCount(1);
+	await expect(page.getByRole('img', { name: 'Find me on the globe!' })).toHaveCount(playable.length - 1);
 
 	// A sticker opens its animal's scene, through the clouds.
 	await sticker.click();

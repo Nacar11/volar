@@ -8,7 +8,21 @@ const toy = z.discriminatedUnion('type', [
 	z.object({ type: z.literal('bodyXray'), feature: z.string(), reveal: z.string() }),
 	z.object({ type: z.literal('makeItDo'), actions: z.array(z.string()).min(1) }),
 	/** Plays a clip from the pack's sound sprite; the animal squawks or calls along. */
-	z.object({ type: z.literal('hearIt'), sound: z.string(), caption: z.string() })
+	z.object({ type: z.literal('hearIt'), sound: z.string(), caption: z.string() }),
+	/**
+	 * Stands familiar things beside the animal at true scale. `meters` is a real
+	 * measurement of the animal (its shoulder height), spanning `from` (the ground)
+	 * to `to` in the puppet's viewBox.
+	 */
+	z.object({
+		type: z.literal('sizeCompare'),
+		measure: z.literal('height'),
+		meters: z.number().positive(),
+		from: z.number(),
+		to: z.number(),
+		compare: z.array(z.enum(['cat', 'kid', 'grownup', 'car', 'bus'])).min(1).max(3),
+		caption: z.string()
+	})
 ]);
 
 export const animalSchema = z.object({

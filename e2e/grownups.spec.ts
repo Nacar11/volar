@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { planned } from './content';
 
 /** Waits until a setting is stored, so a reload or navigation can't cut the write short. */
 async function stored(page: import('@playwright/test').Page, key: string, value: unknown) {
@@ -101,5 +102,5 @@ test('the credits name every animal file, the sound and the libraries', async ({
 	await expect(page.getByRole('heading', { name: 'Philippine Tarsier' })).toBeVisible();
 	await expect(page.getByRole('row', { name: /audio\.webm.*Macaw Squawks/ })).toBeVisible();
 	await expect(page.getByRole('row', { name: /Andika font/ })).toBeVisible();
-	await expect(page.getByRole('row', { name: /lion\.svg/ })).toHaveCount(1);
+	await expect(page.getByRole('row', { name: new RegExp(`${planned[0].id}\\.svg`) })).toHaveCount(1);
 });

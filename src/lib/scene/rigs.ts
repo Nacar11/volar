@@ -39,6 +39,23 @@ export const rigs = {
 			'feet'
 		],
 		actions: ['flap', 'dance', 'squawk']
+	},
+	quadruped: {
+		parts: [
+			'puppet',
+			'animal',
+			'body',
+			'head',
+			'eye',
+			'lid',
+			'jaw',
+			'tail',
+			'leg-fl',
+			'leg-fr',
+			'leg-bl',
+			'leg-br'
+		],
+		actions: ['walk', 'stretch', 'roar']
 	}
 } as const;
 

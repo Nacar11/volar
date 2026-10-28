@@ -42,12 +42,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "lion.svg",
-		"source": "Fluent Emoji Flat, \"Lion\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "african-elephant.svg",
 		"source": "Fluent Emoji Flat, \"Elephant\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",

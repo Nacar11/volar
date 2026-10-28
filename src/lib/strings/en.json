@@ -12,7 +12,8 @@
 		"bodyXray": "Body x-ray",
 		"makeItDo": "Make it do it",
 		"close": "Put the toy away",
-		"hearIt": "Hear it"
+		"hearIt": "Hear it",
+		"sizeCompare": "Size compare"
 	},
 	"dayNight": {
 		"day": "Day",
@@ -25,7 +26,9 @@
 		"leap": "Leap!",
 		"turnHead": "Turn head",
 		"flap": "Flap!",
-		"dance": "Dance"
+		"dance": "Dance",
+		"walk": "Walk",
+		"stretch": "Stretch"
 	},
 	"globe": {
 		"home": "Spin back home",

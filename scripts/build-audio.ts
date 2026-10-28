@@ -55,6 +55,14 @@ for (const id of readdirSync(sourceRoot)) {
 			filters.join(';'),
 			'-map',
 			'[out]',
+			// Bit-exact output with no metadata: rebuilding an unchanged sound must give the
+			// same bytes, or its pack hash changes and every device re-downloads it.
+			'-map_metadata',
+			'-1',
+			'-fflags',
+			'+bitexact',
+			'-flags:a',
+			'+bitexact',
 			...codec,
 			join(out, file)
 		]);

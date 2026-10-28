@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g id="puppet">
+    <g id="animal">
+      <ellipse id="shadow" cx="205" cy="334" rx="150" ry="12" fill="#000000" opacity="0.12"/>
+      <g id="tail">
+        <path d="M96 222C70 236 58 262 52 292" fill="none" stroke="#D8973F" stroke-width="9" stroke-linecap="round"/>
+        <ellipse cx="50" cy="300" rx="10" ry="15" transform="rotate(15 50 300)" fill="#7A3E1D"/>
+      </g>
+      <g id="leg-bl">
+        <rect x="112" y="236" width="26" height="92" rx="12" fill="#C98A3E"/>
+        <ellipse cx="128" cy="328" rx="18" ry="8" fill="#B87A34"/>
+      </g>
+      <g id="leg-fl">
+        <rect x="252" y="240" width="24" height="88" rx="12" fill="#C98A3E"/>
+        <ellipse cx="268" cy="328" rx="17" ry="8" fill="#B87A34"/>
+      </g>
+      <g id="body">
+        <ellipse cx="192" cy="242" rx="106" ry="52" fill="#E0A458"/>
+        <ellipse cx="200" cy="268" rx="78" ry="24" fill="#EDC184"/>
+      </g>
+      <g id="leg-br">
+        <rect x="134" y="240" width="28" height="88" rx="13" fill="#E0A458"/>
+        <ellipse cx="152" cy="328" rx="19" ry="8" fill="#D8973F"/>
+      </g>
+      <g id="leg-fr">
+        <rect x="272" y="244" width="26" height="84" rx="12" fill="#E0A458"/>
+        <ellipse cx="290" cy="328" rx="18" ry="8" fill="#D8973F"/>
+      </g>
+      <g id="head">
+        <g id="mane">
+          <circle cx="300" cy="182" r="62" fill="#A0522D"/>
+          <circle cx="262" cy="150" r="24" fill="#A0522D"/>
+          <circle cx="258" cy="200" r="26" fill="#A0522D"/>
+          <circle cx="282" cy="236" r="24" fill="#A0522D"/>
+          <circle cx="322" cy="126" r="22" fill="#A0522D"/>
+          <circle cx="290" cy="124" r="22" fill="#8B4513"/>
+          <circle cx="268" cy="176" r="20" fill="#8B4513"/>
+        </g>
+        <circle cx="302" cy="146" r="11" fill="#E0A458"/>
+        <circle cx="302" cy="146" r="5.5" fill="#B87A34"/>
+        <ellipse cx="320" cy="188" rx="38" ry="40" fill="#E8B26A"/>
+        <ellipse id="mouth" cx="342" cy="222" rx="13" ry="7" fill="#5D1F1F"/>
+        <path id="jaw" d="M322 214C334 216 348 216 356 214C354 226 344 234 332 232C326 230 322 222 322 214Z" fill="#EDC184"/>
+        <ellipse cx="342" cy="208" rx="21" ry="15" fill="#F3D3A0"/>
+        <path d="M346 194L360 196L352 206Z" fill="#5D3A1A"/>
+        <g id="eye">
+          <ellipse cx="327" cy="179" rx="6" ry="6.5" fill="#F9A825"/>
+          <circle cx="328" cy="179" r="3.2" fill="#3E2723"/>
+          <circle cx="329.5" cy="177.5" r="1.2" fill="#FFFFFF"/>
+          <ellipse id="lid" cx="327" cy="179" rx="7" ry="7" fill="#D8973F"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

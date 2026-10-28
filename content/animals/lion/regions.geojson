@@ -1,0 +1,37 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "name": "East African savannas" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[29, 4], [35, 5], [40, 2], [40, -4], [37, -10], [32, -11], [29, -6], [29, 4]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Southern African savannas" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[20, -15], [28, -14], [33, -18], [32, -25], [26, -26], [20, -24], [18, -19], [20, -15]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "West and Central African savannas" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-5, 13], [5, 14], [15, 11], [22, 10], [22, 7], [12, 8], [2, 9], [-5, 10], [-5, 13]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Gir Forest, India" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[69.8, 20.7], [71.6, 20.7], [71.6, 21.6], [69.8, 21.6], [69.8, 20.7]]]
+			}
+		}
+	]
+}

@@ -134,6 +134,7 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		dayNight: (t) => (t.type === 'dayNight' ? [t.day, t.night] : []),
 		bodyXray: (t) => (t.type === 'bodyXray' ? [t.reveal] : []),
 		hearIt: (t) => (t.type === 'hearIt' ? [t.caption] : []),
+		sizeCompare: (t) => (t.type === 'sizeCompare' ? [t.caption] : []),
 		makeItDo: () => []
 	};
 	const lines = [

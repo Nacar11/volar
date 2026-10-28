@@ -1,0 +1,45 @@
+{
+	"id": "lion",
+	"name": "Lion",
+	"continent": "africa",
+	"livesIn": "Africa and India",
+	"habitats": ["grassland"],
+	"nocturnal": false,
+	"rig": "quadruped",
+	"themeColor": "#F4A62A",
+	"globe": { "lat": -2.3, "lng": 34.8, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"],
+		"audio": "audio.json"
+	},
+	"greeting": "Hello! I'm a lion!",
+	"facts": [
+		{ "id": "home", "text": "I live on grassy plains in Africa, and a few in India." },
+		{ "id": "pride", "text": "I live with my family in a group called a pride." },
+		{ "id": "rest", "text": "I rest for about 20 hours every day!" },
+		{ "id": "roar", "text": "My roar can be heard 8 kilometers away!" },
+		{ "id": "hunt", "text": "The girl lions work together as a team to hunt." },
+		{ "id": "mane", "text": "Boy lions grow a big, fluffy mane." },
+		{ "id": "cubs", "text": "Baby lions are called cubs, and they are born with spots." },
+		{ "id": "safe", "text": "People in parks across Africa and India help keep us safe." }
+	],
+	"toys": [
+		{ "type": "hearIt", "sound": "roar", "caption": "ROAR! You could hear me from far away!" },
+		{
+			"type": "sizeCompare",
+			"measure": "height",
+			"meters": 1.2,
+			"from": 328,
+			"to": 190,
+			"compare": ["cat", "kid", "grownup"],
+			"caption": "My shoulder is about as tall as you!"
+		},
+		{ "type": "makeItDo", "actions": ["walk", "stretch"] }
+	],
+	"sources": [
+		"https://en.wikipedia.org/wiki/Lion",
+		"https://nationalzoo.si.edu/animals/lion"
+	]
+}

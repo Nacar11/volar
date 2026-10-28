@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect y="680" width="1600" height="220" fill="#E6CF7F"/>
+  <g fill="#5E4B22">
+    <path d="M1260 690L1272 500L1286 500L1292 690Z"/>
+    <path d="M1276 520L1200 450L1210 444L1282 506Z"/>
+    <path d="M1280 520L1350 440L1360 448L1288 512Z"/>
+  </g>
+  <ellipse cx="1280" cy="440" rx="170" ry="34" fill="#7C8F3A"/>
+  <ellipse cx="1240" cy="428" rx="90" ry="22" fill="#8FA344"/>
+  <g fill="#D4B65F">
+    <path d="M80 700Q90 640 100 700Z"/><path d="M110 700Q125 620 140 700Z"/><path d="M150 700Q158 650 166 700Z"/>
+    <path d="M520 700Q530 650 540 700Z"/><path d="M560 700Q572 630 584 700Z"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#BFE6F5"/>
+  <circle cx="1300" cy="170" r="70" fill="#FFE082"/>
+  <!-- A snow-capped mountain on the horizon, like Kilimanjaro. -->
+  <path d="M700 600L960 300L1240 600Z" fill="#9FA8C9"/>
+  <path d="M905 362L960 300L1018 364L990 380L962 360L935 384Z" fill="#FFFFFF"/>
+  <g fill="#D9C27A">
+    <path d="M0 610Q300 560 600 600T1200 590T1600 600L1600 900L0 900Z"/>
+  </g>
+  <!-- Flat-topped acacia trees, far away. -->
+  <g fill="#6B5B2E">
+    <rect x="236" y="540" width="8" height="60"/><ellipse cx="240" cy="536" rx="60" ry="14"/>
+    <rect x="1456" y="550" width="7" height="50"/><ellipse cx="1460" cy="546" rx="48" ry="11"/>
+  </g>
+</svg>
