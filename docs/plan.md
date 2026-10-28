@@ -14,7 +14,7 @@ The core loop:
 2. **Explore.** The kid drags to rotate and pinches to zoom. Icons grow and wiggle as they face the camera.
 3. **Tap an animal.** Its habitat lights up, the camera flies to it, and the view zooms through the clouds into the animal's scene.
 4. **Animal scene.** The animal makes a big entrance (the panda tumbles in, the whale breaches). A speech bubble says hello.
-5. **Play with trivia.** Fact bubbles and interactive trivia toys appear one at a time (section 4).
+5. **Play with trivia.** Fact bubbles and interactive trivia toys appear one at a time (see *Animal scenes and interactive trivia*).
 6. **Collect it.** Visiting an animal adds a sticker to the kid's **Animal Book**.
 7. **Back to the globe**, or tap **Surprise Me** to spin the globe and land on a random animal.
 
@@ -125,7 +125,7 @@ Animation is the biggest cost in this project, so lock one art style early and p
 
 - The Fluent Emoji Flat look: flat, rounded shapes, no outlines, a limited palette per habitat. Every self-drawn animal copies it so scavenged and new art blend.
 - Animals recognizable but friendly (no scary teeth close-ups); realistic proportions where size facts matter.
-- One shared puppet template per body type (four-legged, bird, fish/sea mammal, reptile, insect) to reuse bones and states.
+- One shared puppet template (rig) per body type to reuse parts and states. The eight rigs: `mammal-small`, `quadruped`, `climber`, `bird`, `fish`, `sea-mammal`, `reptile-amphibian`, `insect`.
 
 **Per-animal production checklist**
 
@@ -156,7 +156,7 @@ Everything Volar needs can be gathered for free: one MIT-licensed emoji set is t
 
 | Need | Free source | License | How Volar uses it |
 | --- | --- | --- | --- |
-| Animal art (the house style) | [Fluent Emoji Flat](https://allsvgicons.com/pack/fluent-emoji-flat/), from Microsoft's fluentui-emoji repo on GitHub | MIT (include the license notice) | 3,145 flat SVGs; most of the 33 animals have one. Split into parts and animate |
+| Animal art (the house style) | [Fluent Emoji Flat](https://allsvgicons.com/pack/fluent-emoji-flat/), from Microsoft's fluentui-emoji repo on GitHub | MIT (include the license notice) | 3,145 flat SVGs; most of the 34 animals have one. Split into parts and animate |
 | Shape references for missing animals | [PhyloPic](https://www.phylopic.org/articles/image-usage) silhouettes | Filter to CC0 / Public Domain Mark | Trace correct body shapes (tarsier, platypus, narwhal), then color in the Fluent style |
 | Extra 2D animals | [Kenney Animal Pack](https://opengameart.org/content/animal-pack) | CC0 | 10 animals in 8 styles; placeholders and Animal Book stickers |
 | UI reactions (stars, hearts, confetti) | Noto Animated Emoji | CC BY 4.0 (credit Google) | Ready-made Lottie; use for UI only so animal styles never clash |
@@ -168,9 +168,9 @@ Everything Volar needs can be gathered for free: one MIT-licensed emoji set is t
 | Animal sounds | [OpenGameArt](https://opengameart.org/content/penguin-sounds), [BigSoundBank](https://bigsoundbank.com/tawny-owl-3-s3459.html), Freesound with the CC0 filter | CC0 | Real calls and cries per animal |
 | Globe map | Natural Earth | Public domain | Continent outlines (already in the plan) |
 
-**Emoji coverage for the 33 animals**
+**Emoji coverage for the 34 animals**
 
-- **Ready to use:** lion, African and Asian elephant, giraffe, hippo, zebra, tiger, giant panda, orangutan, sloth, kangaroo, koala, polar bear, penguin, bison, fox, hedgehog, butterfly, turtle, whale, bear, eagle.
+- **Ready to use:** scarlet macaw (parrot), lion, African and Asian elephant, giraffe, hippo, tiger, giant panda, orangutan, sloth, kangaroo, koala, polar bear, penguin, bison, fox, hedgehog, butterfly, turtle, whale, bear, eagle.
 - **Adapt a close emoji:** tamaraw (from water buffalo), Philippine eagle (eagle), jaguar (leopard), chameleon (lizard), poison dart frog (frog), clownfish (tropical fish).
 - **Draw from scratch in the same style:** Philippine tarsier, platypus, narwhal, Atlantic puffin, toco toucan, whale shark.
 
@@ -179,7 +179,7 @@ Everything Volar needs can be gathered for free: one MIT-licensed emoji set is t
 1. Open the animal's flat SVG in Inkscape and group its parts: body, head, eyes, each leg, tail. Give each group an id (`body`, `head`, `eye-l`…) and save as `puppet.svg`.
 2. Volar inlines the SVG and a `Puppet` Svelte component finds the parts by id.
 3. GSAP timelines play the states: entrance, idle (breathing, blinking), 2–4 actions, tap reaction, exit.
-4. Each body type (four-legged, bird, fish, reptile, insect) gets a motion template, so a new animal mostly reuses existing timelines.
+4. Each of the eight body-type rigs gets a motion template, so a new animal mostly reuses existing timelines.
 
 **License rules**
 
@@ -191,43 +191,48 @@ Everything Volar needs can be gathered for free: one MIT-licensed emoji set is t
 
 All animal content lives in data files, one folder per animal, so adding an animal never means touching app code.
 
-Example `content/animals/philippine-tarsier/animal.json`:
+Example `content/animals/philippine-tarsier/animal.json` (the shipped file, checked by `src/lib/content/schema.ts`):
 
 ```json
 {
   "id": "philippine-tarsier",
   "name": "Philippine Tarsier",
   "continent": "asia",
+  "livesIn": "the Philippines",
   "habitats": ["jungle"],
   "nocturnal": true,
+  "rig": "mammal-small",
   "themeColor": "#8BC34A",
-  "globe": { "lat": 9.8, "lng": 124.2, "regions": "regions.geojson" },
+  "globe": { "lat": 9.85, "lng": 124.15, "regions": "regions.geojson" },
   "assets": {
     "icon": "icon.svg",
     "puppet": "puppet.svg",
     "background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"],
     "audio": "audio-sprite.webm"
   },
+  "greeting": "Hi! I'm a tarsier!",
   "facts": [
-    { "id": "f1", "speaker": "tarsier", "text": "Each of my eyes is as big as my brain!" }
+    { "id": "eyes", "text": "Each of my eyes is as big as my brain!" }
   ],
   "toys": [
-    { "type": "dayNight" },
-    { "type": "bodyXray", "feature": "eyes" },
+    { "type": "dayNight", "day": "Shh... I'm sleeping.", "night": "I'm awake! Time to catch bugs." },
+    { "type": "bodyXray", "feature": "eyes", "reveal": "My eyes can't move, so I turn my head instead." },
     { "type": "makeItDo", "actions": ["leap", "turnHead"] }
   ],
-  "sources": ["<url of each source used>"]
+  "sources": ["https://en.wikipedia.org/wiki/Philippine_tarsier"]
 }
 ```
 
-(Values above are illustrative; verify every fact and coordinate during content writing.)
+`regions` and `audio` are optional. The puppet is always `puppet.svg`, and `credits.json` beside it logs every file.
+
+(Trimmed to one fact for space; verify every fact and coordinate during content writing.)
 
 **Fact-checking rules**
 
-- Every fact cites at least one reputable source in the `sources` list: e.g. National Geographic Kids, Smithsonian's National Zoo, San Diego Zoo Wildlife Alliance, WWF, natural history museums, encyclopedias.
+- Every animal lists its sources, and every fact must be backed by at least one of them. Use reputable sources: e.g. National Geographic Kids, Smithsonian's National Zoo, San Diego Zoo Wildlife Alliance, WWF, natural history museums, encyclopedias.
 - Prefer facts that sources agree on; avoid "myth" facts that circulate online.
 - Habitat regions are simplified for kids but should never place an animal on the wrong continent.
-- A second person (ideally a teacher) reviews each animal's facts before release.
+- A teacher (Dale) reviews each animal's facts before release.
 - Range maps: IUCN Red List spatial data is a useful reference, but check its license terms before deriving shipped files from it; hand-drawn approximations are safer and look better at a kid's scale.
 
 ## Offline strategy and performance budget
@@ -248,7 +253,7 @@ The app shell and globe are cached on first visit; animal packs cache as they ar
 | --- | --- |
 | First load to globe (app shell + globe) | under 3 MB |
 | One animal pack (puppet SVG + backgrounds + audio) | 300–800 KB |
-| All animals, 40 packs | under 40 MB |
+| All animals, 34 packs | under 40 MB |
 | Frame rate on a budget Android phone | 30 fps minimum, 60 fps target |
 | Time from tap to scene visible | under 1.5 s (pack cached) |
 
@@ -259,7 +264,7 @@ The app shell and globe are cached on first visit; animal packs cache as they ar
 - Load lottie-web and Matter.js lazily (only when a scene needs them).
 - Audio as compressed sprites (WebM/Opus with an AAC fallback for older iPads).
 - SVGs optimized with SVGO; Lottie files trimmed of unused layers.
-- Test devices: one cheap Android phone, one older Windows laptop, one iPad.
+- Test devices: the local laptop, plus Chrome's CPU throttling and phone/tablet emulation as a stand-in for budget devices until real ones are available.
 
 ## Kid-friendly UX, accessibility, privacy
 
@@ -271,7 +276,7 @@ Design for a 6–9-year-old (grades 1–3) holding a tablet with sticky fingers,
 - Pictures first, words second: short dialogue bubbles, never paragraphs.
 - No dead ends: every screen has a big back-to-globe button.
 - No timers, scores, streaks or failure sounds; no pop-ups that interrupt play.
-- A parent/teacher corner behind a simple adult gate (e.g. "press and hold for 3 seconds") for settings and "Download all".
+- A parent/teacher corner behind a simple adult gate ("press and hold for 3 seconds") for settings and "Download all". The hold is the one deliberate long-press: it is there so kids don't get in.
 
 **Accessibility**
 
@@ -318,37 +323,45 @@ A `scripts/validate-content` step runs on every build: it checks each animal.jso
 
 ## Starter animal list
 
-Launch with 33 animals, spread across every continent and the oceans, with Philippine animals included so local kids find home on the globe.
+Launch with 34 animals, spread across every continent and the oceans, with Philippine animals included so local kids find home on the globe.
 
-| Region | Animals | Body-type rig |
+| Region | Animals | Rig |
 | --- | --- | --- |
-| Philippines (Asia) | Philippine tarsier, Philippine eagle, tamaraw, whale shark (Donsol/Oslob waters) | Mammal small, bird, mammal 4-leg, fish |
-| Asia | Giant panda, Bengal tiger, Bornean orangutan, Asian elephant | Mammal 4-leg, primate |
-| Africa | Lion, African elephant, giraffe, hippopotamus, chameleon | Mammal 4-leg, reptile |
-| South America | Jaguar, three-toed sloth, toco toucan, poison dart frog | Mammal 4-leg, bird, amphibian |
-| North America | Grizzly bear, bald eagle, monarch butterfly (migration path), American bison | Mammal 4-leg, bird, insect |
-| Europe | Red fox, European hedgehog, Atlantic puffin | Mammal small, bird |
-| Australia | Red kangaroo, koala, platypus | Mammal special |
-| Polar | Polar bear (Arctic), emperor penguin (Antarctica), narwhal | Mammal 4-leg, bird, sea mammal |
-| Oceans | Blue whale, green sea turtle (migration path), clownfish | Sea mammal, reptile, fish |
+| Philippines (Asia) | Philippine tarsier, Philippine eagle, tamaraw, whale shark (Donsol/Oslob waters) | mammal-small, bird, quadruped, fish |
+| Asia | Giant panda, Bengal tiger, Bornean orangutan, Asian elephant | quadruped, quadruped, climber, quadruped |
+| Africa | Lion, African elephant, giraffe, hippopotamus, chameleon | quadruped ×4, reptile-amphibian |
+| South America | Jaguar, three-toed sloth, toco toucan, scarlet macaw, poison dart frog | quadruped, climber, bird, bird, reptile-amphibian |
+| North America | Grizzly bear, bald eagle, monarch butterfly (migration path), American bison | quadruped, bird, insect, quadruped |
+| Europe | Red fox, European hedgehog, Atlantic puffin | quadruped, mammal-small, bird |
+| Australia | Red kangaroo, koala, platypus | quadruped (hop), climber, mammal-small |
+| Polar | Polar bear (Arctic), emperor penguin (Antarctica), narwhal | quadruped, bird, sea-mammal |
+| Oceans | Blue whale, green sea turtle (migration path), clownfish | sea-mammal, reptile-amphibian, fish |
 
-Recommended build order: tarsier first (small, charming, local, good test of the rig), then lion, blue whale and emperor penguin, which together exercise land, ocean, polar and every main toy type.
+Build order: tarsier first (done in Phase 0), then scarlet macaw (the bird rig and the first animal sound), then lion, blue whale and emperor penguin, which together exercise land, ocean, polar and every main toy type.
 
 ## Build phases
 
-> TODO: the build roadmap (5 phases, each with a gate) was an embedded block in
-> the source document and did not come through when it was copied. Paste it here.
+| Phase | Goal | Gate |
+| --- | --- | --- |
+| 0 ✅ | One finished animal (the tarsier) | Art style, rig, file sizes and frame rate proven |
+| 1 | The globe is the home screen | Globe holds 30 fps on the laptop and under 4× CPU throttle; tap → scene → back works |
+| 2 | Offline and collecting | Works in airplane mode after "Download all"; stickers survive a reload |
+| 3 | Content at scale | Every toy type and rig exists; animals added in batches by rig |
+| 4 | Launch | Accessibility, teacher-reviewed facts, complete credits, deployed |
 
-Phase 0 matters most: one finished animal proves the art style, rig, file sizes and frame rate before the expensive work of 32 more. Don't start Phase 3 until Phase 2's offline loop is solid.
+The task breakdown lives in the working file `tasks/plan.md` (not committed).
+
+Phase 0 matters most: one finished animal proves the art style, rig, file sizes and frame rate before the expensive work of 33 more. Don't start Phase 3 until Phase 2's offline loop is solid.
 
 ## Risks and key decisions
 
-The biggest risk is animation workload, not code: 33 hand-animated animals is a lot of art, so the plan reuses rigs and proves one animal before scaling.
+The biggest risk is animation workload, not code: 34 hand-animated animals on eight rigs is a lot of art, so the plan reuses rigs and proves one animal before scaling.
 
 | Risk | Mitigation |
 | --- | --- |
 | Animation takes far longer than expected | Puppet templates per body type; 2–4 actions per animal, not more; launch with fewer animals if needed (16 is still a great app) |
-| Globe runs poorly on old school PCs | Adaptive quality, pixel-ratio cap, 2D map fallback; test on real low-end devices from Phase 1 |
+| Globe runs poorly on old school PCs | Adaptive quality, pixel-ratio cap, 2D map fallback; throttled-CPU checks from Phase 1 |
+| Only a laptop to test on; no budget phone or iPad | Chrome CPU throttling and device emulation in every e2e run; borrow a real phone and iPad before launch, especially to test iOS offline storage |
 | Wrong or myth facts | Cited sources per fact plus teacher review before release |
 | Browser clears offline data | Persistent storage request; "Download all" button easy to re-run; small pack sizes |
 | Asset licensing problems | Use only CC0, MIT, OFL or CC BY files; avoid NC, ND and SA; log every file in credits.json |
@@ -362,3 +375,8 @@ The biggest risk is animation workload, not code: 33 hand-animated animals is a 
 - [x] Who draws and animates: $0 budget; scavenged MIT, CC0 and CC BY art, animated in-house with free tools (see $0 asset plan)
 - [x] Narration: none at launch; short, easy-to-read dialogue bubbles
 - [x] Language: English only
+- [x] Phases: 0–4 as in *Build phases*
+- [x] License: MIT, for the code and the original art
+- [x] Body types: eight rigs, kept separate
+- [x] Fact reviewer: Dale
+- [x] Next animal: scarlet macaw (added as #34)

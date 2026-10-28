@@ -56,5 +56,11 @@ content/animals/<animal-id>/
 | Frame rate | ≥ 30 fps | 60 fps in Chromium at 4× CPU throttle |
 
 Still to confirm on real hardware: a budget Android phone, an older Windows
-laptop and an iPad. Not yet in the pack: an animal sound (needs a CC0
-recording), and a teacher's review of the facts.
+laptop and an iPad (only the laptop is available for now). Not yet in the
+pack: an animal sound (needs a CC0 recording), and a teacher's review of the
+facts.
+
+## License
+
+[MIT](LICENSE), for the code and Volar's original art. Third-party files keep
+their own licenses, logged in each animal's `credits.json`.
