@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { Howl } from 'howler';
 	import { loadSound } from '#lib/audio/sound.ts';
+	import { book } from '#lib/db/book.svelte.ts';
 	import type { Animal, Toy } from '#lib/content/schema.ts';
 	import type { Pack } from '#lib/content/animals.ts';
 	import { motion } from '#lib/settings.svelte.ts';
@@ -59,6 +60,12 @@
 		line = animal.greeting;
 	});
 
+	// Visiting an animal earns its sticker for the Animal Book.
+	let stickerSaved = $state(false);
+	$effect(() => {
+		book.collect(animal.id).then(() => (stickerSaved = true));
+	});
+
 	async function ready(r: Rig) {
 		rig = r;
 		onrig?.(r);
@@ -112,7 +119,7 @@
 	}
 </script>
 
-<div class="scene" class:day={time === 'day'} class:night={time === 'night'} style:--theme={animal.themeColor} onpointermove={track} role="presentation">
+<div class="scene" data-sticker={stickerSaved ? 'saved' : undefined} class:day={time === 'day'} class:night={time === 'night'} style:--theme={animal.themeColor} onpointermove={track} role="presentation">
 	{#snippet layer(src: string, i: number)}
 		<img
 			class="layer"

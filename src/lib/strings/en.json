@@ -33,5 +33,13 @@
 	},
 	"hearIt": {
 		"button": "Hear me!"
+	},
+	"book": {
+		"title": "My Animal Book",
+		"open": "My Animal Book",
+		"back": "Back to the globe",
+		"unseen": "Find me on the globe!",
+		"soon": "Coming soon",
+		"visited": "visited"
 	}
 }

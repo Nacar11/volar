@@ -6,6 +6,7 @@
 	import type { Animal } from '#lib/content/schema.ts';
 	import { clouds } from '#lib/scene/clouds.ts';
 	import { motion } from '#lib/settings.svelte.ts';
+	import { book } from '#lib/db/book.svelte.ts';
 	import { t } from '#lib/strings/index.ts';
 	import Pin from './Pin.svelte';
 	import { habitats, PIN, pins } from './pins';
@@ -104,10 +105,17 @@
 				{/each}
 			</svg>
 			{#each pins as pin (pin.id)}
-				<Pin {pin} bind:element={icons[pin.id]} onvisit={visit} onhover={(id) => (hovered = id)} />
+				<Pin
+				{pin}
+				bind:element={icons[pin.id]}
+				onvisit={visit}
+				onhover={(id) => (hovered = id)}
+				visited={book.stickers.has(pin.id)}
+			/>
 			{/each}
 		</div>
 	</div>
+	<a class="round-button book" href="/book" aria-label={t.book.open}>📖</a>
 	<button class="round-button home" aria-label={t.globe.home} onclick={() => goHome()}>🏠</button>
 </div>
 
@@ -171,9 +179,16 @@
 		}
 	}
 
-	.home {
+	.home,
+	.book {
 		position: absolute;
 		top: max(16px, env(safe-area-inset-top));
 		left: 16px;
+	}
+
+	.book {
+		left: auto;
+		right: 16px;
+		text-decoration: none;
 	}
 </style>

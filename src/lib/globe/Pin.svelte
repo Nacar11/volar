@@ -11,9 +11,11 @@
 		onvisit: (animal: Animal, event: MouseEvent) => void;
 		/** The pin's id while it is hovered or focused, null when it isn't. */
 		onhover: (id: string | null) => void;
+		/** The kid has this animal's sticker: the pin wears a star. */
+		visited?: boolean;
 	}
 
-	let { pin, element = $bindable(), onvisit, onhover }: Props = $props();
+	let { pin, element = $bindable(), onvisit, onhover, visited = false }: Props = $props();
 </script>
 
 {#if pin.animal}
@@ -22,7 +24,7 @@
 		bind:this={element}
 		class="pin"
 		href="/animal/{animal.id}"
-		aria-label={animal.name}
+		aria-label={visited ? `${animal.name}, ${t.book.visited}` : animal.name}
 		style:--theme={animal.themeColor}
 		onclick={(event) => onvisit(animal, event)}
 		onpointerenter={() => onhover(animal.id)}
@@ -30,7 +32,10 @@
 		onfocus={() => onhover(animal.id)}
 		onblur={() => onhover(null)}
 	>
-		<span class="bob"><img src={pin.icon} alt="" /></span>
+		<span class="bob">
+			<img src={pin.icon} alt="" />
+			{#if visited}<span class="star" aria-hidden="true">⭐</span>{/if}
+		</span>
 	</a>
 {:else}
 	<span
@@ -79,6 +84,14 @@
 		border: 10px solid transparent;
 		border-bottom: none;
 		border-top-color: var(--paper);
+	}
+
+	.star {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		font-size: 26px;
+		filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.3));
 	}
 
 	.pin:focus-visible .bob {

@@ -7,13 +7,16 @@
 	import Globe from '#lib/globe/Globe.svelte';
 	import { hasWebGL } from '#lib/globe/support.ts';
 	import CloudTransition from '#lib/scene/CloudTransition.svelte';
+	import { book } from '#lib/db/book.svelte.ts';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 
+	book.load();
+
 	// The globe lives here, not in the home page, so it survives a visit to a
 	// scene: it pauses underneath and is still there, mid-dive, to zoom back out.
-	const GLOBE_ROUTES = ['/', '/animal/[id]'];
+	const GLOBE_ROUTES = ['/', '/animal/[id]', '/book'];
 	const showGlobe = $derived(GLOBE_ROUTES.includes(page.route.id ?? ''));
 	const webgl = hasWebGL();
 </script>
