@@ -55,7 +55,7 @@ export const rigs = {
 			'leg-bl',
 			'leg-br'
 		],
-		actions: ['walk', 'stretch', 'roar', 'munch', 'shake', 'tumble'],
+		actions: ['walk', 'run', 'stretch', 'roar', 'munch', 'shake', 'tumble'],
 		/** Where food goes in "What's for dinner", in the puppet's viewBox. */
 		mouth: [345, 216]
 	},

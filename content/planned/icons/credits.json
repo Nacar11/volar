@@ -60,12 +60,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "jaguar.svg",
-		"source": "Fluent Emoji Flat, \"Leopard\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "three-toed-sloth.svg",
 		"source": "Fluent Emoji Flat, \"Sloth\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",
@@ -98,12 +92,6 @@
 	{
 		"file": "monarch-butterfly.svg",
 		"source": "Fluent Emoji Flat, \"Butterfly\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
-		"file": "american-bison.svg",
-		"source": "Fluent Emoji Flat, \"Bison\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",
 		"license": "MIT"
 	},

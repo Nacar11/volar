@@ -2,6 +2,7 @@
 
 export const FOODS = {
 	bamboo: { label: 'Bamboo', icon: '🎋' },
+	grass: { label: 'Grass', icon: '🌾' },
 	leaves: { label: 'Leaves', icon: '🍃' },
 	fruit: { label: 'Fruit', icon: '🍎' },
 	fish: { label: 'Fish', icon: '🐟' },

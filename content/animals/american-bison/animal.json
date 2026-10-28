@@ -1,0 +1,48 @@
+{
+	"id": "american-bison",
+	"name": "American Bison",
+	"continent": "north-america",
+	"livesIn": "the prairies of North America",
+	"habitats": ["grassland"],
+	"nocturnal": false,
+	"rig": "quadruped",
+	"themeColor": "#8D6E63",
+	"globe": { "lat": 44.6, "lng": -110.5, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hello! I'm an American bison!",
+	"facts": [
+		{ "id": "heavy", "text": "I'm one of the heaviest land animals in North America!" },
+		{ "id": "home", "text": "I live on prairies, plains and in river valleys." },
+		{ "id": "weight", "text": "I can weigh as much as a small car!" },
+		{ "id": "calf", "text": "My calf is a lighter color for its first two months." },
+		{ "id": "wallow", "text": "I love to roll in the dirt. It's called wallowing!" },
+		{ "id": "national", "text": "I'm the national mammal of the United States!" },
+		{ "id": "millions", "text": "Long ago, about 60 million of us roamed North America." },
+		{ "id": "saved", "text": "Once only 541 of us were left, but people saved us!" }
+	],
+	"toys": [
+		{
+			"type": "speedRace",
+			"kmh": 65,
+			"racers": [
+				{ "racer": "kid", "caption": "I'm about four times faster than you!" },
+				{ "racer": "bike", "caption": "I'm about three times faster than a bike!" },
+				{ "racer": "car", "caption": "I can outrun a car driving through town!" }
+			]
+		},
+		{
+			"type": "whatsForDinner",
+			"foods": [
+				{ "food": "grass", "eats": true, "caption": "Mmm, grass! I graze all day long." },
+				{ "food": "burger", "eats": false, "caption": "No thanks! Bison only eat plants." },
+				{ "food": "candy", "eats": false, "caption": "No, thank you! I'd rather munch grass." }
+			]
+		},
+		{ "type": "makeItDo", "actions": ["run", "walk", "shake"] }
+	],
+	"sources": ["https://en.wikipedia.org/wiki/American_bison"]
+}

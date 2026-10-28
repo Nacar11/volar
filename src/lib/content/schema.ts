@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { rigNames } from '../scene/rigs';
 import { foodNames } from '../toys/foods';
+import { racerNames } from '../toys/racers';
 
 const file = z.string().regex(/^[\w-]+\.(svg|webm|m4a|json|geojson)$/, 'a file name in the pack folder');
 
@@ -36,7 +37,15 @@ const toy = z.discriminatedUnion('type', [
 			.min(2)
 			.max(4)
 			.refine((foods) => foods.some((f) => f.eats), 'offer at least one food the animal eats')
-	})
+	}),
+	/** Race familiar things; `kmh` is the animal's top speed, from its sources. */
+	z.object({
+		type: z.literal('speedRace'),
+		kmh: z.number().positive(),
+		racers: z.array(z.object({ racer: z.enum(racerNames), caption: z.string() })).min(1).max(3)
+	}),
+	/** Mystery cards that crack open, one at a time, with a surprising fact. */
+	z.object({ type: z.literal('tapReveal'), cards: z.array(z.string()).min(1).max(3) })
 ]);
 
 export const animalSchema = z.object({

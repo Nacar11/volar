@@ -128,6 +128,13 @@ export function quadruped(svg: SVGSVGElement, opts: RigOptions): Rig {
 
 	const actions: Record<string, () => gsap.core.Timeline> = {
 		walk: () => steps(6),
+		// A sprint on the spot: quick, long strides and a forward lean.
+		run: () =>
+			gsap
+				.timeline()
+				.to(p.animal, { rotation: -3, duration: 0.2 })
+				.add(steps(10, 0.15), 0)
+				.to(p.animal, { rotation: 0, duration: 0.3 }),
 		stretch,
 		roar,
 		munch,

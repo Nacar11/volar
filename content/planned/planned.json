@@ -70,13 +70,6 @@
 		"icon": "chameleon.svg"
 	},
 	{
-		"id": "jaguar",
-		"name": "Jaguar",
-		"lat": -17.0,
-		"lng": -56.5,
-		"icon": "jaguar.svg"
-	},
-	{
 		"id": "three-toed-sloth",
 		"name": "Three-toed Sloth",
 		"lat": -3.5,
@@ -117,13 +110,6 @@
 		"lat": 19.6,
 		"lng": -100.3,
 		"icon": "monarch-butterfly.svg"
-	},
-	{
-		"id": "american-bison",
-		"name": "American Bison",
-		"lat": 44.6,
-		"lng": -110.5,
-		"icon": "american-bison.svg"
 	},
 	{
 		"id": "red-fox",

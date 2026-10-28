@@ -148,6 +148,8 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		sizeCompare: (t) => (t.type === 'sizeCompare' ? [t.caption] : []),
 		thenVsNow: (t) => (t.type === 'thenVsNow' ? [t.then, t.now] : []),
 		whatsForDinner: (t) => (t.type === 'whatsForDinner' ? t.foods.map((f) => f.caption) : []),
+		speedRace: (t) => (t.type === 'speedRace' ? t.racers.map((r) => r.caption) : []),
+		tapReveal: (t) => (t.type === 'tapReveal' ? t.cards : []),
 		makeItDo: () => []
 	};
 	const lines = [

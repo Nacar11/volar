@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#C9E7F5"/>
+  <g fill="#FFFFFF" opacity="0.9"><ellipse cx="300" cy="150" rx="130" ry="34"/><ellipse cx="1220" cy="120" rx="110" ry="30"/></g>
+  <!-- Far-off mountains, like those around Yellowstone. -->
+  <path d="M0 560L180 400L340 500L520 360L720 520L900 420L1080 520L1280 380L1460 500L1600 440L1600 600L0 600Z" fill="#9AA8C2"/>
+  <path d="M500 380L520 360L548 384L534 390Z" fill="#FFFFFF"/><path d="M1260 398L1280 380L1306 402Z" fill="#FFFFFF"/>
+  <rect y="590" width="1600" height="310" fill="#C8C27A"/>
+</svg>

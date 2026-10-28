@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g id="puppet">
+    <g id="animal">
+      <ellipse id="shadow" cx="205" cy="334" rx="150" ry="12" fill="#000000" opacity="0.12"/>
+      <g id="tail">
+        <path d="M96 216C84 236 80 256 82 278" fill="none" stroke="#4E342E" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="82" cy="284" rx="7" ry="11" fill="#3E2723"/>
+      </g>
+      <g id="leg-bl">
+        <rect x="112" y="236" width="26" height="92" rx="11" fill="#3E2723"/>
+        <ellipse cx="126" cy="328" rx="16" ry="7" fill="#1B1B1B"/>
+      </g>
+      <g id="leg-fl">
+        <rect x="252" y="240" width="26" height="88" rx="11" fill="#3E2723"/>
+        <ellipse cx="266" cy="328" rx="16" ry="7" fill="#1B1B1B"/>
+      </g>
+      <g id="body">
+        <ellipse cx="180" cy="240" rx="96" ry="52" fill="#6D4C41"/>
+        <!-- The big shoulder hump and shaggy front coat. -->
+        <path d="M200 236C204 176 236 140 272 144C306 148 318 186 314 236C312 284 290 300 252 298C222 296 200 276 200 236Z" fill="#4E342E"/>
+        <path d="M244 162C258 154 276 154 288 164" fill="none" stroke="#3E2723" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <g id="leg-br">
+        <rect x="134" y="240" width="28" height="88" rx="12" fill="#4E342E"/>
+        <ellipse cx="150" cy="328" rx="17" ry="7" fill="#212121"/>
+      </g>
+      <g id="leg-fr">
+        <rect x="272" y="246" width="28" height="82" rx="12" fill="#4E342E"/>
+        <path d="M268 262L304 262L300 290L272 290Z" fill="#3E2723"/>
+        <ellipse cx="288" cy="328" rx="17" ry="7" fill="#212121"/>
+      </g>
+      <g id="head">
+        <path d="M300 160C290 146 296 134 306 136" fill="none" stroke="#212121" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="320" cy="196" r="38" fill="#3E2723"/>
+        <ellipse id="mouth" cx="344" cy="224" rx="11" ry="6" fill="#2B1B17"/>
+        <path id="jaw" d="M324 214C336 217 350 217 356 214C354 225 344 232 334 230C328 228 324 222 324 214Z" fill="#4E342E"/>
+        <ellipse cx="344" cy="208" rx="18" ry="14" fill="#5D4037"/>
+        <ellipse cx="356" cy="206" rx="5" ry="4" fill="#1B1B1B"/>
+        <!-- The beard. -->
+        <path d="M314 226C318 248 326 260 332 268C338 256 340 242 338 230Z" fill="#3E2723"/>
+        <g id="eye">
+          <circle cx="327" cy="184" r="4.5" fill="#FFFFFF"/>
+          <circle cx="328" cy="184" r="3" fill="#1B1B1B"/>
+          <ellipse id="lid" cx="327" cy="184" rx="5.5" ry="5.5" fill="#3E2723"/>
+        </g>
+        <path d="M310 168C302 154 310 142 320 146" fill="none" stroke="#1B1B1B" stroke-width="7" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+</svg>

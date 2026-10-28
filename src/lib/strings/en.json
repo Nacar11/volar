@@ -15,7 +15,9 @@
 		"hearIt": "Hear it",
 		"sizeCompare": "Size compare",
 		"thenVsNow": "Then and now",
-		"whatsForDinner": "What's for dinner"
+		"whatsForDinner": "What's for dinner",
+		"speedRace": "Speed race",
+		"tapReveal": "Mystery"
 	},
 	"dayNight": {
 		"day": "Day",
@@ -37,7 +39,8 @@
 		"slide": "Slide",
 		"munch": "Munch",
 		"shake": "Shake head",
-		"tumble": "Tumble"
+		"tumble": "Tumble",
+		"run": "Run!"
 	},
 	"globe": {
 		"home": "Spin back home",
@@ -92,5 +95,14 @@
 	},
 	"dinner": {
 		"hint": "Drag a food to me, or tap it!"
+	},
+	"race": {
+		"go": "Go!",
+		"choose": "Who should I race?",
+		"finish": "Finish"
+	},
+	"reveal": {
+		"card": "Tap the mystery egg!",
+		"next": "Another mystery egg"
 	}
 }

@@ -1,0 +1,47 @@
+{
+	"id": "jaguar",
+	"name": "Jaguar",
+	"continent": "south-america",
+	"livesIn": "Central and South America",
+	"habitats": ["jungle"],
+	"nocturnal": false,
+	"rig": "quadruped",
+	"themeColor": "#E59A2E",
+	"globe": { "lat": -17, "lng": -56.5, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hello! I'm a jaguar!",
+	"facts": [
+		{ "id": "biggest", "text": "I'm the biggest cat in the Americas!" },
+		{ "id": "home", "text": "I live from Mexico all the way to Argentina." },
+		{ "id": "rosettes", "text": "My spots turn into rosettes, like little flowers, on my sides." },
+		{ "id": "swim", "text": "Unlike lots of cats, I'm a great swimmer!" },
+		{ "id": "pounce", "text": "I sneak up quietly, then pounce on my prey." },
+		{ "id": "food", "text": "I hunt capybaras, deer, turtles and even fish!" },
+		{ "id": "name", "text": "My name may mean 'beast that catches prey in one leap'." },
+		{ "id": "safe", "text": "Belize made the world's first park just for jaguars!" }
+	],
+	"toys": [
+		{
+			"type": "tapReveal",
+			"cards": [
+				"I bite so hard I can crack a turtle's shell!",
+				"Some jaguars are black, but their spots still show!"
+			]
+		},
+		{
+			"type": "sizeCompare",
+			"measure": "height",
+			"meters": 0.7,
+			"from": 328,
+			"to": 196,
+			"compare": ["cat", "kid", "grownup"],
+			"caption": "My shoulders come up to about your tummy!"
+		},
+		{ "type": "makeItDo", "actions": ["run", "stretch", "walk"] }
+	],
+	"sources": ["https://en.wikipedia.org/wiki/Jaguar"]
+}

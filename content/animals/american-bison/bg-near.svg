@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <g fill="#9C9748">
+    <path d="M0 900L22 720L44 900Z"/><path d="M34 900L64 690L94 900Z"/><path d="M84 900L106 740L128 900Z"/>
+    <path d="M1460 900L1482 720L1504 900Z"/><path d="M1494 900L1524 690L1554 900Z"/><path d="M1544 900L1566 740L1588 900Z"/>
+  </g>
+  <ellipse cx="800" cy="910" rx="560" ry="60" fill="#B0AA5A"/>
+</svg>

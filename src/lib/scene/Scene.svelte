@@ -4,7 +4,7 @@
 	import { loadSound } from '#lib/audio/sound.ts';
 	import { book } from '#lib/db/book.svelte.ts';
 	import type { Animal, Toy } from '#lib/content/schema.ts';
-	import { packUrl, type Pack } from '#lib/content/animals.ts';
+	import { iconUrl, packUrl, type Pack } from '#lib/content/animals.ts';
 	import { motion, settings } from '#lib/settings.svelte.ts';
 	import { fill, t } from '#lib/strings/index.ts';
 	import BodyXray from '#lib/toys/BodyXray.svelte';
@@ -12,6 +12,8 @@
 	import HearIt from '#lib/toys/HearIt.svelte';
 	import SizeCompare from '#lib/toys/SizeCompare.svelte';
 	import WhatsForDinner from '#lib/toys/WhatsForDinner.svelte';
+	import SpeedRace from '#lib/toys/SpeedRace.svelte';
+	import TapReveal from '#lib/toys/TapReveal.svelte';
 	import { FOODS, type Food } from '#lib/toys/foods.ts';
 	import { THINGS, type Thing } from '#lib/toys/sizes.ts';
 	import MakeItDo from '#lib/toys/MakeItDo.svelte';
@@ -36,7 +38,9 @@
 		hearIt: '🔊',
 		sizeCompare: '📏',
 		thenVsNow: '🐣',
-		whatsForDinner: '🍽️'
+		whatsForDinner: '🍽️',
+		speedRace: '🏁',
+		tapReveal: '🥚'
 	};
 	// Far, middle and near layers drift by different amounts as the pointer moves.
 	const DEPTHS = [8, 18, 32];
@@ -263,6 +267,26 @@
 							</button>
 						{/each}
 					</div>
+				{:else if toy.type === 'speedRace'}
+					{@const race = toy}
+					<SpeedRace
+						icon={iconUrl(animal)}
+						kmh={race.kmh}
+						racers={race.racers.map((r) => r.racer)}
+						onstart={() => {
+							line = t.race.go;
+							play('run');
+						}}
+						onfinish={(racer) => (line = race.racers.find((r) => r.racer === racer)!.caption)}
+					/>
+				{:else if toy.type === 'tapReveal'}
+					<TapReveal
+						cards={toy.cards}
+						onreveal={(fact) => {
+							line = fact;
+							rig?.react();
+						}}
+					/>
 				{:else if toy.type === 'whatsForDinner'}
 					<WhatsForDinner foods={toy.foods.map((f) => f.food)} onfeed={feed} />
 				{:else if toy.type === 'thenVsNow'}

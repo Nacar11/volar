@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#CDEBD9"/>
+  <g fill="#5E9E5A">
+    <circle cx="80" cy="520" r="140"/><circle cx="300" cy="480" r="150"/><circle cx="540" cy="520" r="140"/>
+    <circle cx="1060" cy="500" r="150"/><circle cx="1300" cy="470" r="160"/><circle cx="1540" cy="520" r="140"/>
+  </g>
+  <rect y="580" width="1600" height="320" fill="#5E9E5A"/>
+  <!-- A slow rainforest river. -->
+  <path d="M0 700Q400 650 800 690T1600 680L1600 770Q1200 790 800 770T0 800Z" fill="#7FC4C9"/>
+</svg>

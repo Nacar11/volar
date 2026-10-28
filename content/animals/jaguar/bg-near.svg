@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <g fill="#2F7A3A">
+    <ellipse cx="40" cy="720" rx="90" ry="220" transform="rotate(-25 40 720)"/>
+    <ellipse cx="1560" cy="720" rx="90" ry="220" transform="rotate(25 1560 720)"/>
+  </g>
+  <g fill="#3E9147"><ellipse cx="800" cy="910" rx="560" ry="70"/></g>
+</svg>

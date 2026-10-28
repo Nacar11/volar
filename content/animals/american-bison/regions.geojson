@@ -1,0 +1,21 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "name": "Yellowstone and the Great Plains" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-112, 46], [-104, 48], [-98, 46], [-97, 41], [-100, 37], [-105, 38], [-110, 42], [-112, 46]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Canadian wood bison range" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-122, 61], [-112, 61], [-110, 57], [-116, 55], [-122, 57], [-122, 61]]]
+			}
+		}
+	]
+}

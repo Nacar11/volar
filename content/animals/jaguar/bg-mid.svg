@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <g fill="#6E4B33">
+    <rect x="120" y="0" width="64" height="900" rx="22"/><rect x="1410" y="0" width="74" height="900" rx="24"/>
+  </g>
+  <g fill="none" stroke="#3F8744" stroke-width="9" stroke-linecap="round">
+    <path d="M184 0C240 140 170 260 236 380"/><path d="M1410 0C1350 160 1420 270 1360 420"/>
+  </g>
+  <g fill="#3E8E47">
+    <circle cx="150" cy="40" r="150"/><circle cx="1450" cy="30" r="160"/>
+  </g>
+  <rect y="800" width="1600" height="100" fill="#4F8F4A"/>
+</svg>
