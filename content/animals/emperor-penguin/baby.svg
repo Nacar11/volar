@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- An emperor chick: silver-grey down, a black head and a white mask. Stands on the same ice. -->
+  <ellipse cx="220" cy="303" rx="70" ry="7" fill="#000000" opacity="0.08"/>
+  <ellipse cx="212" cy="300" rx="13" ry="5" fill="#455A64"/>
+  <ellipse cx="236" cy="300" rx="13" ry="5" fill="#455A64"/>
+  <ellipse cx="222" cy="246" rx="56" ry="58" fill="#B0BEC5"/>
+  <ellipse cx="232" cy="256" rx="36" ry="42" fill="#CFD8DC"/>
+  <path d="M176 236C164 252 166 272 178 284" fill="none" stroke="#90A4AE" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="236" cy="178" r="40" fill="#263238"/>
+  <ellipse cx="244" cy="186" rx="26" ry="22" fill="#FAFAFA"/>
+  <circle cx="250" cy="180" r="4.5" fill="#111111"/>
+  <circle cx="251.5" cy="178.5" r="1.5" fill="#FFFFFF"/>
+  <path d="M266 186L284 190L266 194Z" fill="#212121"/>
+</svg>

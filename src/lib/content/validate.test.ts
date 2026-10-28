@@ -220,3 +220,22 @@ describe('validatePack: migration and size by length', () => {
 		expect(withWhale((a) => delete a.toys[0].ground)).toMatch(/needs a ground line/);
 	});
 });
+
+describe('validatePack: then and now', () => {
+	const penguinDir = join(import.meta.dirname, '../../../content/animals/emperor-penguin');
+	const penguin = (): PackFiles => {
+		const files: PackFiles = {};
+		for (const name of readdirSync(penguinDir)) files[name] = readFileSync(join(penguinDir, name));
+		return files;
+	};
+
+	it('accepts the penguin pack', () => {
+		expect(validatePack('emperor-penguin', penguin())).toEqual([]);
+	});
+
+	it('rejects a "Then and now" picture that is missing', () => {
+		const files = penguin();
+		delete files['baby.svg'];
+		expect(validatePack('emperor-penguin', files).join()).toMatch(/baby.svg is referenced but missing/);
+	});
+});

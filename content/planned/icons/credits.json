@@ -156,12 +156,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "emperor-penguin.svg",
-		"source": "Fluent Emoji Flat, \"Penguin\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "narwhal.svg",
 		"source": "Fluent Emoji Flat, \"Whale\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",

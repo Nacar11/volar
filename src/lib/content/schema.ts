@@ -24,7 +24,9 @@ const toy = z.discriminatedUnion('type', [
 		ground: z.number().optional(),
 		compare: z.array(z.enum(['cat', 'kid', 'grownup', 'car', 'bus'])).min(1).max(3),
 		caption: z.string()
-	})
+	}),
+	/** A slider from the animal as a baby (a picture in the pack) to grown up (the puppet). */
+	z.object({ type: z.literal('thenVsNow'), image: file, then: z.string(), now: z.string() })
 ]);
 
 export const animalSchema = z.object({
@@ -44,6 +46,8 @@ export const animalSchema = z.object({
 	habitats: z.array(z.enum(['ocean', 'jungle', 'desert', 'polar', 'grassland', 'forest'])).min(1),
 	nocturnal: z.boolean(),
 	rig: z.enum(rigNames),
+	/** Tweaks to the rig for this animal: a flightless bird waddles and slides instead of flying. */
+	rigOptions: z.object({ flightless: z.boolean().optional() }).optional(),
 	themeColor: z.string().regex(/^#[0-9a-fA-F]{6}$/),
 	globe: z.object({
 		lat: z.number().min(-90).max(90),

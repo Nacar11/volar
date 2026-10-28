@@ -182,13 +182,6 @@
 		"icon": "polar-bear.svg"
 	},
 	{
-		"id": "emperor-penguin",
-		"name": "Emperor Penguin",
-		"lat": -77.0,
-		"lng": 166.0,
-		"icon": "emperor-penguin.svg"
-	},
-	{
 		"id": "narwhal",
 		"name": "Narwhal",
 		"lat": 72.0,

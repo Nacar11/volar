@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#D6EEF8"/>
+  <circle cx="1240" cy="260" r="60" fill="#FFF3C4"/>
+  <!-- Distant ice cliffs and icebergs. -->
+  <path d="M0 560L120 470L260 490L360 430L520 470L560 560Z" fill="#B8DCEF"/>
+  <path d="M900 560L960 480L1100 470L1180 500L1220 560Z" fill="#B8DCEF"/>
+  <path d="M1300 560L1380 440L1500 450L1600 500L1600 560Z" fill="#C9E6F4"/>
+  <rect y="560" width="1600" height="340" fill="#4FA3CF"/>
+</svg>

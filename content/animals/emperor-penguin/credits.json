@@ -1,0 +1,9 @@
+[
+	{ "file": "puppet.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "baby.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "icon.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "bg-far.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "bg-mid.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "bg-near.svg", "source": "Original art for Volar", "author": "Dale Nacario", "license": "MIT" },
+	{ "file": "regions.geojson", "source": "Hand-drawn for Volar from the range on Wikipedia's Emperor penguin page", "author": "Dale Nacario", "license": "MIT" }
+]

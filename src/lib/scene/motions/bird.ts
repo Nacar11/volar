@@ -60,7 +60,8 @@ export function bird(svg: SVGSVGElement, opts: RigOptions): Rig {
 		});
 
 	function flap() {
-		const rise = opts.reducedMotion() ? -10 : -36;
+		// A flightless bird flaps its flippers with just a little hop.
+		const rise = opts.flightless ? -8 : opts.reducedMotion() ? -10 : -36;
 		return gsap
 			.timeline()
 			.to(p.animal, { y: rise, duration: 0.4, ease: 'power2.out' })
@@ -95,13 +96,49 @@ export function bird(svg: SVGSVGElement, opts: RigOptions): Rig {
 		return tl;
 	}
 
-	const actions: Record<string, () => gsap.core.Timeline> = { flap, dance, squawk };
+	// Tobogganing: down onto the belly, a push forward across the ice, and back up.
+	function slide() {
+		const glide = opts.reducedMotion() ? 30 : 90;
+		return gsap
+			.timeline()
+			.to(p.animal, { rotation: 80, y: -46, duration: 0.35, ease: 'power2.in' })
+			.to(p.wing, { rotation: 60, duration: 0.3 }, '<')
+			.to(p.animal, { x: glide, duration: 0.7, ease: 'power2.out' })
+			.to(p.wing, { rotation: 20, duration: 0.15, yoyo: true, repeat: 3 }, '<')
+			.to(p.animal, { x: 0, duration: 0.6, ease: 'sine.inOut' })
+			.to(p.animal, { rotation: 0, y: 0, duration: 0.4, ease: 'back.out(1.6)' })
+			.to(p.wing, { rotation: 0, duration: 0.3 }, '<');
+	}
+
+	/** A waddle: rocking side to side, a step at a time. */
+	const waddle = (count: number) =>
+		gsap.to(p.animal, {
+			rotation: opts.reducedMotion() ? 3 : 7,
+			duration: 0.18,
+			ease: 'sine.inOut',
+			yoyo: true,
+			repeat: count * 2 - 1,
+			startAt: { rotation: -7 }
+		});
+
+	const actions: Record<string, () => gsap.core.Timeline> = { flap, dance, squawk, slide };
 
 	return {
 		entrance() {
 			if (opts.reducedMotion()) {
 				gsap.set(p.animal, { opacity: 0 });
 				return run(gsap.timeline().to(p.animal, { opacity: 1, duration: 0.6 }));
+			}
+			if (opts.flightless) {
+				// Waddles in from the right.
+				gsap.set(p.animal, { x: 330 });
+				return run(
+					gsap
+						.timeline()
+						.to(p.animal, { x: 0, duration: 1.6, ease: 'power1.out' })
+						.add(waddle(5), 0)
+						.to(p.animal, { rotation: 0, duration: 0.2 })
+				);
 			}
 			// Flies in from the upper right and lands on the perch.
 			gsap.set(p.animal, { x: 300, y: -280, rotation: -15 });
@@ -117,6 +154,11 @@ export function bird(svg: SVGSVGElement, opts: RigOptions): Rig {
 		exit() {
 			if (opts.reducedMotion()) {
 				return run(gsap.timeline().to(p.animal, { opacity: 0, duration: 0.4 }));
+			}
+			if (opts.flightless) {
+				return run(
+					gsap.timeline().to(p.animal, { x: -380, duration: 1.1, ease: 'power1.in' }).add(waddle(4), 0)
+				);
 			}
 			return run(
 				gsap

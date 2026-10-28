@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g id="puppet">
+    <g id="perch">
+      <path d="M40 304L360 304Q380 318 360 334L40 334Q20 318 40 304Z" fill="#E8F4FB"/>
+      <path d="M40 322L360 322Q372 328 360 334L40 334Q28 328 40 322Z" fill="#C5E3F3"/>
+    </g>
+    <g id="animal">
+      <g id="tail">
+        <path d="M168 280L196 270L192 298Z" fill="#263238"/>
+      </g>
+      <g id="feet">
+        <ellipse cx="214" cy="303" rx="16" ry="6" fill="#37474F"/>
+        <ellipse cx="244" cy="303" rx="16" ry="6" fill="#37474F"/>
+      </g>
+      <g id="body">
+        <ellipse cx="220" cy="206" rx="62" ry="100" fill="#263238"/>
+        <ellipse cx="240" cy="218" rx="42" ry="86" fill="#FAFAFA"/>
+        <ellipse cx="248" cy="146" rx="22" ry="20" fill="#FFE082"/>
+      </g>
+      <g id="wing">
+        <path d="M222 156C238 186 230 236 204 270C196 248 200 196 222 156Z" fill="#1C262B"/>
+      </g>
+      <g id="head">
+        <circle cx="248" cy="102" r="40" fill="#263238"/>
+        <ellipse cx="230" cy="122" rx="12" ry="19" transform="rotate(-20 230 122)" fill="#FFB300"/>
+        <path id="beak-bottom" d="M276 112C292 114 306 116 314 116C304 122 290 124 276 120Z" fill="#FF8A65"/>
+        <path id="beak-top" d="M272 96C290 100 306 108 318 114C304 114 288 112 274 114Z" fill="#212121"/>
+        <g id="eye">
+          <circle cx="263" cy="98" r="4" fill="#FAFAFA"/>
+          <circle cx="263.5" cy="98" r="2.6" fill="#111111"/>
+          <ellipse id="lid" cx="263" cy="98" rx="5" ry="5" fill="#263238"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

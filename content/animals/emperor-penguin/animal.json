@@ -1,0 +1,47 @@
+{
+	"id": "emperor-penguin",
+	"name": "Emperor Penguin",
+	"continent": "antarctica",
+	"livesIn": "Antarctica",
+	"habitats": ["polar"],
+	"nocturnal": false,
+	"rig": "bird",
+	"rigOptions": { "flightless": true },
+	"themeColor": "#FFB300",
+	"globe": { "lat": -77, "lng": 166, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hello! I'm an emperor penguin!",
+	"facts": [
+		{ "id": "home", "text": "I live only in Antarctica, the coldest place on Earth." },
+		{ "id": "biggest", "text": "I'm the tallest and heaviest penguin in the world!" },
+		{ "id": "egg", "text": "Dads keep our egg warm for two whole months." },
+		{ "id": "huddle", "text": "We huddle close together to stay warm in the cold." },
+		{ "id": "dive", "text": "I can dive deeper than 500 meters to find food!" },
+		{ "id": "breath", "text": "I can stay underwater for about 20 minutes!" },
+		{ "id": "slide", "text": "I can't fly, but I slide on my belly over the ice!" },
+		{ "id": "satellites", "text": "Scientists use satellites in space to find and count us!" }
+	],
+	"toys": [
+		{
+			"type": "thenVsNow",
+			"image": "baby.svg",
+			"then": "As a chick, I was fluffy and grey!",
+			"now": "Grown up, I'm black, white and yellow."
+		},
+		{
+			"type": "sizeCompare",
+			"measure": "height",
+			"meters": 1,
+			"from": 304,
+			"to": 62,
+			"compare": ["cat", "kid", "grownup"],
+			"caption": "I'm almost as tall as you!"
+		},
+		{ "type": "makeItDo", "actions": ["slide", "flap", "dance"] }
+	],
+	"sources": ["https://en.wikipedia.org/wiki/Emperor_penguin"]
+}

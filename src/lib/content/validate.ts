@@ -54,7 +54,8 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		animal.assets.puppet,
 		...animal.assets.background,
 		...(animal.assets.audio ? [animal.assets.audio] : []),
-		...(animal.globe.regions ? [animal.globe.regions] : [])
+		...(animal.globe.regions ? [animal.globe.regions] : []),
+		...animal.toys.flatMap((t) => (t.type === 'thenVsNow' ? [t.image] : []))
 	];
 	for (const name of referenced) if (!files[name]) problems.push(`${name} is referenced but missing`);
 
@@ -141,6 +142,7 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		bodyXray: (t) => (t.type === 'bodyXray' ? [t.reveal] : []),
 		hearIt: (t) => (t.type === 'hearIt' ? [t.caption] : []),
 		sizeCompare: (t) => (t.type === 'sizeCompare' ? [t.caption] : []),
+		thenVsNow: (t) => (t.type === 'thenVsNow' ? [t.then, t.now] : []),
 		makeItDo: () => []
 	};
 	const lines = [

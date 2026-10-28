@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <!-- The sea ice the colony stands on, and a big iceberg. -->
+  <path d="M1180 640L1240 470L1360 440L1450 520L1470 640Z" fill="#FFFFFF"/>
+  <path d="M1360 440L1450 520L1470 640L1400 640L1390 520Z" fill="#DCEFF9"/>
+  <rect y="660" width="1600" height="240" fill="#F2F9FD"/>
+  <path d="M0 660Q400 640 800 660T1600 655L1600 680L0 680Z" fill="#E1F1FA"/>
+  <!-- Far-off colony. -->
+  <g fill="#263238">
+    <ellipse cx="200" cy="650" rx="6" ry="12"/><ellipse cx="218" cy="652" rx="6" ry="12"/>
+    <ellipse cx="236" cy="649" rx="6" ry="12"/><ellipse cx="254" cy="653" rx="6" ry="12"/>
+    <ellipse cx="272" cy="650" rx="6" ry="12"/>
+  </g>
+</svg>

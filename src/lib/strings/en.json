@@ -13,7 +13,8 @@
 		"makeItDo": "Make it do it",
 		"close": "Put the toy away",
 		"hearIt": "Hear it",
-		"sizeCompare": "Size compare"
+		"sizeCompare": "Size compare",
+		"thenVsNow": "Then and now"
 	},
 	"dayNight": {
 		"day": "Day",
@@ -31,7 +32,8 @@
 		"stretch": "Stretch",
 		"spout": "Spout!",
 		"dive": "Dive",
-		"wave": "Wave"
+		"wave": "Wave",
+		"slide": "Slide"
 	},
 	"globe": {
 		"home": "Spin back home",
@@ -78,5 +80,10 @@
 		"failed": "Some animals didn't download. Check the connection and try again.",
 		"update": "New animals arrived!",
 		"refresh": "Refresh"
+	},
+	"thenVsNow": {
+		"baby": "Baby",
+		"grown": "Grown-up",
+		"slider": "Slide from baby to grown-up"
 	}
 }

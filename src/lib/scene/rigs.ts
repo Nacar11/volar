@@ -38,7 +38,7 @@ export const rigs = {
 			'tail',
 			'feet'
 		],
-		actions: ['flap', 'dance', 'squawk']
+		actions: ['flap', 'dance', 'squawk', 'slide']
 	},
 	quadruped: {
 		parts: [

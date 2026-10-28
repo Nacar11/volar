@@ -1,0 +1,29 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "name": "Antarctic coast (Pacific side)" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-179, -66], [-60, -64], [-60, -76], [-179, -78], [-179, -66]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Antarctic coast (Atlantic side)" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[-60, -64], [60, -66], [60, -72], [-60, -76], [-60, -64]]]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": { "name": "Antarctic coast (Indian Ocean side, and the Ross Sea)" },
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [[[60, -66], [179, -66], [179, -79], [60, -72], [60, -66]]]
+			}
+		}
+	]
+}

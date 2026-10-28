@@ -8,19 +8,21 @@
 		/** The pack's puppet.svg, inlined so GSAP can reach its parts. */
 		svg: string;
 		rig: RigName;
+		/** The animal's tweaks to its rig (rigOptions in animal.json). */
+		options?: { flightless?: boolean };
 		label: string;
 		onready: (rig: Rig) => void;
 		ontap: () => void;
 	}
 
-	let { svg, rig: rigName, label, onready, ontap }: Props = $props();
+	let { svg, rig: rigName, options = {}, label, onready, ontap }: Props = $props();
 	let host: HTMLButtonElement;
 	let current: Rig | null = null;
 
 	$effect(() => {
 		const el = host.querySelector('svg');
 		if (!el) throw new Error('puppet markup has no <svg>');
-		const rig = createRig(rigName, el, { reducedMotion: () => motion.reduced });
+		const rig = createRig(rigName, el, { ...options, reducedMotion: () => motion.reduced });
 		current = rig;
 		untrack(() => onready(rig));
 		return () => {

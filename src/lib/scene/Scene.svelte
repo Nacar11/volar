@@ -4,7 +4,7 @@
 	import { loadSound } from '#lib/audio/sound.ts';
 	import { book } from '#lib/db/book.svelte.ts';
 	import type { Animal, Toy } from '#lib/content/schema.ts';
-	import type { Pack } from '#lib/content/animals.ts';
+	import { packUrl, type Pack } from '#lib/content/animals.ts';
 	import { motion, settings } from '#lib/settings.svelte.ts';
 	import { fill, t } from '#lib/strings/index.ts';
 	import BodyXray from '#lib/toys/BodyXray.svelte';
@@ -32,7 +32,8 @@
 		bodyXray: '🔍',
 		makeItDo: '🎬',
 		hearIt: '🔊',
-		sizeCompare: '📏'
+		sizeCompare: '📏',
+		thenVsNow: '🐣'
 	};
 	// Far, middle and near layers drift by different amounts as the pointer moves.
 	const DEPTHS = [8, 18, 32];
@@ -67,6 +68,18 @@
 
 	const lastFact = $derived(factIndex >= animal.facts.length - 1);
 	const toy = $derived(animal.toys.find((x) => x.type === activeToy));
+
+	// "Then and now": 0 shows the baby, 1 the grown-up animal.
+	let grownUp = $state(1);
+	const showingBaby = $derived(toy?.type === 'thenVsNow' && grownUp < 0.5);
+
+	$effect(() => {
+		if (toy?.type !== 'thenVsNow') {
+			grownUp = 1;
+			return;
+		}
+		line = showingBaby ? toy.then : toy.now;
+	});
 
 	$effect.pre(() => {
 		line = animal.greeting;
@@ -169,13 +182,25 @@
 
 	<div class="stage">
 		<div class="figure">
+			<div class="puppet-layer" style:--grown={toy?.type === 'thenVsNow' ? grownUp : 1}>
 			<Puppet
 				svg={pack.puppet}
 				rig={animal.rig}
+				options={animal.rigOptions}
 				label={fill(t.scene.tapAnimal, { name: animal.name })}
 				onready={ready}
 				ontap={() => rig?.react()}
 			/>
+			</div>
+			{#if toy?.type === 'thenVsNow'}
+				<img
+					class="baby"
+					src={packUrl(animal, toy.image)}
+					alt=""
+					style:opacity={1 - grownUp}
+					style:scale={0.85 + 0.15 * (1 - grownUp)}
+				/>
+			{/if}
 			{#if asleep}
 				<span class="zzz" aria-hidden="true">z z z</span>
 			{/if}
@@ -209,6 +234,19 @@
 							</button>
 						{/each}
 					</div>
+				{:else if toy.type === 'thenVsNow'}
+					<label class="then-now">
+						<span aria-hidden="true">🐣 {t.thenVsNow.baby}</span>
+						<input
+							type="range"
+							min="0"
+							max="1"
+							step="0.01"
+							aria-label={t.thenVsNow.slider}
+							bind:value={grownUp}
+						/>
+						<span aria-hidden="true">{t.thenVsNow.grown}</span>
+					</label>
 				{:else if toy.type === 'hearIt'}
 					{@const { sound: clip, caption } = toy}
 					<HearIt ready={sound !== null} onhear={() => hear(clip, caption)} />
@@ -410,6 +448,40 @@
 		padding: 12px;
 		border-radius: var(--radius);
 		background: rgb(255 250 240 / 0.85);
+	}
+
+	.puppet-layer {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* "Then and now" fades only the animal, so the baby stands on the same perch.
+	   A filter, not opacity: GSAP animates the animal's opacity on reduced-motion entrances. */
+	.puppet-layer :global(#animal) {
+		filter: opacity(var(--grown, 1));
+	}
+
+	.baby {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		transform-origin: bottom;
+	}
+
+	.then-now {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-weight: 700;
+		font-size: 0.8rem;
+	}
+
+	.then-now input {
+		width: min(50vw, 320px);
+		height: 48px;
+		accent-color: var(--theme);
 	}
 
 	.things {
