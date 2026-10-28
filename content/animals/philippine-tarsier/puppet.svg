@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <clipPath id="head-clip"><ellipse cx="200" cy="172" rx="82" ry="72"/></clipPath>
+  </defs>
+  <g id="puppet">
+    <g id="perch">
+      <rect x="10" y="326" width="380" height="24" rx="12" fill="#8D5A3B"/>
+      <rect x="10" y="340" width="380" height="10" rx="5" fill="#74482E"/>
+      <ellipse cx="350" cy="320" rx="22" ry="9" transform="rotate(-20 350 320)" fill="#4E9A50"/>
+    </g>
+    <g id="animal">
+      <g id="tail">
+        <path d="M212 304C236 338 252 362 246 388" fill="none" stroke="#9C7656" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="246" cy="390" rx="7" ry="11" fill="#B08A6A"/>
+      </g>
+      <g id="leg-l">
+        <ellipse cx="158" cy="290" rx="26" ry="34" fill="#A27E5E"/>
+        <rect x="128" y="316" width="48" height="16" rx="8" fill="#C9A07F"/>
+        <circle cx="132" cy="324" r="6" fill="#E0BB98"/>
+      </g>
+      <g id="leg-r">
+        <ellipse cx="242" cy="290" rx="26" ry="34" fill="#A27E5E"/>
+        <rect x="224" y="316" width="48" height="16" rx="8" fill="#C9A07F"/>
+        <circle cx="268" cy="324" r="6" fill="#E0BB98"/>
+      </g>
+      <g id="body">
+        <ellipse cx="200" cy="268" rx="52" ry="62" fill="#B08A6A"/>
+        <ellipse cx="200" cy="282" rx="34" ry="44" fill="#D9BFA0"/>
+      </g>
+      <g id="arm-l">
+        <rect x="160" y="236" width="16" height="66" rx="8" fill="#A27E5E"/>
+        <circle cx="168" cy="304" r="10" fill="#C9A07F"/>
+      </g>
+      <g id="arm-r">
+        <rect x="224" y="236" width="16" height="66" rx="8" fill="#A27E5E"/>
+        <circle cx="232" cy="304" r="10" fill="#C9A07F"/>
+      </g>
+      <g id="head">
+        <g id="ear-l">
+          <ellipse cx="136" cy="116" rx="22" ry="30" transform="rotate(-25 136 116)" fill="#A27E5E"/>
+          <ellipse cx="136" cy="118" rx="12" ry="19" transform="rotate(-25 136 118)" fill="#E7B9A0"/>
+        </g>
+        <g id="ear-r">
+          <ellipse cx="264" cy="116" rx="22" ry="30" transform="rotate(25 264 116)" fill="#A27E5E"/>
+          <ellipse cx="264" cy="118" rx="12" ry="19" transform="rotate(25 264 118)" fill="#E7B9A0"/>
+        </g>
+        <ellipse cx="200" cy="172" rx="82" ry="72" fill="#B08A6A"/>
+        <!-- The face slides inside the head's outline when the head turns around. -->
+        <g clip-path="url(#head-clip)">
+          <g id="face">
+            <ellipse cx="200" cy="184" rx="70" ry="56" fill="#C9A584"/>
+            <g id="eyes">
+              <g id="eye-l">
+                <circle cx="166" cy="168" r="34" fill="#F2B33D"/>
+                <circle id="pupil-l" cx="166" cy="170" r="17" fill="#2B1D14"/>
+                <circle cx="175" cy="159" r="6" fill="#FFFFFF"/>
+                <ellipse id="lid-l" cx="166" cy="168" rx="35" ry="35" fill="#A27E5E" style="opacity: var(--xray-hide, 1)"/>
+              </g>
+              <g id="eye-r">
+                <circle cx="234" cy="168" r="34" fill="#F2B33D"/>
+                <circle id="pupil-r" cx="234" cy="170" r="17" fill="#2B1D14"/>
+                <circle cx="243" cy="159" r="6" fill="#FFFFFF"/>
+                <ellipse id="lid-r" cx="234" cy="168" rx="35" ry="35" fill="#A27E5E" style="opacity: var(--xray-hide, 1)"/>
+              </g>
+            </g>
+            <ellipse cx="200" cy="208" rx="6" ry="4" fill="#6B4A35"/>
+            <path id="mouth" d="M190 217Q200 225 210 217" fill="none" stroke="#6B4A35" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

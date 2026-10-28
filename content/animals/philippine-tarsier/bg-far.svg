@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#BFE6F5"/>
+  <g fill="#FFFFFF" opacity="0.9">
+    <ellipse cx="260" cy="170" rx="110" ry="38"/><ellipse cx="320" cy="145" rx="70" ry="40"/>
+    <ellipse cx="1180" cy="120" rx="130" ry="40"/><ellipse cx="1250" cy="95" rx="80" ry="42"/>
+  </g>
+  <!-- Bohol's Chocolate Hills on the horizon -->
+  <g fill="#A7CF8C">
+    <path d="M0 640Q90 500 180 640Z"/><path d="M150 650Q260 480 370 650Z"/>
+    <path d="M520 640Q610 510 700 640Z"/><path d="M880 650Q990 470 1100 650Z"/>
+    <path d="M1250 640Q1340 500 1430 640Z"/><path d="M1400 650Q1500 520 1600 650Z"/>
+  </g>
+  <g fill="#C4A574">
+    <path d="M330 660Q430 520 530 660Z"/><path d="M1060 660Q1160 530 1260 660Z"/>
+  </g>
+  <rect y="630" width="1600" height="270" fill="#8FC27A"/>
+</svg>

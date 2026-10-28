@@ -1,0 +1,45 @@
+{
+	"id": "philippine-tarsier",
+	"name": "Philippine Tarsier",
+	"continent": "asia",
+	"livesIn": "the Philippines",
+	"habitats": ["jungle"],
+	"nocturnal": true,
+	"rig": "mammal-small",
+	"themeColor": "#8BC34A",
+	"globe": { "lat": 9.85, "lng": 124.15 },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hi! I'm a tarsier!",
+	"facts": [
+		{ "id": "home", "text": "I live in forests in the Philippines, like on Bohol!" },
+		{ "id": "night", "text": "I sleep all day and wake up at night." },
+		{ "id": "food", "text": "I catch bugs like crickets and grasshoppers to eat." },
+		{ "id": "eyes", "text": "Each of my eyes is as big as my brain!" },
+		{ "id": "head", "text": "I can turn my head to look right behind me!" },
+		{ "id": "tail", "text": "My tail is twice as long as my body!" },
+		{ "id": "baby", "text": "My baby is born with fur and open eyes!" },
+		{ "id": "safe", "text": "People in Bohol keep a safe forest home for me." }
+	],
+	"toys": [
+		{
+			"type": "dayNight",
+			"day": "Shh... I'm sleeping.",
+			"night": "I'm awake! Time to catch bugs."
+		},
+		{
+			"type": "bodyXray",
+			"feature": "eyes",
+			"reveal": "My eyes can't move, so I turn my head instead."
+		},
+		{ "type": "makeItDo", "actions": ["leap", "turnHead"] }
+	],
+	"sources": [
+		"https://en.wikipedia.org/wiki/Philippine_tarsier",
+		"https://en.wikipedia.org/wiki/Tarsier",
+		"https://animaldiversity.org/accounts/Carlito_syrichta/"
+	]
+}

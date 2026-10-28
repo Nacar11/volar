@@ -1,0 +1,379 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import type { Animal, Toy } from '#lib/content/schema.ts';
+	import type { Pack } from '#lib/content/animals.ts';
+	import { motion } from '#lib/settings.svelte.ts';
+	import { fill, t } from '#lib/strings/index.ts';
+	import BodyXray from '#lib/toys/BodyXray.svelte';
+	import DayNight from '#lib/toys/DayNight.svelte';
+	import MakeItDo from '#lib/toys/MakeItDo.svelte';
+	import type { Rig } from './motions';
+	import Puppet from './Puppet.svelte';
+
+	interface Props {
+		animal: Animal;
+		pack: Pack;
+		/** Hands the rig out, for the dev previewer's controls. */
+		onrig?: (rig: Rig) => void;
+	}
+
+	let { animal, pack, onrig }: Props = $props();
+
+	const TOY_ICONS: Record<Toy['type'], string> = { dayNight: '🌗', bodyXray: '🔍', makeItDo: '🎬' };
+	// Far, middle and near layers drift by different amounts as the pointer moves.
+	const DEPTHS = [8, 18, 32];
+
+	let rig = $state.raw<Rig | null>(null);
+	let factIndex = $state(-1);
+	let line = $state('');
+	let activeToy = $state<Toy['type'] | null>(null);
+	let time = $state<'day' | 'night' | null>(null);
+	let asleep = $state(false);
+	let pointer = $state({ x: 0, y: 0 });
+
+	const lastFact = $derived(factIndex >= animal.facts.length - 1);
+	const toy = $derived(animal.toys.find((x) => x.type === activeToy));
+
+	$effect.pre(() => {
+		line = animal.greeting;
+	});
+
+	async function ready(r: Rig) {
+		rig = r;
+		onrig?.(r);
+		await r.entrance();
+	}
+
+	function next() {
+		factIndex = lastFact ? 0 : factIndex + 1;
+		line = animal.facts[factIndex].text;
+		rig?.calm();
+	}
+
+	function setTime(next: 'day' | 'night') {
+		time = next;
+		asleep = (next === 'day') === animal.nocturnal;
+		rig?.sleep(asleep);
+		rig?.dilate(next === 'night' && animal.nocturnal);
+		if (toy?.type === 'dayNight') line = next === 'day' ? toy.day : toy.night;
+	}
+
+	// Doing an action wakes a sleeping animal up.
+	function play(action: string) {
+		asleep = false;
+		return rig?.play(action) ?? Promise.resolve();
+	}
+
+	async function leave() {
+		await rig?.exit();
+		goto('/');
+	}
+
+	function track(e: PointerEvent) {
+		if (motion.reduced || e.pointerType === 'touch') return;
+		pointer = {
+			x: (e.clientX / innerWidth) * 2 - 1,
+			y: (e.clientY / innerHeight) * 2 - 1
+		};
+	}
+</script>
+
+<div class="scene" class:day={time === 'day'} class:night={time === 'night'} style:--theme={animal.themeColor} onpointermove={track} role="presentation">
+	{#snippet layer(src: string, i: number)}
+		<img
+			class="layer"
+			class:near={i === pack.background.length - 1}
+			{src}
+			alt=""
+			style:translate="{-pointer.x * DEPTHS[i]}px {-pointer.y * DEPTHS[i] * 0.4}px"
+		/>
+	{/snippet}
+	{#each pack.background.slice(0, -1) as src, i (src)}
+		{@render layer(src, i)}
+	{/each}
+	<!-- Tints the far layers and the animal, under the near layer, which dims itself. -->
+	<div class="sky" aria-hidden="true">
+		<span class="sun">☀️</span>
+		<span class="moon">🌙</span>
+		<span class="stars">✨ ✦ ✨ ✦ ✨</span>
+	</div>
+	{@render layer(pack.background[pack.background.length - 1], pack.background.length - 1)}
+
+	<header>
+		<button class="round-button" aria-label={t.scene.back} onclick={leave}>🌍</button>
+		<div class="banner">
+			<h1>{animal.name}</h1>
+			<p>{fill(t.scene.livesIn, { place: animal.livesIn })}</p>
+		</div>
+	</header>
+
+	<div class="bubble" aria-live="polite">
+		<p>{line}</p>
+		<button class="round-button" onclick={next} aria-label={lastFact ? t.scene.again : t.scene.next}>
+			{lastFact ? '↺' : '▶'}
+		</button>
+	</div>
+
+	<div class="stage">
+		<div class="figure">
+			<Puppet
+				svg={pack.puppet}
+				rig={animal.rig}
+				label={fill(t.scene.tapAnimal, { name: animal.name })}
+				onready={ready}
+				ontap={() => rig?.react()}
+			/>
+			{#if asleep}
+				<span class="zzz" aria-hidden="true">z z z</span>
+			{/if}
+			{#if toy?.type === 'bodyXray'}
+				{@const reveal = toy.reveal}
+				<BodyXray feature={toy.feature} onreveal={() => (line = reveal)} />
+			{/if}
+		</div>
+	</div>
+
+	<footer>
+		{#if toy}
+			<div class="panel">
+				{#if toy.type === 'dayNight'}
+					<DayNight {time} onpick={setTime} />
+				{:else if toy.type === 'makeItDo'}
+					<MakeItDo actions={toy.actions} onplay={play} />
+				{:else}
+					<p class="hint">{t.bodyXray.hint}</p>
+				{/if}
+			</div>
+		{/if}
+		<nav class="shelf" aria-label="Toys">
+			{#each animal.toys as item (item.type)}
+				<button
+					class="round-button toy"
+					aria-pressed={activeToy === item.type}
+					onclick={() => (activeToy = activeToy === item.type ? null : item.type)}
+				>
+					<span aria-hidden="true">{TOY_ICONS[item.type]}</span>
+					<small>{t.toys[item.type]}</small>
+				</button>
+			{/each}
+		</nav>
+	</footer>
+</div>
+
+<style>
+	.scene {
+		position: fixed;
+		inset: 0;
+		overflow: hidden;
+		display: grid;
+		grid-template-rows: auto auto minmax(0, 1fr) auto;
+		gap: 8px;
+		padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+		background: #bfe6f5;
+	}
+
+	.layer {
+		position: absolute;
+		inset: -40px;
+		width: calc(100% + 80px);
+		height: calc(100% + 80px);
+		object-fit: cover;
+		object-position: center bottom;
+		pointer-events: none;
+		transition: translate 0.3s ease-out;
+	}
+
+	.layer.near {
+		z-index: 2;
+		transition:
+			translate 0.3s ease-out,
+			filter 0.8s;
+	}
+
+	.night .layer.near {
+		filter: brightness(0.55) saturate(0.8);
+	}
+
+	.sky {
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		pointer-events: none;
+		transition: background-color 0.8s;
+	}
+
+	.night .sky {
+		background-color: rgb(20 30 90 / 0.55);
+	}
+
+	.sun,
+	.moon,
+	.stars {
+		position: absolute;
+		top: 12%;
+		right: 8%;
+		font-size: 4rem;
+		opacity: 0;
+		transition: opacity 0.8s;
+	}
+
+	.stars {
+		left: 10%;
+		right: auto;
+		font-size: 1.6rem;
+		letter-spacing: 1.5em;
+		color: #fff8c4;
+	}
+
+	.day .sun,
+	.night .moon,
+	.night .stars {
+		opacity: 1;
+	}
+
+	header,
+	.bubble,
+	.stage,
+	footer {
+		position: relative;
+		z-index: 1;
+	}
+
+	.stage {
+		z-index: 0;
+	}
+
+	header {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.banner {
+		flex: 1;
+		max-width: 520px;
+		margin-inline: auto;
+		padding: 8px 24px;
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: inset 0 -8px 0 var(--theme), var(--shadow);
+		text-align: center;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 1.4rem;
+	}
+
+	.banner p {
+		margin: 0;
+		font-size: 0.8rem;
+	}
+
+	.bubble {
+		justify-self: center;
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		max-width: min(100%, 640px);
+		padding: 12px 12px 12px 24px;
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: var(--shadow);
+	}
+
+	.bubble p {
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	.bubble::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		bottom: -14px;
+		border: 14px solid transparent;
+		border-bottom: none;
+		border-top-color: var(--paper);
+		translate: -50% 0;
+	}
+
+	.stage {
+		container-type: size;
+		display: grid;
+		place-items: end center;
+	}
+
+	.figure {
+		position: relative;
+		width: min(100cqw, 100cqh);
+		height: min(100cqw, 100cqh);
+	}
+
+	.zzz {
+		position: absolute;
+		top: 4%;
+		right: 18%;
+		font-weight: 700;
+		font-size: 1.4rem;
+		color: #fffaf0;
+		text-shadow: 0 2px 4px rgb(0 0 0 / 0.4);
+		animation: float 2.4s ease-in-out infinite;
+	}
+
+	@keyframes float {
+		50% {
+			translate: 6px -12px;
+		}
+	}
+
+	footer {
+		z-index: 3;
+		display: grid;
+		gap: 12px;
+	}
+
+	.panel {
+		justify-self: center;
+		padding: 12px;
+		border-radius: var(--radius);
+		background: rgb(255 250 240 / 0.85);
+	}
+
+	.hint {
+		margin: 0;
+		padding: 0 12px;
+	}
+
+	.shelf {
+		display: flex;
+		justify-content: center;
+		gap: 16px;
+	}
+
+	.toy {
+		flex-direction: column;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 112px;
+		padding: 8px;
+		border-radius: 24px;
+		font-size: 1.6rem;
+	}
+
+	.toy small {
+		font-size: 0.55rem;
+		font-weight: 700;
+	}
+
+	.toy[aria-pressed='true'] {
+		background: #ffe082;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.zzz {
+			animation: none;
+		}
+	}
+</style>
