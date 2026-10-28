@@ -7,7 +7,7 @@
 	"nocturnal": true,
 	"rig": "mammal-small",
 	"themeColor": "#8BC34A",
-	"globe": { "lat": 9.85, "lng": 124.15 },
+	"globe": { "lat": 9.85, "lng": 124.15, "regions": "regions.geojson" },
 	"assets": {
 		"icon": "icon.svg",
 		"puppet": "puppet.svg",

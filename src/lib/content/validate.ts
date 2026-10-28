@@ -1,7 +1,9 @@
-import { animalSchema, creditsSchema, plannedSchema } from './schema';
+import { animalSchema, creditsSchema, plannedSchema, regionPolygons, regionsSchema } from './schema';
 import { rigs } from '../scene/rigs';
 
 export const PACK_BUDGET_BYTES = 800 * 1024;
+/** How far (degrees) an animal's pin may sit outside its habitat's bounding box. */
+export const PIN_SLACK_DEG = 3;
 export const MAX_WORDS = 12;
 
 /** Files in one animal folder, by name. */
@@ -45,6 +47,28 @@ export function validatePack(folder: string, files: PackFiles): string[] {
 		...(animal.globe.regions ? [animal.globe.regions] : [])
 	];
 	for (const name of referenced) if (!files[name]) problems.push(`${name} is referenced but missing`);
+
+	const regionsFile = animal.globe.regions;
+	if (regionsFile && files[regionsFile]) {
+		const regions = regionsSchema.safeParse(readJson(regionsFile));
+		if (!regions.success) {
+			for (const issue of regions.error.issues) {
+				problems.push(`${regionsFile} ${issue.path.join('.')}: ${issue.message}`);
+			}
+		} else {
+			// Catches a habitat drawn on the wrong continent, or a pin put in the wrong place.
+			const points = regionPolygons(regions.data).flat(2);
+			const lngs = points.map((p) => p[0]);
+			const lats = points.map((p) => p[1]);
+			const { lat, lng } = animal.globe;
+			const inside =
+				lng >= Math.min(...lngs) - PIN_SLACK_DEG &&
+				lng <= Math.max(...lngs) + PIN_SLACK_DEG &&
+				lat >= Math.min(...lats) - PIN_SLACK_DEG &&
+				lat <= Math.max(...lats) + PIN_SLACK_DEG;
+			if (!inside) problems.push(`the pin at ${lat}, ${lng} is far from its habitat in ${regionsFile}`);
+		}
+	}
 
 	const credits = creditsSchema.safeParse(readJson('credits.json'));
 	if (credits.success) {

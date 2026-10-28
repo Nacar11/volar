@@ -101,3 +101,57 @@ describe('validatePlanned', () => {
 		expect(validatePlanned([{ ...lion, lat: 120 }], icon, credits, []).join()).toMatch(/lat/);
 	});
 });
+
+describe('validatePack: habitat regions', () => {
+	const withRegions = (change: (regions: any) => void) => {
+		const files = tarsier();
+		const regions = JSON.parse(new TextDecoder().decode(files['regions.geojson']));
+		change(regions);
+		files['regions.geojson'] = encode(JSON.stringify(regions));
+		return validatePack('philippine-tarsier', files).join('\n');
+	};
+
+	it('rejects a file that is not valid GeoJSON', () => {
+		const files = tarsier();
+		files['regions.geojson'] = encode('{ "type": "Feature" }');
+		expect(validatePack('philippine-tarsier', files).join()).toMatch(/regions.geojson/);
+	});
+
+	it('rejects coordinates out of range', () => {
+		expect(withRegions((r) => (r.features[0].geometry.coordinates[0][1] = [200, 9.6]))).toMatch(
+			/regions.geojson features.0.geometry.coordinates/
+		);
+	});
+
+	it('rejects a ring that is not closed', () => {
+		expect(withRegions((r) => r.features[0].geometry.coordinates[0].pop())).toMatch(
+			/must end where it starts/
+		);
+	});
+
+	it('rejects a ring that crosses the date line', () => {
+		const wide = [
+			[170, 0],
+			[-170, 0],
+			[-170, 5],
+			[170, 5],
+			[170, 0]
+		];
+		expect(withRegions((r) => (r.features[0].geometry.coordinates = [wide]))).toMatch(/date line/);
+	});
+
+	it('rejects a habitat drawn far from the pin, e.g. on the wrong continent', () => {
+		const africa = [
+			[30, 0],
+			[35, 0],
+			[35, 5],
+			[30, 5],
+			[30, 0]
+		];
+		expect(
+			withRegions((r) => {
+				r.features = [{ type: 'Feature', geometry: { type: 'Polygon', coordinates: [africa] } }];
+			})
+		).toMatch(/far from its habitat/);
+	});
+});

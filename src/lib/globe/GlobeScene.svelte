@@ -3,16 +3,22 @@
 	// glow, stars, and orbit controls that kids drag, pinch and let spin.
 	import { T, useLoader, useTask, useThrelte } from '@threlte/core';
 	import { OrbitControls, Stars } from '@threlte/extras';
+	import { gsap } from 'gsap';
 	import {
 		AdditiveBlending,
 		BackSide,
+		BufferAttribute,
+		DoubleSide,
 		DataTexture,
 		NearestFilter,
 		RedFormat,
 		SRGBColorSpace,
 		TextureLoader,
 		Vector3,
+		type BufferGeometry,
+		type NormalOrGLBufferAttributes,
 		type Group,
+		type MeshBasicMaterial,
 		type PerspectiveCamera
 	} from 'three';
 	import type { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -37,10 +43,56 @@
 		still: boolean;
 		/** Called once per rendered frame. */
 		onframe: () => void;
+		/** Habitat overlays: fill and outline triangles on the globe (see habitat.ts). */
+		habitats: { id: string; color: string; fill: Float32Array; outline: Float32Array }[];
+		/** The habitat to pulse, if any. */
+		pulse: string | null;
 	}
 
-	let { home, texture, oncontrols, onspin, markers, onplace, paused, still, onframe }: Props =
-		$props();
+	let {
+		home,
+		texture,
+		oncontrols,
+		onspin,
+		markers,
+		onplace,
+		paused,
+		still,
+		onframe,
+		habitats,
+		pulse
+	}: Props = $props();
+
+	// Habitats glow softly at rest and pulse brighter when their animal is hovered or tapped.
+	const GLOW = { fill: { rest: 0.45, peak: 0.9 }, outline: { rest: 0.6, peak: 1 } };
+	const glows: Record<string, { fill: MeshBasicMaterial; outline: MeshBasicMaterial }> = {};
+
+	$effect(() => {
+		const active = pulse;
+		for (const [id, materials] of Object.entries(glows)) {
+			for (const part of ['fill', 'outline'] as const) {
+				const material = materials[part];
+				const { rest, peak } = GLOW[part];
+				gsap.killTweensOf(material);
+				if (id !== active) {
+					gsap.to(material, { opacity: rest, duration: 0.4 });
+				} else if (motion.reduced) {
+					material.opacity = peak;
+				} else {
+					gsap.fromTo(
+						material,
+						{ opacity: rest },
+						{ opacity: peak, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: -1 }
+					);
+				}
+			}
+		}
+	});
+
+	function fillHabitat(geometry: BufferGeometry<NormalOrGLBufferAttributes>, positions: Float32Array) {
+		geometry.setAttribute('position', new BufferAttribute(positions, 3));
+		geometry.computeBoundingSphere();
+	}
 
 	const IDLE_MS = 6000;
 	const FOV = 40;
@@ -206,6 +258,33 @@
 		<T.MeshToonMaterial map={earth} gradientMap={toonSteps} />
 	</T.Mesh>
 {/await}
+
+{#each habitats as habitat (habitat.id)}
+	{@const materials = (glows[habitat.id] ??= {} as (typeof glows)[string])}
+	<!-- The theme colour, edged in white so it reads on green land and blue sea alike. -->
+	<T.Mesh renderOrder={1}>
+		<T.BufferGeometry oncreate={(g) => fillHabitat(g, habitat.fill)} />
+		<T.MeshBasicMaterial
+			bind:ref={materials.fill}
+			color={habitat.color}
+			transparent
+			opacity={GLOW.fill.rest}
+			depthWrite={false}
+			side={DoubleSide}
+		/>
+	</T.Mesh>
+	<T.Mesh renderOrder={2}>
+		<T.BufferGeometry oncreate={(g) => fillHabitat(g, habitat.outline)} />
+		<T.MeshBasicMaterial
+			bind:ref={materials.outline}
+			color="#ffffff"
+			transparent
+			opacity={GLOW.outline.rest}
+			depthWrite={false}
+			side={DoubleSide}
+		/>
+	</T.Mesh>
+{/each}
 
 <T.Mesh scale={1.15}>
 	<T.SphereGeometry args={[1, 64, 32]} />

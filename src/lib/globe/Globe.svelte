@@ -4,7 +4,7 @@
 	import { untrack } from 'svelte';
 	import { NoToneMapping, type PerspectiveCamera } from 'three';
 	import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-	import { animals, iconUrl, planned, plannedIconUrl } from '#lib/content/animals.ts';
+	import { animals, habitatOf, iconUrl, planned, plannedIconUrl } from '#lib/content/animals.ts';
 	import type { Animal } from '#lib/content/schema.ts';
 	import { clouds } from '#lib/scene/clouds.ts';
 	import { motion } from '#lib/settings.svelte.ts';
@@ -12,6 +12,7 @@
 	import { DISTANCE, flyTo } from './flyTo';
 	import { latLngToVector, type Placement } from './geo';
 	import GlobeScene from './GlobeScene.svelte';
+	import { habitatOutline, habitatTriangles } from './habitat';
 	import { spreadApart } from './spread';
 
 	interface Props {
@@ -56,11 +57,23 @@
 	];
 	const markers = pins.map(({ id, at }) => ({ id, at }));
 	const ready = new Set(pins.filter((p) => p.animal).map((p) => p.id));
+	const habitats = animals
+		.map((a) => ({
+			id: a.id,
+			color: a.themeColor,
+			fill: habitatTriangles(habitatOf(a)),
+			outline: habitatOutline(habitatOf(a))
+		}))
+		.filter((h) => h.fill.length > 0);
 	const icons: Record<string, HTMLElement> = {};
 
 	let rig = $state.raw<{ controls: OrbitControls; camera: PerspectiveCamera } | null>(null);
 	let spinning = $state(false);
 	let flying = $state(false);
+	let hovered = $state<string | null>(null);
+	let visiting = $state<string | null>(null);
+	// A habitat pulses while its pin is hovered or focused, and through the dive after a tap.
+	const pulse = $derived(visiting ?? hovered);
 	let root: HTMLDivElement;
 	let frames = 0;
 
@@ -84,7 +97,10 @@
 		shown.forEach((p, i) => {
 			const icon = icons[p.id];
 			icon.style.translate = `${spread[i].x}px ${spread[i].y + lift[i]}px`;
-			icon.style.opacity = String(p.opacity);
+			// While a habitat pulses, the other pins fade back so the region shows through;
+			// on the dive after a tap every pin goes, so the kid watches the habitat close in.
+			const faded = visiting !== null || (pulse !== null && p.id !== pulse);
+			icon.style.opacity = String(faded ? p.opacity * (visiting ? 0 : 0.25) : p.opacity);
 			icon.style.scale = String(scales[i]);
 			// Nearer pins on top, and tappable animals above the coming-soon ones.
 			icon.style.zIndex = String(Math.round(p.facing * 100) + (ready.has(p.id) ? 200 : 0));
@@ -107,6 +123,7 @@
 		event.preventDefault();
 		if (flying || !rig) return;
 		flying = true;
+		visiting = animal.id;
 		const href = `/animal/${animal.id}`;
 		const loading = preloadData(href);
 		const { camera, controls } = rig;
@@ -122,6 +139,7 @@
 		}
 		await loading;
 		await goto(href);
+		visiting = null;
 		await clouds.part();
 		flying = false;
 	}
@@ -146,6 +164,7 @@
 	class="globe"
 	data-testid="globe"
 	data-spinning={spinning}
+	data-pulse={pulse}
 	inert={paused}
 	aria-hidden={paused}
 >
@@ -161,6 +180,8 @@
 			{paused}
 			still={flying}
 			onframe={() => (root.dataset.frames = String(++frames))}
+			{habitats}
+			{pulse}
 		/>
 	</Canvas>
 
@@ -174,6 +195,10 @@
 				aria-label={animal.name}
 				style:--theme={animal.themeColor}
 				onclick={(event) => visit(animal, event)}
+				onpointerenter={() => (hovered = animal.id)}
+				onpointerleave={() => (hovered = null)}
+				onfocus={() => (hovered = animal.id)}
+				onblur={() => (hovered = null)}
 			>
 				<span class="bob"><img src={pin.icon} alt="" /></span>
 			</a>

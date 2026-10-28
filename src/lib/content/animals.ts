@@ -1,5 +1,13 @@
 import { error } from '@sveltejs/kit';
-import { animalSchema, plannedSchema, type Animal, type Planned } from './schema';
+import {
+	animalSchema,
+	plannedSchema,
+	regionPolygons,
+	regionsSchema,
+	type Animal,
+	type Planned,
+	type RegionPolygon
+} from './schema';
 import plannedList from '../../../content/planned/planned.json';
 
 // Manifests and icons are small and load with the app; each pack's puppet and
@@ -39,6 +47,20 @@ const plannedIcons = import.meta.glob<string>('/content/planned/icons/*.svg', {
 export const plannedIconUrl = (p: Planned) => plannedIcons[`/content/planned/icons/${p.icon}`];
 
 export const iconUrl = (animal: Animal) => svgUrls[path(animal, animal.assets.icon)];
+
+// Habitat regions are small and the globe draws them all, so they load with the app.
+const regionFiles = import.meta.glob<string>('/content/animals/*/*.geojson', {
+	eager: true,
+	query: '?raw',
+	import: 'default'
+});
+
+/** The animal's habitat polygons, or none if it has no regions file. */
+export function habitatOf(animal: Animal): RegionPolygon[] {
+	const file = animal.globe.regions;
+	if (!file) return [];
+	return regionPolygons(regionsSchema.parse(JSON.parse(regionFiles[path(animal, file)])));
+}
 
 export interface Pack {
 	puppet: string;

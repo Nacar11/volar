@@ -63,3 +63,33 @@ export const plannedSchema = z.array(
 );
 
 export type Planned = z.infer<typeof plannedSchema>[number];
+
+// Habitat regions: hand-drawn GeoJSON, kid-readable blobs rather than range maps.
+const position = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]);
+const ring = z
+	.array(position)
+	.min(4)
+	.refine((r) => r[0][0] === r.at(-1)![0] && r[0][1] === r.at(-1)![1], 'a ring must end where it starts')
+	.refine((r) => {
+		const lngs = r.map((p) => p[0]);
+		return Math.max(...lngs) - Math.min(...lngs) < 180;
+	}, 'a ring must not cross the date line; split it in two');
+const polygon = z.array(ring).min(1);
+const geometry = z.discriminatedUnion('type', [
+	z.object({ type: z.literal('Polygon'), coordinates: polygon }),
+	z.object({ type: z.literal('MultiPolygon'), coordinates: z.array(polygon).min(1) })
+]);
+
+export const regionsSchema = z.object({
+	type: z.literal('FeatureCollection'),
+	features: z
+		.array(z.object({ type: z.literal('Feature'), geometry, properties: z.unknown().optional() }))
+		.min(1)
+});
+
+export type Regions = z.infer<typeof regionsSchema>;
+export type RegionPolygon = z.infer<typeof polygon>;
+
+/** Every polygon in a regions file, flattened. */
+export const regionPolygons = (regions: Regions): RegionPolygon[] =>
+	regions.features.flatMap(({ geometry: g }) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates));

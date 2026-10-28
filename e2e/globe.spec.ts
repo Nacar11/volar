@@ -176,3 +176,17 @@ test('animals without a scene yet show as coming-soon pins that cannot be tapped
 	await expect(eagle).toHaveCount(1);
 	await expect(eagle).toHaveCSS('pointer-events', 'none');
 });
+
+test("hovering or focusing an animal's pin pulses its habitat", async ({ page }) => {
+	await page.goto('/');
+	const globe = page.getByTestId('globe');
+	await expect(tarsierIcon(page)).toBeVisible();
+	await expect(globe).not.toHaveAttribute('data-pulse');
+	await tarsierIcon(page).hover({ force: true });
+	await expect(globe).toHaveAttribute('data-pulse', 'philippine-tarsier');
+	await page.mouse.move(5, 5);
+	await expect(globe).not.toHaveAttribute('data-pulse');
+	// Keyboard: focusing the pin pulses it too.
+	await page.getByRole('link', { name: 'Philippine Tarsier' }).focus();
+	await expect(globe).toHaveAttribute('data-pulse', 'philippine-tarsier');
+});
