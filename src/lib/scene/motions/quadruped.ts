@@ -50,19 +50,26 @@ export function quadruped(svg: SVGSVGElement, opts: RigOptions): Rig {
 
 	/**
 	 * A walk cycle on the spot: diagonal legs swing together (front-near with
-	 * back-far, then the other pair), the body bobs once per step.
+	 * back-far, then the other pair). Each step the animal rises and settles,
+	 * the body rolls a little toward the leg taking its weight, and the head
+	 * bobs a beat behind, so it lumbers rather than marches.
 	 */
 	const steps = (count: number, stepS = 0.32) => {
-		const swing = opts.reducedMotion() ? 8 : 18;
+		const still = opts.reducedMotion();
+		const swing = still ? 8 : 18;
+		const roll = still ? 0.5 : 1.6;
 		const tl = gsap.timeline();
 		for (let i = 0; i < count; i++) {
 			const sign = i % 2 ? -1 : 1;
-			tl.to([p['leg-fr'], p['leg-bl']], { rotation: swing * sign, duration: stepS, ease: 'sine.inOut' }, i * stepS)
-				.to([p['leg-fl'], p['leg-br']], { rotation: -swing * sign, duration: stepS, ease: 'sine.inOut' }, i * stepS)
-				.to(p.animal, { y: -5, duration: stepS / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, i * stepS)
-				.to(p.head, { rotation: 2 * sign, duration: stepS, ease: 'sine.inOut' }, i * stepS);
+			const at = i * stepS;
+			tl.to([p['leg-fr'], p['leg-bl']], { rotation: swing * sign, duration: stepS, ease: 'sine.inOut' }, at)
+				.to([p['leg-fl'], p['leg-br']], { rotation: -swing * sign, duration: stepS, ease: 'sine.inOut' }, at)
+				.to(p.animal, { y: -5, duration: stepS / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, at)
+				.to(p.body, { rotation: roll * sign, duration: stepS, ease: 'sine.inOut' }, at)
+				.to(p.head, { rotation: 2.5 * sign, y: 3, duration: stepS / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, at + stepS / 4)
+				.to(p.tail, { rotation: -12 * sign, duration: stepS, ease: 'sine.inOut' }, at);
 		}
-		return tl.to([...legs, p.head], { rotation: 0, duration: 0.2 });
+		return tl.to([...legs, p.head, p.body, p.tail], { rotation: 0, y: 0, duration: 0.25, ease: 'sine.out' });
 	};
 
 	// A big cat stretch: front paws forward and down, rump up, then a yawn.
