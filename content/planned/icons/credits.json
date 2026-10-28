@@ -24,12 +24,6 @@
 		"license": "MIT"
 	},
 	{
-		"file": "bornean-orangutan.svg",
-		"source": "Fluent Emoji Flat, \"Orangutan\" (github.com/microsoft/fluentui-emoji)",
-		"author": "Microsoft Corporation",
-		"license": "MIT"
-	},
-	{
 		"file": "asian-elephant.svg",
 		"source": "Fluent Emoji Flat, \"Elephant\" (github.com/microsoft/fluentui-emoji)",
 		"author": "Microsoft Corporation",

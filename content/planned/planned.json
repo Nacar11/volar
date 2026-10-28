@@ -28,13 +28,6 @@
 		"icon": "bengal-tiger.svg"
 	},
 	{
-		"id": "bornean-orangutan",
-		"name": "Bornean Orangutan",
-		"lat": 0.5,
-		"lng": 114.0,
-		"icon": "bornean-orangutan.svg"
-	},
-	{
 		"id": "asian-elephant",
 		"name": "Asian Elephant",
 		"lat": 11.5,

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- A Bornean orangutan hanging face-on from a branch by both hands.
+       Reddish-brown hair, a flat dark face with a pale lower face. -->
+  <g id="puppet">
+    <g id="perch">
+      <rect x="16" y="52" width="368" height="20" rx="10" fill="#7B5236"/>
+      <rect x="16" y="64" width="368" height="8" rx="4" fill="#64422B"/>
+      <ellipse cx="44" cy="48" rx="22" ry="9" transform="rotate(-18 44 48)" fill="#4E9A50"/>
+      <ellipse cx="352" cy="46" rx="24" ry="9" transform="rotate(16 352 46)" fill="#4E9A50"/>
+    </g>
+    <g id="animal">
+      <g id="leg-l">
+        <path d="M178 264C164 284 156 302 160 316L184 318C182 304 186 288 194 270Z" fill="#9C3E17"/>
+        <ellipse cx="170" cy="322" rx="15" ry="8" fill="#5D4037"/>
+      </g>
+      <g id="leg-r">
+        <path d="M222 264C236 284 244 302 240 316L216 318C218 304 214 288 206 270Z" fill="#9C3E17"/>
+        <ellipse cx="230" cy="322" rx="15" ry="8" fill="#5D4037"/>
+      </g>
+      <g id="arm-l">
+        <path d="M150 68C146 108 148 148 158 182L184 176C174 146 168 108 166 68Z" fill="#A8431A"/>
+        <!-- The hand curls over the branch like a hook. -->
+        <ellipse cx="157" cy="60" rx="13" ry="10" fill="#5D4037"/>
+      </g>
+      <g id="arm-r">
+        <path d="M250 68C254 108 252 148 242 182L216 176C226 146 232 108 234 68Z" fill="#A8431A"/>
+        <ellipse cx="243" cy="60" rx="13" ry="10" fill="#5D4037"/>
+      </g>
+      <g id="body">
+        <path d="M200 168C236 168 252 200 250 236C248 270 232 292 200 292C168 292 152 270 150 236C148 200 164 168 200 168Z" fill="#B5481B"/>
+        <ellipse cx="200" cy="242" rx="30" ry="38" fill="#C8642E"/>
+        <g fill="none" stroke="#933815" stroke-width="3" stroke-linecap="round">
+          <path d="M160 214Q156 236 162 256"/><path d="M240 214Q244 236 238 256"/>
+        </g>
+      </g>
+      <g id="head">
+        <!-- Hair, with a shaggy tuft on top. -->
+        <circle cx="200" cy="144" r="42" fill="#B5481B"/>
+        <path d="M176 110L184 92L194 106L202 88L210 106L220 94L224 112Z" fill="#B5481B"/>
+        <circle cx="160" cy="148" r="7" fill="#6D4C41"/>
+        <circle cx="240" cy="148" r="7" fill="#6D4C41"/>
+        <!-- A flat, wide face: dark skin, a pale lower face, no snout. -->
+        <ellipse cx="200" cy="150" rx="31" ry="33" fill="#7B5E52"/>
+        <ellipse cx="200" cy="166" rx="23" ry="15" fill="#C9AE9E"/>
+        <path d="M184 132Q192 126 198 132M202 132Q208 126 216 132" fill="none" stroke="#5A4036" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="196" cy="157" r="2" fill="#4E342E"/>
+        <circle cx="204" cy="157" r="2" fill="#4E342E"/>
+        <!-- Inside of the mouth, then the lower lip over it: the lip drops to open the mouth. -->
+        <ellipse id="mouth" cx="200" cy="173" rx="11" ry="4" fill="#5D2A2A"/>
+        <ellipse id="jaw" cx="200" cy="175.5" rx="13" ry="5" fill="#C9AE9E"/>
+        <path d="M188 170Q200 175 212 170" fill="none" stroke="#5A4036" stroke-width="2.4" stroke-linecap="round"/>
+        <g id="eye">
+          <circle cx="191" cy="141" r="4.5" fill="#2B1D14"/>
+          <circle cx="209" cy="141" r="4.5" fill="#2B1D14"/>
+          <circle cx="192.4" cy="139.6" r="1.3" fill="#FFFFFF"/>
+          <circle cx="210.4" cy="139.6" r="1.3" fill="#FFFFFF"/>
+          <g id="lid" fill="#7B5E52">
+            <ellipse cx="191" cy="141" rx="5.5" ry="5.5"/>
+            <ellipse cx="209" cy="141" rx="5.5" ry="5.5"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

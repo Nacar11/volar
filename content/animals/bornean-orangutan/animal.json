@@ -1,0 +1,49 @@
+{
+	"id": "bornean-orangutan",
+	"name": "Bornean Orangutan",
+	"continent": "asia",
+	"livesIn": "the rainforests of Borneo",
+	"habitats": ["jungle"],
+	"nocturnal": false,
+	"rig": "climber",
+	"themeColor": "#D2691E",
+	"globe": { "lat": 0.5, "lng": 114, "regions": "regions.geojson" },
+	"assets": {
+		"icon": "icon.svg",
+		"puppet": "puppet.svg",
+		"background": ["bg-far.svg", "bg-mid.svg", "bg-near.svg"]
+	},
+	"greeting": "Hello! I'm a Bornean orangutan!",
+	"facts": [
+		{ "id": "home", "text": "I live only on the island of Borneo." },
+		{ "id": "trees", "text": "I spend most of my time high up in the trees." },
+		{ "id": "arms", "text": "My long arms can stretch about 2 meters wide!" },
+		{ "id": "food", "text": "Fruit is my favorite food, especially wild figs!" },
+		{ "id": "nest", "text": "Every night I build a new bed of branches and leaves." },
+		{ "id": "cheeks", "text": "Grown-up boy orangutans grow big cheek pads." },
+		{ "id": "babies", "text": "A mom has a new baby only every 6 to 9 years." },
+		{ "id": "safe", "text": "Rescue groups help orangutans go back to the forest." }
+	],
+	"toys": [
+		{
+			"type": "whatsForDinner",
+			"foods": [
+				{ "food": "fruit", "eats": true, "caption": "Yum! Fruit is my favorite food!" },
+				{ "food": "burger", "eats": false, "caption": "No thanks! Orangutans don't eat burgers." },
+				{ "food": "candy", "eats": false, "caption": "No, thank you! I'd rather have a fig." }
+			]
+		},
+		{
+			"type": "tapReveal",
+			"cards": [
+				"My name means 'person of the forest' in Malay!",
+				"My fingers curl like hooks to hang on tight!"
+			]
+		},
+		{ "type": "makeItDo", "actions": ["swing", "wave", "munch"] }
+	],
+	"sources": [
+		"https://en.wikipedia.org/wiki/Bornean_orangutan",
+		"https://en.wikipedia.org/wiki/Orangutan"
+	]
+}

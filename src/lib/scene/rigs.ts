@@ -62,6 +62,23 @@ export const rigs = {
 	'sea-mammal': {
 		parts: ['puppet', 'animal', 'body', 'fluke', 'flipper', 'eye', 'lid', 'spout'],
 		actions: ['spout', 'dive', 'wave']
+	},
+	climber: {
+		parts: [
+			'puppet',
+			'animal',
+			'body',
+			'head',
+			'eye',
+			'lid',
+			'jaw',
+			'arm-l',
+			'arm-r',
+			'leg-l',
+			'leg-r'
+		],
+		actions: ['swing', 'wave', 'munch', 'shake'],
+		mouth: [200, 176]
 	}
 } as const;
 

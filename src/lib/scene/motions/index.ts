@@ -1,5 +1,6 @@
 import type { RigName } from '../rigs';
 import { bird } from './bird';
+import { climber } from './climber';
 import { mammalSmall } from './mammal-small';
 import { quadruped } from './quadruped';
 import { seaMammal } from './sea-mammal';
@@ -9,7 +10,8 @@ const templates: Record<RigName, (svg: SVGSVGElement, opts: RigOptions) => Rig> 
 	'mammal-small': mammalSmall,
 	bird,
 	quadruped,
-	'sea-mammal': seaMammal
+	'sea-mammal': seaMammal,
+	climber
 };
 
 export const createRig = (name: RigName, svg: SVGSVGElement, opts: RigOptions) =>

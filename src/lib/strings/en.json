@@ -40,7 +40,8 @@
 		"munch": "Munch",
 		"shake": "Shake head",
 		"tumble": "Tumble",
-		"run": "Run!"
+		"run": "Run!",
+		"swing": "Swing"
 	},
 	"globe": {
 		"home": "Spin back home",

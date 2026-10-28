@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <rect width="1600" height="900" fill="#D3EBDD"/>
+  <!-- Layers of Borneo's rainforest canopy, fading into the mist. -->
+  <g fill="#8CBF8A">
+    <circle cx="60" cy="430" r="130"/><circle cx="260" cy="400" r="140"/><circle cx="470" cy="440" r="130"/>
+    <circle cx="1120" cy="420" r="140"/><circle cx="1330" cy="400" r="150"/><circle cx="1550" cy="440" r="130"/>
+  </g>
+  <g fill="#62A060">
+    <circle cx="160" cy="560" r="140"/><circle cx="400" cy="590" r="130"/><circle cx="640" cy="600" r="120"/>
+    <circle cx="960" cy="600" r="120"/><circle cx="1200" cy="570" r="140"/><circle cx="1440" cy="580" r="140"/>
+  </g>
+  <rect y="640" width="1600" height="260" fill="#62A060"/>
+</svg>
